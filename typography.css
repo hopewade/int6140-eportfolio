@@ -1,0 +1,10 @@
+/* Separate glyphs clearly while retaining the large display hierarchy. */
+@font-face{font-family:Kanit;src:url('assets/kanit-700.ttf') format('truetype');font-style:normal;font-weight:700;font-display:swap}
+.mega-title,.footer-name{font-weight:700;letter-spacing:.015em;font-kerning:normal;font-variant-ligatures:none;line-height:1.08}
+.row-number,.project-number,.career-path .journey-number,.reference-list li:before{font-family:Arial,"Helvetica Neue",sans-serif;font-weight:700;letter-spacing:.025em;font-variant-numeric:lining-nums tabular-nums;font-variant-ligatures:none;line-height:1.1}
+.row-number{white-space:nowrap}
+.yarn-eyebrow{filter:none;opacity:.75}
+.yarn-header a{letter-spacing:0}
+@media(max-width:767px){.mega-title{letter-spacing:.005em}.footer-name{font-size:13vw}}
+@media(max-width:480px){.footer-name{font-size:16vw}}
+@media(min-width:481px) and (max-width:767px){.numbered-row{grid-template-columns:100px 1fr}.data-figure{margin-left:-120px}}

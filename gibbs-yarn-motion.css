@@ -1,0 +1,41 @@
+/* Generated from gibbs-yarn.css by motion_css.py. */
+/* Six stages orbit the core: white knitted writing surfaces, one clockwise loop. */
+.gibbs-yarn,.gibbs-yarn *{box-sizing:border-box}
+.gibbs-yarn{margin:38px 0 42px;color:#4d382b;isolation:isolate;font-family:"PingFang SC","Microsoft YaHei",Arial,sans-serif;max-width:100%;min-width:0}
+.gibbs-yarn__heading{text-align:center;margin:0 0 30px}
+.gibbs-yarn .gibbs-yarn__title{font-size:clamp(22px,2.1vw,29px);font-weight:600;line-height:1.65;margin:0;color:#543b29;letter-spacing:.025em}
+.gibbs-yarn__viewport{width:100%;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:#bda48b transparent;padding:0 0 12px}
+.gibbs-yarn__viewport:focus-visible{outline:2px solid #98704b;outline-offset:5px;border-radius:12px}
+.gibbs-yarn__cycle{position:relative;width:100%;min-width:980px;padding:12px 0}
+.gibbs-yarn__cards{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(4,minmax(335px,auto));gap:64px 54px;list-style:none!important;padding:0!important;margin:0!important}
+.gibbs-yarn__stage{position:relative;z-index:1;padding:48px 32px 42px;min-width:0;background:url("assets/white-wool-v1/white-wool-panel.webp") center/100% 100% no-repeat;filter:drop-shadow(1px 6px 4px #60432b16)}
+.gibbs-yarn__stage:nth-child(1){grid-area:1/2}
+.gibbs-yarn__stage:nth-child(2){grid-area:2/3}
+.gibbs-yarn__stage:nth-child(3){grid-area:3/3}
+.gibbs-yarn__stage:nth-child(4){grid-area:4/2}
+.gibbs-yarn__stage:nth-child(5){grid-area:3/1}
+.gibbs-yarn__stage:nth-child(6){grid-area:2/1}
+.gibbs-yarn__stage-head{display:flex;gap:10px;align-items:center;margin:0 0 16px;min-height:54px}
+.gibbs-yarn__number{display:grid;place-items:center;width:34px;height:34px;flex:0 0 34px;border:1px dashed #b29370;border-radius:50%;color:#795332;background:#fff;box-shadow:0 2px 3px #6e503312;font-size:13px;font-weight:600;letter-spacing:.025em}
+.gibbs-yarn .gibbs-yarn__stage-title{font:600 21px/1.5 "PingFang SC","Microsoft YaHei",sans-serif;letter-spacing:.025em;margin:0;color:#543b29}
+.gibbs-yarn__question{font-size:12px;line-height:1.65;margin:3px 0 0;color:#8a7159}
+.gibbs-yarn__proposed{margin-left:auto;align-self:flex-start;white-space:nowrap;border:1px dashed #ad8a64;border-radius:5px;padding:2px 4px;font-size:10px;line-height:1.6;color:#8d6d50;background:#fff}
+.gibbs-yarn__stage-body{font-size:17px;font-weight:400;line-height:1.9;letter-spacing:.015em;margin:0;color:#513e2f;text-align:left;overflow-wrap:break-word}
+.gibbs-yarn__connections{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:0;filter:drop-shadow(0 2px 1px #49311c26)}
+.gibbs-yarn__rope{fill:none;stroke:#98704b;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.gibbs-yarn__twist{fill:none;stroke:#d5b48b;stroke-width:3;stroke-dasharray:2.5 3.5;stroke-linecap:round;opacity:.9}
+.gibbs-yarn__flow{fill:none;stroke:#fffaf0;stroke-width:2.2;stroke-dasharray:4 24;stroke-linecap:round;animation:gibbs-wool-flow 3.2s linear infinite;animation-play-state:paused}
+.gibbs-yarn[data-gibbs-active="true"] .gibbs-yarn__flow{animation-play-state:running}
+.gibbs-yarn__arrow{fill:none;stroke:#8d623e;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.gibbs-yarn__core{position:absolute;z-index:2;left:50%;top:50%;transform:translate(-50%,-50%);width:30%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:38px 20px;background:url("assets/white-wool-v1/white-wool-circle.webp") center/100% 100% no-repeat;filter:drop-shadow(0 5px 4px #62432612);text-align:center;color:#64482f}
+.gibbs-yarn__core strong{font-size:21px;line-height:1.7;font-weight:600;white-space:nowrap;display:block;margin:0 0 13px;padding-bottom:11px;border-bottom:1px dashed #b99e7a80}
+.gibbs-yarn__core p{font-size:16px;line-height:2;margin:0;color:#644c37;letter-spacing:.015em}
+.gibbs-yarn__core p span{display:block;white-space:nowrap}
+.gibbs-yarn__open{display:flex;align-items:center;gap:10px;margin:10px 0 0 auto;padding:8px 0;border:0;background:none;color:#86684b;font:400 13px/1.6 "PingFang SC",sans-serif;letter-spacing:.03em;cursor:zoom-in}
+.gibbs-yarn__open:hover{color:#4d3928;text-decoration:underline;text-underline-offset:4px}
+.gibbs-yarn__open:focus-visible{outline:2px solid #a8855f;outline-offset:4px}
+@keyframes gibbs-wool-flow{to{stroke-dashoffset:-56}}
+@media(max-width:767px){.gibbs-yarn{margin:30px 0 34px}.gibbs-yarn__heading{margin-bottom:24px}.gibbs-yarn .gibbs-yarn__title{font-size:22px}.gibbs-yarn__open{font-size:12px}}
+@media(prefers-reduced-motion:reduce){html:not([data-motion="full"]) .gibbs-yarn__flow{animation:none!important;stroke-dasharray:none;opacity:.7}}
+html[data-motion="reduced"] .gibbs-yarn__flow{animation:none!important;stroke-dasharray:none;opacity:.7}
+@media print{.gibbs-yarn__viewport{overflow:visible}.gibbs-yarn__cycle{min-width:0}.gibbs-yarn__cards{grid-template-rows:repeat(4,minmax(240px,auto));gap:32px}.gibbs-yarn__stage{padding:35px 21px;border:1px dashed #b99e7a;border-radius:12px;filter:none;background:#fff;break-inside:avoid}.gibbs-yarn__stage-body{font-size:12px}.gibbs-yarn__core{background:#fff;border:1px dashed #b99e7a;border-radius:50%;padding:24px 10px}.gibbs-yarn__core strong{font-size:16px}.gibbs-yarn__core p{font-size:11px}.gibbs-yarn__flow{animation:none}.gibbs-yarn__open{display:none}}

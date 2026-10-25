@@ -1,0 +1,65 @@
+/* Generated from citation-cards.css by motion_css.py. */
+/* A source card cut from the same warm cotton as the portfolio's paper. */
+:is(.research-prose,.final-copy-prose) a.citation{
+ color:inherit;text-decoration:underline;text-decoration-style:dotted;
+ text-decoration-color:#9e7b576e;text-underline-offset:.23em;
+ cursor:pointer;transition:text-decoration-color .2s,color .2s;
+}
+:is(.research-prose,.final-copy-prose) a.citation:hover{
+ color:#8c5f36;text-decoration-color:currentColor;text-decoration-style:solid;
+}
+:is(.research-prose,.final-copy-prose) a.citation:focus-visible{
+ outline:2px solid #9f7952;outline-offset:4px;border-radius:2px;
+}
+#citation-dialog{
+ width:min(760px,calc(100vw - 40px));max-width:calc(100vw - 40px);
+ height:fit-content;max-height:calc(100svh - 60px);padding:0;
+ color:#493b2d;background:#fcf8ef url("assets/linen-cloth.jpg") center/480px;
+ background-blend-mode:soft-light;border:1px solid #b69b7d;
+ border-radius:22px;box-shadow:0 24px 68px #35241640,inset 0 0 0 6px #fffaf2;
+ overflow:auto;
+}
+#citation-dialog:before{
+ content:"";position:absolute;inset:8px;border:1px dashed #ae8d6566;
+ border-radius:15px;pointer-events:none;
+}
+#citation-dialog::backdrop{background:#3d2b1d80;backdrop-filter:blur(6px)}
+#citation-dialog .citation-modal-bar{
+ position:relative;display:flex;align-items:center;justify-content:space-between;
+ gap:20px;padding:25px 32px 19px;background:none;
+ border-bottom:1px dashed #a988655c;color:#63482f;
+}
+#citation-dialog .citation-modal-bar h2{
+ font:600 21px/1.6 "PingFang SC","Microsoft YaHei",sans-serif;
+ color:#63482f;margin:0;letter-spacing:.05em;
+}
+#citation-dialog .modal-close{
+ flex:0 0 auto;padding:8px 16px;border:1px solid #b698735e;
+ background:#fffaf1b3;border-radius:999px;color:#72583e;
+ font:400 13px/1.5 "PingFang SC",Arial,sans-serif;letter-spacing:.02em;
+}
+#citation-dialog .modal-close:hover{background:#e9d8bf5c;color:#5b3d23}
+#citation-content{padding:29px 32px 34px;position:relative}
+#citation-content .citation-detail-list{list-style:none;padding:0;margin:0}
+#citation-content .citation-detail-list>*{
+ margin:0;padding:0;text-indent:0;max-width:100%;
+ color:#493b2d;font:400 17px/1.95 "PingFang SC","Microsoft YaHei",Arial,sans-serif;
+ text-align:left;letter-spacing:.005em;overflow-wrap:anywhere;
+}
+#citation-content a{
+ color:#8c6039;text-decoration:underline;text-underline-offset:4px;
+ text-decoration-color:#a786636e;overflow-wrap:anywhere;
+}
+#citation-content a:hover{color:#5d3e25;text-decoration-color:currentColor}
+@media(max-width:767px){
+ #citation-dialog{width:calc(100vw - 24px);max-width:calc(100vw - 24px);max-height:calc(100svh - 40px);border-radius:17px}
+ #citation-dialog:before{inset:6px;border-radius:11px}
+ #citation-dialog .citation-modal-bar{padding:20px 22px 16px;gap:12px}
+ #citation-dialog .citation-modal-bar h2{font-size:19px}
+ #citation-dialog .modal-close{font-size:12px;padding:7px 12px}
+ #citation-content{padding:23px 22px 28px}
+ #citation-content .citation-detail-list>*{font-size:16px;line-height:1.95}
+}
+@media(prefers-reduced-motion:reduce){html:not([data-motion="full"]) :is(.research-prose,.final-copy-prose) a.citation{transition:none}}
+html[data-motion="reduced"] :is(.research-prose,.final-copy-prose) a.citation{transition:none}
+@media print{#citation-dialog{display:none}:is(.research-prose,.final-copy-prose) a.citation{text-decoration:none;color:inherit}}

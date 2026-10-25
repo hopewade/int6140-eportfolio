@@ -1,0 +1,188 @@
+/* Warm material palette. Layout, sticky geometry and animation owners remain
+   in site.css/site.js; the cover is independently styled by hero-yarn.css. */
+:root {
+  color-scheme: light;
+  --linen: #e8dcc9;
+  --milk: #f8f4eb;
+  --sand: #c6b398;
+  --brown: #43362d;
+  --accent: #95734f;
+  --black: var(--linen);
+  --silver: var(--brown);
+  --muted: #77634f;
+  --line: rgba(125, 95, 63, .25);
+}
+html, body, main { background: var(--linen); color: var(--brown); }
+::selection { background: #ccb28e; color: #35271d; }
+a:focus-visible, button:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
+  outline-color: #80592f;
+}
+.skip-link { background: var(--milk); color: var(--brown); }
+
+/* Evidence strips keep their source images in their original colors. */
+.marquee { background: linear-gradient(180deg, var(--linen), #eee4d4); }
+.marquee-tile {
+  background: #dacbb6;
+  box-shadow: 0 10px 24px rgba(93, 66, 41, .09), inset 0 0 0 1px rgba(126, 96, 62, .12);
+}
+.marquee-tile img, .marquee-tile:hover img { filter: none; }
+
+.about-section { background: #eee4d4; color: var(--brown); }
+.about-section .metal,
+.projects-section .metal,
+.references-section .metal,
+.chapter.dark .chapter-heading .mega-title {
+  background: none;
+  background-clip: border-box;
+  -webkit-background-clip: border-box;
+  -webkit-text-fill-color: currentColor;
+  color: inherit;
+  text-shadow: none;
+}
+.about-section .mega-title { color: #745538; }
+.about-statement, .about-text { color: var(--brown); }
+.career-path li { border-color: rgba(133, 103, 70, .38); }
+.career-path .journey-number { color: rgba(153, 123, 87, .28); }
+.journey-date { color: #7c6249; opacity: 1; }
+.career-path h3 { color: #513c2c; }
+.career-path p { color: #6d5947; opacity: 1; }
+
+/* The existing corner forms become wood, wool and paper-colored objects. */
+.decoration-orb {
+  background: radial-gradient(circle at 30% 20%, #fff6e7 0%, #ddc6a4 20%, #ad865e 52%, #705238 75%);
+  box-shadow: inset -8px -10px 15px rgba(114, 79, 44, .38), 0 15px 30px rgba(105, 76, 47, .12);
+}
+.decoration-loop {
+  border-color: #baa182;
+  box-shadow: inset 7px 5px 8px #92704e, 6px 5px 4px #fff2dc, -8px -6px 12px #af8c65;
+}
+.decoration-star {
+  color: #c8ad88;
+  text-shadow: 5px 2px #a1835f, 10px 6px 1px #7c5d3c, -4px -3px 2px #f7e8ce;
+}
+.decoration-cube { filter: drop-shadow(15px 15px 20px rgba(103, 73, 43, .16)); }
+.decoration-cube i {
+  background: linear-gradient(140deg, #f8eddc, #c5ab88 35%, #8c6844 80%);
+  box-shadow: inset 0 2px 3px #fff7e9;
+}
+
+/* White numbered chapters retain the complete original reading structure. */
+.chapter.light {
+  background: var(--milk);
+  color: var(--brown);
+  color-scheme: light;
+  --line: rgba(128, 97, 64, .25);
+}
+#wellbeing.chapter.light { background: #f1e7d7; }
+.chapter.light .mega-title { color: #725136; }
+.chapter.light .chapter-name, .chapter.light .row-content h3 { color: #49372a; }
+.chapter.light .row-number { color: #a3825d; }
+.body-copy p { color: inherit; opacity: .88; }
+.chapter.light .body-copy strong { color: #79512b; }
+.chapter.light .citation { color: #77512b; }
+.chapter.light .citation:hover { color: #4f321d; opacity: 1; }
+.chapter.light thead th { background: #e9ddca; color: #533c29; }
+.chapter.light tbody th { color: #725034; }
+.chapter.light th, .chapter.light td { border-color: rgba(133, 103, 70, .28); }
+.figure-note { color: #75614d; opacity: 1 !important; }
+.table-overflow { scrollbar-color: #aa8962 #eadfce; }
+
+/* A medium warm brown supplies the dark chapter without a black surface. */
+.chapter.dark {
+  background: #5b493b;
+  color: #f8eedf;
+  color-scheme: dark;
+  --line: rgba(235, 216, 189, .30);
+}
+.chapter.dark .chapter-heading .mega-title { color: #f1dec2; }
+.chapter.dark .chapter-name, .chapter.dark .row-content h3 { color: #fff2de; }
+.chapter.dark .row-number { color: #d3b48c; }
+.chapter.dark .body-copy strong { color: #f1cf9e; }
+.chapter.dark .citation { color: #f1cfa0; }
+.chapter.dark .citation:hover { color: #fff1d9; opacity: 1; }
+.chapter.dark thead th { background: #6b5543; color: #fff2de; }
+.chapter.dark th, .chapter.dark td { border-color: rgba(235, 216, 189, .30); }
+.chapter.dark td { opacity: 1; color: #f1e2ce; }
+.chapter.dark .figure-note { color: #dfcdb3; }
+.chapter.dark .table-overflow { scrollbar-color: #c5a47c #6a5442; }
+
+/* Button colors are scoped below the separately authored cover. */
+:is(.about-section, .chapter, .projects-section, .references-section, footer) .gradient-button {
+  background: linear-gradient(130deg, #a38055, #775638);
+  color: #fff9ed;
+  box-shadow: 0 6px 15px rgba(104, 73, 42, .14), inset 0 1px 1px rgba(255, 246, 227, .28);
+  outline: 1px solid rgba(255, 246, 227, .75);
+  outline-offset: -4px;
+}
+:is(.about-section, .chapter, .projects-section, .references-section, footer) .gradient-button:hover {
+  filter: brightness(1.06);
+}
+:is(.about-section, .chapter.light, .projects-section, .references-section, footer) .outline-button {
+  color: #62462f;
+  border-color: #967452;
+  background: transparent;
+}
+:is(.about-section, .chapter.light, .projects-section, .references-section, footer) .outline-button:hover {
+  background: rgba(149, 115, 79, .10);
+}
+.chapter.dark .outline-button { color: #f7e7ce; border-color: #d2b48d; }
+.chapter.dark .outline-button:hover { background: rgba(240, 219, 186, .10); }
+
+/* The project stack keeps its original offsets, scale and click targets. */
+.projects-section { background: #d5c2a6; color: var(--brown); }
+.projects-section .mega-title { color: #735236; }
+.project-card {
+  background: #f7f0e3;
+  color: var(--brown);
+  border-color: #957451;
+  box-shadow: 0 16px 34px rgba(95, 65, 37, .12), inset 0 1px 0 rgba(255, 253, 247, .85);
+}
+.project-number { color: #8d6942; }
+.project-name p { color: #7b6148; opacity: 1; }
+.project-name h3 { color: #493426; }
+.project-images button { background: #e7ddce; }
+.demo-note { color: #66503c; opacity: 1; }
+
+.references-section { background: #eee3d0; color: var(--brown); }
+.references-section .mega-title { color: #765638; }
+.reference-body details { border-color: rgba(135, 104, 70, .32); }
+.reference-body summary { color: #513c2b; }
+.reference-body summary span { color: #82664b; opacity: 1; }
+.reference-list li { color: #62503f; opacity: 1; }
+.reference-list li:before { color: #98744d; opacity: 1; }
+.reference-list a { color: #76502c; }
+.reference-list a:hover { color: #4e321b; }
+.detail-prose { color: #6f5b46; }
+footer { background: #e8dcc9; color: #5a422e; }
+.footer-name { color: #64482f; }
+
+/* Warm dialog chrome; embedded demo systems retain their own native palette. */
+dialog {
+  color-scheme: light;
+  background: var(--milk);
+  color: var(--brown);
+  border-color: rgba(134, 101, 64, .40);
+  box-shadow: 0 35px 100px rgba(62, 43, 28, .25);
+}
+dialog::backdrop { background: rgba(67, 54, 45, .64); }
+.modal-bar { background: #e7dac5; border-color: rgba(136, 105, 70, .27); }
+.modal-bar h2, .modal-close { color: #503b29; }
+.system-switches button { background: transparent; color: #5c422c; border-color: #b89b78; }
+.system-switches button[aria-pressed=true] { background: #82603d; color: #fff6e6; }
+#system-frame { background: #f8f4eb; }
+#large-image { background: #eee4d6; }
+#citation-content { color: #55402e; }
+#citation-content a { color: #80552d; }
+
+@media print {
+  html, body, main, .chapter, .chapter.light, .chapter.dark, .about-section, .references-section, footer {
+    background: white; color: #211b16;
+  }
+  .about-section .metal, .references-section .metal, .chapter .mega-title,
+  .chapter.dark .chapter-heading .mega-title { color: #211b16; background: none; }
+  .body-copy p, .reference-list li, .detail-prose, .figure-note,
+  .chapter.dark td, .chapter.dark .figure-note { color: #211b16; opacity: 1 !important; }
+  .chapter.dark .row-number, .chapter.dark .row-content h3, .chapter.dark .chapter-name { color: #211b16; }
+  .chapter.light th, .chapter.light td, .chapter.dark th, .chapter.dark td { border-color: #b6aa9a; }
+  .chapter.light thead th, .chapter.dark thead th { background: #eee8de; color: #211b16; }
+}

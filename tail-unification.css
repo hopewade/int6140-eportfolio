@@ -1,0 +1,40 @@
+/* Extend the approved first-two-module typography and motion to the final copy. */
+.final-copy-inner{max-width:1280px}
+.final-copy-subsection{width:100%;max-width:var(--reading-width,1080px);margin-inline:auto}
+.final-copy-section .final-copy-prose{width:100%;max-width:var(--reading-width,1080px);margin-inline:auto}
+.final-copy-heading{display:flex;align-items:center;justify-content:center;text-align:center;margin:0 0 clamp(58px,6.3vw,92px);padding:0;border:0}
+.final-copy-title.yarn-art-heading,
+.final-copy-section#ai-disclosure .final-copy-title.yarn-art-heading{margin:0 auto;padding-block:6px;width:100%;max-width:100%;line-height:1.25}
+.final-copy-section .final-copy-subsection>h3{
+ display:block;position:relative;font-family:inherit;font-size:clamp(22px,2.15vw,30px);font-weight:600;line-height:1.65;
+ letter-spacing:.02em;max-width:100%;color:#513b2b;margin:0 0 30px;padding-bottom:18px;text-transform:none;
+}
+.final-copy-section .final-copy-subsection>h3::after{
+ content:"";position:absolute;left:0;bottom:0;width:72px;height:2px;
+ background:repeating-linear-gradient(90deg,#9a7450 0 7px,transparent 7px 11px);
+}
+.final-copy-subsection+.final-copy-subsection{margin-top:clamp(72px,8vw,112px)}
+.final-copy-section#references,
+.final-copy-section#ai-disclosure{
+ --module-cloth-color:#4c392c;
+ background-color:var(--module-cloth-color);background-image:url("assets/linen-cloth.jpg");
+ background-size:480px 480px;background-blend-mode:soft-light;color:#f1e4cf;
+ padding:clamp(80px,9vw,140px) clamp(24px,4.5vw,76px);
+}
+.final-copy-section#ai-disclosure{border-top:1px dashed #d8bb9050}
+:is(#references,#ai-disclosure) .final-copy-prose{color:#f1e4cf}
+#references .final-reference a{color:#efd0a3;text-decoration-color:#e6cba47a;text-underline-offset:4px}
+#references .final-reference a:hover{color:#fff5e4;text-decoration-color:currentColor}
+:is(#references,#ai-disclosure) .yarn-art-heading__image{filter:drop-shadow(0 3px 2px #1b100b40)}
+/* The legacy material selector contains an ID; keep the dark tail continuous. */
+.portfolio-footer{background-color:#4c392c!important;color:#ead9bf;border-top-color:#d8bb9040}
+@media(max-width:767px){
+ .final-copy-heading{margin-bottom:52px}
+ .final-copy-section .final-copy-subsection>h3{font-size:22px;line-height:1.6;margin-bottom:24px}
+ .final-copy-subsection+.final-copy-subsection{margin-top:68px}
+ .final-copy-section#references,.final-copy-section#ai-disclosure{padding:70px 24px 82px;background-size:380px 380px}
+}
+@media print{
+ .final-copy-section#references,.final-copy-section#ai-disclosure,.portfolio-footer{background:white!important;color:#30251b}
+ :is(#references,#ai-disclosure) .final-copy-prose,#references .final-reference a{color:#30251b}
+}

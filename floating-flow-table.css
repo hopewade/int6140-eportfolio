@@ -1,0 +1,145 @@
+/* A floating ivory-cotton comparison table. Fine continuous rules keep the
+   semantic table distinct from the softly stitched radar cards. */
+.imported-research .flow-table-floating {
+  --flow-ink: #493726;
+  --flow-thread: #c8b79e;
+  --flow-cotton: #fffdf8;
+  --flow-body-size: clamp(16px, 1.25vw, 18px);
+  width: 100%;
+  min-width: 0;
+  position: relative;
+  margin: 34px 0 38px;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  outline: 0;
+  background: none;
+  box-shadow: none;
+  filter: none;
+}
+.imported-research .flow-table-floating::before,
+.imported-research .flow-table-floating::after,
+.imported-research .flow-table-floating .research-flow-table::before,
+.imported-research .flow-table-floating .research-flow-table::after,
+.imported-research .flow-table-floating .research-flow-table th::before,
+.imported-research .flow-table-floating .research-flow-table th::after,
+.imported-research .flow-table-floating .research-flow-table td::before,
+.imported-research .flow-table-floating .research-flow-table td::after {
+  content: none;
+  display: none;
+}
+.imported-research .flow-table-floating .research-flow-table {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--flow-thread);
+  border-radius: 15px;
+  outline: none;
+  background-color: var(--flow-cotton);
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 3px, #dbcdbb24 3px 4px, transparent 4px 6px),
+    repeating-linear-gradient(90deg, transparent 0 3px, #e2d5c525 3px 4px, transparent 4px 6px),
+    linear-gradient(135deg, #ffffff52, transparent 70%);
+  box-shadow: 0 12px 19px #6b51361a, 0 3px 4px #6b51360c,
+    inset 0 1px 0 #fff;
+  color: var(--flow-ink);
+  font-size: var(--flow-body-size);
+  line-height: 1.55;
+}
+.imported-research .flow-table-floating .flow-label-column { width: 13%; }
+.imported-research .flow-table-floating .flow-stage-column { width: 43.5%; }
+.imported-research .flow-table-floating .research-flow-table caption {
+  caption-side: top;
+  padding: 0 0 16px;
+  margin: 0;
+  color: #513b2b;
+  background: none;
+  text-align: center;
+  font-size: var(--flow-body-size);
+  line-height: 1.65;
+  font-weight: 600;
+}
+.imported-research .flow-table-floating .research-flow-table th,
+.imported-research .flow-table-floating .research-flow-table td {
+  width: auto;
+  padding: 14px clamp(14px, 2vw, 28px);
+  border: 0;
+  background: none;
+  color: var(--flow-ink);
+  vertical-align: middle;
+  text-align: center;
+  font-size: inherit;
+  line-height: inherit;
+  overflow-wrap: break-word;
+  word-break: normal;
+  font-weight: 400;
+}
+.imported-research .flow-table-floating .research-flow-table th:first-child {
+  width: auto;
+  padding-left: 12px;
+  padding-right: 12px;
+  border: 0;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.imported-research .flow-table-floating .research-flow-table tr > :not(:last-child) {
+  border-right: 1px solid var(--flow-thread);
+}
+.imported-research .flow-table-floating .research-flow-table thead th,
+.imported-research .flow-table-floating .research-flow-table thead th:first-child {
+  padding-top: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--flow-thread);
+  color: #513b2b;
+  font-weight: 600;
+}
+.imported-research .flow-table-floating .research-flow-table tbody td {
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+.imported-research .flow-steps {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  gap: 0;
+  text-align: center;
+}
+.imported-research .flow-step {
+  display: block;
+  max-width: 100%;
+  text-wrap: balance;
+}
+.imported-research .flow-arrow {
+  display: block;
+  flex: 0 0 auto;
+  color: #a58b6b;
+  font-size: .75em;
+  line-height: .9;
+  transform: rotate(90deg);
+  margin: 1px 0;
+}
+@media (max-width: 700px) {
+  .imported-research .flow-table-floating {
+    margin: 29px 0 33px;
+    --flow-body-size: clamp(12px, 3.3vw, 15px);
+  }
+  .imported-research .flow-table-floating .flow-label-column { width: clamp(64px, 10vw, 76px); }
+  .imported-research .flow-table-floating .flow-stage-column { width: auto; }
+  .imported-research .flow-table-floating .research-flow-table { border-radius: 11px; line-height: 1.65; }
+  .imported-research .flow-table-floating .research-flow-table caption { padding-bottom: 14px; font-size: 16px; }
+  .imported-research .flow-table-floating .research-flow-table th,
+  .imported-research .flow-table-floating .research-flow-table td { padding: 13px 8px; }
+  .imported-research .flow-table-floating .research-flow-table th:first-child { padding-left: 4px; padding-right: 4px; }
+  .imported-research .flow-table-floating .research-flow-table thead th,
+  .imported-research .flow-table-floating .research-flow-table thead th:first-child { padding-top: 14px; padding-bottom: 14px; }
+  .imported-research .flow-table-floating .research-flow-table tbody td { padding-top: 17px; padding-bottom: 17px; }
+  .imported-research .flow-arrow { margin: 2px 0; }
+}
+@media print {
+  .imported-research .flow-table-floating { break-inside: avoid; }
+  .imported-research .flow-table-floating .research-flow-table { box-shadow: none; }
+}

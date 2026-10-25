@@ -1,0 +1,13 @@
+.yarn-character #head-magnet,.yarn-character #head-float,
+.yarn-character #head-float > img,.yarn-character .smooth-character-canvas{
+  transform:none!important;translate:none!important;rotate:none!important;scale:none!important;
+  animation:none!important;transition:none!important;will-change:auto;
+}
+.yarn-character #head-magnet{display:block;width:100%;padding:0;border:0;background:transparent;cursor:inherit;-webkit-tap-highlight-color:transparent}
+.yarn-character #head-magnet:focus-visible{outline:2px solid #95734f;outline-offset:-10px;border-radius:42%}
+.yarn-character #head-float{display:block;position:relative;width:100%;aspect-ratio:1;background:transparent;pointer-events:none}
+.yarn-character #head-float>img[data-motion-source],.smooth-character-canvas{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;opacity:1;visibility:visible;filter:drop-shadow(0 8px 15px #6750390c);mix-blend-mode:normal}
+.yarn-character #head-float>img[hidden]{display:none!important}
+.smooth-character-canvas{display:none}
+.continuous-render-ready .smooth-character-canvas{display:block}
+@media print{.smooth-character-canvas{display:none!important}.yarn-character #head-float>img[data-motion-source]{display:none!important}.yarn-character #head-float>img[data-motion-front]{display:block!important}}

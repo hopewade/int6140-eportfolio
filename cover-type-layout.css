@@ -1,0 +1,84 @@
+/* Re-space the original wool glyph sheet in DOM windows; preserve the raster asset. */
+.yarn-hero .yarn-copy{
+  width:48vw;
+  max-width:760px;
+  container-type:inline-size;
+  text-align:left;
+}
+.yarn-hero .yarn-copy .cover-wool-title{
+  display:block;
+  width:100%;
+  max-width:none;
+  margin:0!important;
+  padding:0;
+  line-height:1;
+  letter-spacing:normal;
+  text-align:left;
+}
+.cover-wool-lines{
+  --cover-sheet:url("assets/module-titles-v5/cover-title.webp");
+  --cover-unit:clamp(32px,5.09vw,80px);
+  display:grid;
+  width:100%;
+  justify-items:start;
+  row-gap:.26em;
+  font-size:var(--cover-unit);
+  line-height:1;
+}
+@supports(width:1cqw){
+  .cover-wool-lines{--cover-unit:min(80px,calc(100cqw / 9.428361))}
+}
+.cover-wool-row{
+  display:flex;
+  width:max-content;
+  max-width:100%;
+  align-items:flex-start;
+  column-gap:.12em;
+}
+.cover-wool-glyph{
+  display:block;
+  flex:0 0 auto;
+  width:calc(1em * var(--crop-width));
+  height:1em;
+  overflow:hidden;
+  background-image:var(--cover-sheet);
+  background-repeat:no-repeat;
+  background-size:8.901639344em 2.967213115em;
+  background-position:calc(-1em * var(--crop-x)) calc(-1em * var(--crop-y));
+}
+.yarn-hero .yarn-copy .yarn-typewriter{
+  width:100%;
+  max-width:none;
+  min-height:0;
+  margin:28px 0 0;
+  padding:0;
+  font-size:clamp(20px,1.5vw,22px);
+  line-height:1.7;
+  letter-spacing:.025em;
+  text-align:left;
+  overflow-wrap:normal;
+}
+@media(max-width:1100px) and (min-width:768px){
+  .yarn-hero .yarn-copy{left:4%;width:49vw}
+  .yarn-hero .yarn-copy .yarn-typewriter{font-size:18px;margin-top:25px}
+}
+@media(max-width:767px){
+  .yarn-hero .yarn-copy{
+    left:7%;top:auto;bottom:78px;
+    width:86%;max-width:none;transform:none;
+  }
+  .cover-wool-lines{--cover-unit:clamp(28px,9.12vw,64px);row-gap:.24em}
+  @supports(width:1cqw){
+    .cover-wool-lines{--cover-unit:min(64px,calc(100cqw / 9.428361))}
+  }
+  .yarn-hero .yarn-copy .yarn-typewriter{
+    font-size:17px;line-height:1.7;margin-top:25px;
+  }
+}
+@media(max-width:380px){
+  .yarn-hero .yarn-copy .yarn-typewriter{font-size:16px;margin-top:23px}
+}
+@media print{
+  .cover-wool-lines{display:none}
+  .yarn-hero .yarn-copy{width:auto;max-width:none;container-type:normal}
+}

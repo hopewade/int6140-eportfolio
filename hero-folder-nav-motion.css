@@ -1,0 +1,73 @@
+/* Generated from hero-folder-nav.css by motion_css.py. */
+/* Four real section links, dressed as small stitched folders. */
+.wool-file-header.hero-nav{position:absolute;inset:0 0 auto;z-index:20;display:block;margin:0;padding:25px clamp(24px,4.5vw,76px) 0;color:#493729;isolation:isolate}
+.wool-nav-brand-row{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:39px}
+.wool-file-header .wool-nav-brand{display:inline-flex;align-items:center;gap:19px;min-width:0;color:#493729;font:500 25px/1.4 "Helvetica Neue",Arial,sans-serif;letter-spacing:.005em;text-transform:none;opacity:1}
+.wool-file-header .wool-nav-brand:hover{opacity:1}
+.wool-nav-brand>span:first-child{white-space:nowrap}
+.wool-nav-brand-rule{width:1px;height:23px;background:#96735275;flex:0 0 1px;transform:rotate(14deg)}
+.wool-file-header .wool-nav-course{font:400 clamp(11px,1.05vw,15px)/1.5 "Helvetica Neue",Arial,sans-serif;letter-spacing:.025em;color:#82674e;white-space:normal}
+.wool-nav-folders{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(18px,2vw,36px);margin:21px 0 17px}
+.wool-file-header .wool-folder-link,.wool-mobile-menu .wool-folder-link{display:flex;align-items:center;gap:13px;min-width:0;min-height:65px;padding:2px 0 0;color:#5a402c;position:relative;font:500 clamp(13px,1.08vw,16px)/1.65 "PingFang SC","Microsoft YaHei",Arial,sans-serif;letter-spacing:.025em;opacity:1;text-transform:none;text-decoration:none;outline-offset:7px}
+.wool-folder-label{display:block;min-width:0;position:relative;z-index:2;transition:color .25s}
+.wool-file-header .wool-folder-link:hover{opacity:1}
+.wool-folder-scene{display:block;position:relative;width:64px;height:55px;flex:0 0 64px;isolation:isolate;filter:drop-shadow(0 3px 2px #6b4c2d24);perspective:260px}
+.wool-folder-back,.wool-folder-front,.wool-folder-paper{position:absolute;display:block;background-repeat:no-repeat;transform-origin:50% 100%;transition:transform .48s cubic-bezier(.2,.85,.2,1),filter .4s}
+.wool-folder-back{left:1px;right:1px;top:12px;bottom:3px;border-radius:5px;background:#8d6545 url("assets/cocoa-yarn.jpg") center/90px;border:1px solid #805e40;box-shadow:inset 0 0 0 1px #e0c5a661}
+.wool-folder-back:before{content:"";position:absolute;left:0;top:-8px;width:28px;height:12px;border:1px solid #805e40;border-bottom:0;border-radius:6px 7px 0 0;background:inherit}
+.wool-folder-paper{left:8px;width:46px;height:38px;bottom:8px;border-radius:3px;background:#fff url("assets/white-wool-v1/white-wool-panel.webp") center/100% 100%;border:1px solid #c8b69d;box-shadow:0 1px 2px #65482b20}
+.wool-folder-paper:after{content:"";position:absolute;left:9px;right:9px;top:10px;height:12px;border-block:1px solid #b99a726b;background:linear-gradient(#b99a7270,#b99a7270) left 50%/80% 1px no-repeat}
+.wool-folder-paper--back{z-index:1;transform:translateY(-2px) rotate(-4deg)}
+.wool-folder-paper--middle{z-index:2;transform:translateY(0) rotate(3deg)}
+.wool-folder-paper--front{z-index:3;transform:translateY(2px) rotate(-1deg)}
+.wool-folder-front{z-index:4;left:0;right:0;bottom:1px;height:30px;border:1px solid #9a7754;border-radius:5px 5px 7px 7px;background:#fff url("assets/white-wool-v1/white-wool-panel.webp") center/100% 160%;box-shadow:inset 0 0 0 2px #fdfcf8,0 1px 0 #94704c40}
+.wool-folder-front:after{content:"";position:absolute;inset:4px;border:1px dashed #99734c80;border-radius:3px;pointer-events:none}
+.wool-folder-link:is(:hover,:focus-visible,.is-opening) .wool-folder-paper--back{transform:translate(-7px,-19px) rotate(-12deg)}
+.wool-folder-link:is(:hover,:focus-visible,.is-opening) .wool-folder-paper--middle{transform:translate(3px,-25px) rotate(6deg)}
+.wool-folder-link:is(:hover,:focus-visible,.is-opening) .wool-folder-paper--front{transform:translate(8px,-15px) rotate(15deg)}
+.wool-folder-link:is(:hover,:focus-visible,.is-opening) .wool-folder-front{transform:rotateX(-24deg) translateY(2px);filter:brightness(1.025)}
+.wool-folder-link:is(:hover,:focus-visible,.is-opening) .wool-folder-label{color:#93613a}
+.wool-nav-divider{position:relative;width:100%;height:5px;border-radius:5px;background:#8d6747 url("assets/cocoa-yarn.jpg") center/180px;box-shadow:0 2px 2px #5c402426;overflow:hidden}
+.wool-nav-divider:after{content:"";position:absolute;inset:1px 0;background:repeating-linear-gradient(55deg,transparent 0 5px,#e5ceb17d 5px 7px,transparent 7px 11px);background-size:22px 100%;animation:wool-nav-line 16s linear infinite;opacity:.75}
+.wool-menu-toggle{display:none}
+.wool-mobile-menu[hidden]{display:none!important}
+.wool-mobile-menu{position:fixed;inset:0;z-index:19;overflow-y:auto;overscroll-behavior:contain;background:#f1e8daf5 url("assets/linen-cloth.jpg") center/380px;background-blend-mode:soft-light;padding:150px 7% 60px;backdrop-filter:blur(10px)}
+.wool-mobile-folders{display:grid;gap:28px;max-width:600px;margin:0 auto}
+.wool-folder-menu-open{overflow:hidden}
+@keyframes wool-nav-line{to{background-position:220px 0}}
+/* Fit the existing complete character below the new two-row directory. */
+@media(min-width:768px){
+ .yarn-hero .yarn-character.head-position{--character-size:min(45.5vw,calc(100svh - 220px),850px);top:max(178px,calc((100% - var(--character-size))/2 + 76px));right:4%;width:var(--character-size);height:var(--character-size)}
+ .yarn-hero .yarn-copy{top:56%}
+}
+@media(min-width:768px) and (max-width:1199px){
+ .wool-nav-folders{gap:15px;margin-top:19px;margin-bottom:15px}
+ .wool-file-header .wool-folder-link{gap:9px;font-size:13px;line-height:1.6;min-height:68px}
+ .wool-folder-scene{width:54px;height:49px;flex-basis:54px}
+ .wool-folder-paper{left:7px;width:39px;height:34px}
+ .wool-folder-paper:after{left:7px;right:7px}
+ .wool-folder-front{height:27px}
+}
+@media(max-width:767px){
+ .wool-file-header.hero-nav{padding:18px 23px 0;background:var(--module-cloth-color,#e8dcc9) url("assets/linen-cloth.jpg") center/380px;background-blend-mode:soft-light}
+ .wool-nav-brand-row{align-items:flex-start;gap:14px;min-height:66px}
+ .wool-file-header .wool-nav-brand{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:10px;row-gap:4px;max-width:calc(100% - 45px);font-size:23px;line-height:1.35}
+ .wool-nav-brand-rule{display:none}
+ .wool-file-header .wool-nav-course{display:block;flex-basis:100%;font-size:10px;line-height:1.45;letter-spacing:.01em;max-width:280px;color:#81664c}
+ .wool-nav-folders{display:none}
+ .wool-nav-divider{height:4px;margin-top:6px}
+ .wool-menu-toggle{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;flex:0 0 34px;width:34px;height:39px;padding:7px 2px;background:transparent;color:#62472e;border:0;outline-offset:5px}
+ .wool-menu-toggle span{display:block;width:23px;height:2px;border-radius:2px;background:#84613e;transition:transform .25s,opacity .25s}
+ .wool-menu-toggle[aria-expanded="true"] span:first-child{transform:translateY(7px) rotate(45deg)}
+ .wool-menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+ .wool-menu-toggle[aria-expanded="true"] span:last-child{transform:translateY(-7px) rotate(-45deg)}
+ .wool-mobile-menu .wool-folder-link{font-size:20px;line-height:1.65;gap:22px;min-height:86px;padding:10px 0}
+ .wool-mobile-menu .wool-folder-scene{width:68px;height:57px;flex-basis:68px}
+ .wool-mobile-menu .wool-folder-paper{left:8px;width:50px;height:40px}
+ .wool-mobile-menu .wool-folder-front{height:32px}
+ .yarn-hero .yarn-character.head-position{top:112px;width:min(106vw,590px);height:auto;right:auto;left:50%;transform:translateX(-50%)}
+}
+@media(max-width:380px){.wool-mobile-menu .wool-folder-link{font-size:18px;gap:17px}.wool-file-header .wool-nav-course{font-size:9px}.wool-file-header.hero-nav{padding-inline:20px}}
+@media(prefers-reduced-motion:reduce){html:not([data-motion="full"]) .wool-folder-scene *,html:not([data-motion="full"]) .wool-menu-toggle span{transition:none!important}html:not([data-motion="full"]) .wool-nav-divider:after{animation:none}html:not([data-motion="full"]) .wool-folder-link .wool-folder-paper{transition:none}}
+html[data-motion="reduced"] .wool-folder-scene *,html[data-motion="reduced"] .wool-menu-toggle span{transition:none!important}html[data-motion="reduced"] .wool-nav-divider:after{animation:none}html[data-motion="reduced"] .wool-folder-link .wool-folder-paper{transition:none}
+@media print{.wool-file-header,.wool-mobile-menu{display:none!important}}

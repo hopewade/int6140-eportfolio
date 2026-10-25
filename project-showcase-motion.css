@@ -1,0 +1,244 @@
+/* Generated from project-showcase.css by motion_css.py. */
+/* Approved project compositions. One sticky stage owns the complete drawer stack. */
+#systems.project-showcase {
+  --showcase-ink: #493728;
+  --showcase-stitch: #b59775;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: clamp(70px, 7.5vw, 112px) clamp(20px, 3.7vw, 60px) 88px;
+  border-radius: 0;
+  color: var(--showcase-ink);
+  background-color: var(--module-cloth-color, var(--portfolio-linen, #e8dcc9));
+  background-image: var(--portfolio-cloth, url("assets/linen-cloth.jpg"));
+  background-size: 480px 480px;
+  background-position: 0 0;
+  background-blend-mode: soft-light;
+  overflow: visible;
+  scroll-margin-top: 32px;
+}
+#systems.project-showcase .project-showcase-heading {
+  max-width: 1280px;
+  margin: 0 auto clamp(44px, 5.2vw, 76px);
+  text-align: center;
+}
+#systems.project-showcase .mega-title {
+  font-size: clamp(64px, 10.7vw, 162px);
+  line-height: 1.04;
+  letter-spacing: .008em;
+  color: #604027;
+  background-image: url("assets/cocoa-yarn.jpg");
+  background-size: 260px;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: .5px #785234;
+  filter: drop-shadow(0 1.2px .6px #40230d70) drop-shadow(0 -1px .3px #f7e7cb90);
+}
+#systems.project-showcase .chapter-name {
+  margin: clamp(24px, 3vw, 40px) 0 0;
+  font: 600 clamp(25px, 2.6vw, 38px)/1.4 "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: var(--showcase-ink);
+}
+#systems.project-showcase .projects-list {
+  position: relative;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+#systems.project-showcase .project-shell {
+  position: relative;
+  top: auto;
+  height: auto;
+  min-height: 0;
+  margin: 0 0 30px;
+}
+#systems.project-showcase .project-card {
+  position: relative;
+  top: 0;
+  min-height: 0;
+  padding: clamp(20px, 2.1vw, 30px);
+  border: 1px solid #b99c76;
+  border-radius: 42px;
+  color: var(--showcase-ink);
+  background: #faf6ec url("assets/linen-cloth.jpg") center / 480px;
+  background-blend-mode: soft-light;
+  box-shadow: 0 12px 25px #6a4c2c20, 0 2px 5px #6a4c2c17, inset 0 0 0 5px #faf5e8;
+  transform-origin: 50% 0;
+  isolation: isolate;
+}
+#systems.project-showcase .project-card::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  z-index: -1;
+  border: 1px dashed var(--showcase-stitch);
+  border-radius: 35px;
+  pointer-events: none;
+}
+#systems.project-showcase .project-top {
+  display: flex;
+  align-items: center;
+  gap: clamp(22px, 3vw, 44px);
+  padding: 0 7px clamp(24px, 2.4vw, 36px);
+}
+#systems.project-showcase .project-number {
+  font-size: clamp(65px, 7.3vw, 103px);
+  line-height: 1;
+  letter-spacing: .015em;
+  color: #926d43;
+  flex: 0 0 auto;
+}
+#systems.project-showcase .project-name { min-width: 0; }
+#systems.project-showcase .project-name p {
+  margin: 0 0 9px;
+  font: 500 12px/1.4 Arial, sans-serif;
+  letter-spacing: .16em;
+  color: #8d6d4d;
+  opacity: 1;
+}
+#systems.project-showcase .project-name h3 {
+  font: 600 clamp(23px, 2.5vw, 34px)/1.35 "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: var(--showcase-ink);
+}
+#systems.project-showcase .project-top .outline-button {
+  margin-left: auto;
+  min-height: 54px;
+  padding: 12px 29px;
+  gap: 28px;
+  border: 1.5px solid #9b7853;
+  color: #725438;
+  background: #fffaf021;
+  font-family: "PingFang SC", sans-serif;
+  font-size: 15px;
+  letter-spacing: .03em;
+  flex: 0 0 auto;
+}
+#systems.project-showcase .project-top .outline-button:hover {
+  background: #bd9a6820;
+}
+#systems.project-showcase .project-images {
+  display: block;
+  height: auto;
+  aspect-ratio: var(--preview-aspect, 1512 / 771);
+}
+#systems.project-showcase .project-main-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+#systems.project-showcase .project-main-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+#systems.project-showcase .project-images button {
+  border-radius: 27px;
+  background: #fff;
+  box-shadow: 0 1px 3px #6a4c2c15;
+}
+#systems.project-showcase button:focus-visible {
+  outline: 2px solid #795536;
+  outline-offset: 5px;
+}
+/* One shared sticky parent prevents the last drawer unpinning separately.
+   Older cards remain visible as stepped upper edges and leave as one group. */
+#systems.project-showcase.has-project-switch .projects-list {
+  height: var(--switch-track-height);
+}
+#systems.project-showcase.has-project-switch .project-stage {
+  position: sticky;
+  top: var(--switch-stage-top);
+  height: var(--switch-stage-height);
+  overflow: hidden;
+  overflow: clip;
+  isolation: isolate;
+  contain: paint;
+}
+#systems.project-showcase.has-project-switch .project-shell {
+  position: absolute;
+  inset: 10px 0 auto;
+  height: var(--switch-card-height);
+  min-height: 0;
+  margin: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform-origin: 50% 0;
+  will-change: transform;
+}
+#systems.project-showcase.has-project-switch .project-shell[data-stage-visible="true"] {
+  visibility: visible;
+}
+#systems.project-showcase.has-project-switch .project-shell[data-stage-active="true"] {
+  pointer-events: auto;
+}
+#systems.project-showcase.has-project-switch .project-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+  /* The shell is the sole transform owner; legacy page scaling is inert. */
+  scale: 1 !important;
+  transform: none !important;
+}
+#systems.project-showcase.has-project-switch .project-top { flex: 0 0 auto; }
+#systems.project-showcase.has-project-switch .project-images {
+  flex: 1 1 0;
+  height: auto;
+  min-height: 0;
+  aspect-ratio: auto;
+}
+#systems.project-showcase.has-project-switch .project-images button,
+#systems.project-showcase.has-project-switch .project-detail { min-height: 0; }
+@media (max-width: 1100px) and (min-width: 768px) {
+  #systems.project-showcase .project-top .outline-button { padding-inline: 22px; gap: 18px; }
+}
+@media (max-width: 767px) {
+  #systems.project-showcase { padding: 64px 20px 45px; background-size: 380px 380px; }
+  #systems.project-showcase .project-showcase-heading { margin-bottom: 38px; }
+  #systems.project-showcase .mega-title { font-size: clamp(52px, 13.2vw, 100px); }
+  #systems.project-showcase .chapter-name { font-size: 25px; margin-top: 24px; }
+  #systems.project-showcase .project-shell,
+  #systems.project-showcase .project-shell:last-child {
+    position: relative;
+    top: auto;
+    height: auto;
+    min-height: 0;
+    margin: 0 0 28px;
+  }
+  #systems.project-showcase .project-card {
+    padding: 20px;
+    border-radius: 30px;
+    scale: 1 !important;
+    transform: none !important;
+  }
+  #systems.project-showcase .project-card::before { border-radius: 24px; inset: 6px; }
+  #systems.project-showcase .project-top { padding: 0 0 22px; gap: 20px; flex-wrap: wrap; }
+  #systems.project-showcase .project-number { font-size: 62px; }
+  #systems.project-showcase .project-name p { font-size: 10px; }
+  #systems.project-showcase .project-name h3 { font-size: 24px; }
+  #systems.project-showcase .project-top .outline-button {
+    min-height: 44px;
+    padding: 10px 22px;
+    font-size: 14px;
+  }
+  #systems.project-showcase .project-images {
+    display: block;
+    height: auto;
+    aspect-ratio: var(--preview-aspect, 1512 / 771);
+  }
+  #systems.project-showcase .project-detail { display: none; }
+  #systems.project-showcase .project-main-image { height: 100%; border-radius: 18px; }
+}
+@media (max-width: 480px) {
+  #systems.project-showcase .project-top .outline-button { width: 100%; margin: 0; }
+}
+@media(prefers-reduced-motion:reduce){html:not([data-motion="full"]) #systems.project-showcase .project-shell,html:not([data-motion="full"]) #systems.project-showcase .project-shell:last-child{ position: relative; top: auto; height: auto; min-height: 0; margin-bottom: 30px; }html:not([data-motion="full"]) #systems.project-showcase .project-card{ scale: 1 !important; transform: none !important; }}
+html[data-motion="reduced"] #systems.project-showcase .project-shell,html[data-motion="reduced"] #systems.project-showcase .project-shell:last-child{ position: relative; top: auto; height: auto; min-height: 0; margin-bottom: 30px; }html[data-motion="reduced"] #systems.project-showcase .project-card{ scale: 1 !important; transform: none !important; }
+@media (prefers-contrast: more) {
+  #systems.project-showcase .mega-title { background: none; -webkit-text-fill-color: currentColor; -webkit-text-stroke: 0; filter: none; }
+}
+@media print { #systems.project-showcase { display: none; } }

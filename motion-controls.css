@@ -1,0 +1,9 @@
+/* A quiet visitor control; it does not change the system's accessibility setting. */
+[data-motion-toggle]{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:34px;padding:5px 13px;border:1px solid currentColor;border-radius:999px;background:transparent;color:inherit;font:inherit;font-size:12px;line-height:1.5;letter-spacing:.02em;white-space:nowrap;cursor:pointer;opacity:.82}
+[data-motion-toggle]::before{content:"";display:block;width:6px;height:6px;border:1px solid currentColor;border-radius:50%;background:transparent}
+html[data-motion="full"] [data-motion-toggle]::before{background:currentColor}
+[data-motion-toggle]:hover{opacity:1}
+[data-motion-toggle]:focus-visible{outline:2px solid currentColor;outline-offset:4px;opacity:1}
+.wool-nav-brand-row>[data-motion-toggle]{margin-left:auto;font-size:12px}
+@media(max-width:767px){[data-motion-toggle]{min-height:36px;font-size:12px;padding:6px 12px}.wool-nav-brand-row>[data-motion-toggle]{display:none}}
+@media print{[data-motion-toggle]{display:none!important}}

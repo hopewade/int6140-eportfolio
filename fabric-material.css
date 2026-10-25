@@ -1,0 +1,145 @@
+/* Real material photography, with selectable type embroidered onto the cloth. */
+html, body, main { background: #e8dcc9; }
+:is(.yarn-hero,.marquee,.about-section,.chapter,.projects-section,.references-section,footer) {
+  background-image: url("assets/linen-cloth.jpg");
+  background-size: 480px 480px;
+  background-blend-mode: soft-light;
+}
+.yarn-backdrop {
+  background: radial-gradient(ellipse at 78% 28%,#f9f2e659,transparent 62%),
+    radial-gradient(ellipse at 78% 110%,#9d785d29,transparent 70%);
+}
+.yarn-backdrop:after { display:none; }
+.yarn-hero { background-color:#e8ddca; }
+.marquee { background-color:#e9dfce; }
+.about-section { background-color:#eee4d4; }
+.chapter.light { background-color:#f6f0e5; }
+#wellbeing.chapter.light { background-color:#eadfcd; }
+.chapter.dark { background-color:#5b493b; }
+.projects-section { background-color:#d5c2a6; }
+.references-section { background-color:#eee3d0; }
+footer { background-color:#e8dcc9; }
+
+/* Fine fibers sit just above a shallow contact shadow, rather than a floating
+   extruded title. Clear spacing and punctuation from typography.css remain. */
+:is(.yarn-title,.mega-title,.footer-name),
+.about-section .metal,.projects-section .metal,.references-section .metal,
+.chapter.dark .chapter-heading .mega-title {
+  color:#604027;
+  background-image: url("assets/cocoa-yarn.jpg");
+  background-size:260px 260px;
+  background-clip:text;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  -webkit-text-stroke:.35px #785234;
+  text-shadow:none;
+  filter:drop-shadow(0 .65px .25px #40230d90) drop-shadow(0 -1px .25px #f7e7cb90);
+  text-rendering:optimizeLegibility;
+}
+.yarn-title { font-weight:600; letter-spacing:.025em; }
+.mega-title,.footer-name { -webkit-text-stroke:.6px #8a6340; }
+.chapter.dark .chapter-heading .mega-title {
+  background-image:linear-gradient(#eed2a9b8,#eed2a9b8),url("assets/cocoa-yarn.jpg");
+  background-blend-mode:screen;
+  -webkit-text-stroke:.5px #d0b08b;
+  filter:drop-shadow(0 1px .3px #20120ab0) drop-shadow(0 -1px .2px #f5e2c780);
+}
+.chapter-name { text-shadow:0 1px 0 #fff8e373; }
+.chapter.dark .chapter-name { text-shadow:0 1px 0 #1d0d1050; }
+.numbered-row { border-top-style:dashed; }
+.career-path li,.reference-body details { border-top-style:dashed; }
+.about-decoration { opacity:.22; }
+
+/* A fine stitched braid surrounds only the screen. The separate label stays
+   outside the embroidery, so neither the title nor the preview is obscured. */
+.marquee { gap:20px; }
+.marquee-track { gap:24px; }
+.marquee-tile {
+  position:relative;
+  flex-basis:420px;
+  height:280px;
+  padding:0;
+  border:0;
+  border-radius:14px;
+  background:transparent;
+  box-shadow:none;
+  overflow:visible;
+  isolation:isolate;
+}
+.marquee-tile:after { content:none; }
+.marquee-screen {
+  position:relative;
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:calc(100% - 48px);
+  padding:7px;
+  overflow:hidden;
+  border-radius:14px;
+  background:#e6d7bd;
+  box-shadow:0 2px 4px #60442b16;
+  isolation:isolate;
+}
+.marquee-screen:after {
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  border:7px solid transparent;
+  border-image:url("assets/yarn-frame.png") 95 / 7px / 0 stretch;
+}
+.marquee-tile img,.marquee-tile.crop-1 img,.marquee-tile.crop-2 img {
+  display:block;width:100%;height:100%;object-fit:cover;object-position:top left;
+  border-radius:7px;
+  transform:none;filter:none;
+}
+.marquee-tile:hover img { transform:scale(1.035); }
+.marquee-label {
+  position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;
+  box-sizing:border-box;min-height:38px;gap:15px;margin-top:10px;padding:8px 12px;color:#593c28;
+  border-radius:7px;background:#f4ead9 url("assets/linen-cloth.jpg") center/380px;
+  background-blend-mode:soft-light;
+  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:16px;font-weight:600;line-height:1.35;
+  white-space:nowrap;
+}
+.marquee-label span { font-size:18px; }
+.marquee-tile:focus-visible { outline:2px solid #7d5939;outline-offset:5px; }
+
+.project-card {
+  background:#f7f0e3 url("assets/linen-cloth.jpg") center/480px;
+  background-blend-mode:soft-light;
+  border:2px dashed #b38e61;
+  box-shadow:0 14px 28px #684b3024,inset 0 0 0 5px #f1e6d3,inset 0 0 0 7px #b89b754d;
+}
+.project-shell { top:calc(74px + var(--card-index)*24px); }
+.system-switches { flex-wrap:wrap; }
+.system-switches button { white-space:nowrap; }
+.hero-mobile-menu {
+  background:#eee3d0 url("assets/linen-cloth.jpg") center/480px;
+  background-blend-mode:soft-light;
+}
+
+@media(min-width:1700px){.marquee-tile{flex-basis:490px;height:318px}}
+@media(max-width:767px){
+  :is(.yarn-hero,.marquee,.about-section,.chapter,.projects-section,.references-section,footer){background-size:380px}
+  .yarn-copy:before{background:#e7dac7 url("assets/linen-cloth.jpg") center/380px;background-blend-mode:soft-light;mask-image:linear-gradient(0deg,#000 70%,transparent 100%);opacity:1}
+  .yarn-title{font-weight:600;letter-spacing:.015em}
+  .marquee-tile{flex-basis:312px;height:218px;padding:0}
+  .marquee-screen{height:calc(100% - 44px);padding:6px;border-radius:12px}
+  .marquee-screen:after{border-width:6px;border-image-width:6px}
+  .marquee-label{font-size:14px;min-height:36px;margin-top:8px;padding:8px 10px}
+  .marquee-track{gap:18px}
+  .project-shell{top:auto}
+  .system-switches{gap:5px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+  .system-switches button{padding:8px 2px;font-size:11px;letter-spacing:0}
+}
+@media(prefers-contrast:more){
+  :is(.yarn-title,.mega-title,.footer-name),.about-section .metal,.projects-section .metal,.references-section .metal,.chapter.dark .chapter-heading .mega-title{background:none;-webkit-text-fill-color:currentColor;filter:none;-webkit-text-stroke:0}
+  .chapter.dark .chapter-heading .mega-title{color:#f1dec2}
+}
+@media print{
+  :is(.yarn-hero,.marquee,.about-section,.chapter,.projects-section,.references-section,footer){background:white}
+  :is(.yarn-title,.mega-title,.footer-name),.about-section .metal,.projects-section .metal,.references-section .metal,.chapter.dark .chapter-heading .mega-title{background:none;-webkit-text-fill-color:#211b16;filter:none;-webkit-text-stroke:0}
+}

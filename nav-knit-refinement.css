@@ -1,0 +1,20 @@
+/* Generated coarse wool layers, replacing the previous drawn paper folders. */
+.wool-folder-scene{width:66px;height:57px;flex-basis:66px;filter:drop-shadow(0 3px 2px #6b4c2d22)}
+.wool-folder-back{inset:4px 0 2px;background:transparent url("assets/nav-knit-v2/folder-back-display.svg") center/contain no-repeat;border:0;border-radius:0;box-shadow:none}
+.wool-folder-paper{left:18px;bottom:8px;width:29px;height:36px;background:transparent url("assets/nav-knit-v2/folder-paper-display.svg") center/contain no-repeat;border:0;border-radius:0;box-shadow:none}
+.wool-folder-front{left:0;right:0;bottom:1px;top:auto;height:22px;background:transparent url("assets/nav-knit-v2/folder-front-display.svg") center/contain no-repeat;border:0;border-radius:0;box-shadow:none}
+.wool-folder-back::before,.wool-folder-paper::after,.wool-folder-front::after{content:none;display:none}
+.wool-folder-link:is(:hover,:focus-visible,.is-opening) .wool-folder-front{filter:none}
+.wool-nav-divider{height:12px;overflow:visible;border-radius:0;background:transparent url("assets/nav-knit-v2/divider-rope-display.svg") center/100% 100% no-repeat;box-shadow:none;animation:none;filter:drop-shadow(0 1px 1px #5c40241c)}
+.wool-nav-divider::after{content:none;display:none;animation:none;background:none}
+@media(min-width:768px) and (max-width:1199px){
+ .wool-folder-scene{width:57px;height:51px;flex-basis:57px}
+ .wool-folder-paper{left:15px;bottom:7px;width:26px;height:33px}
+ .wool-folder-front{height:20px}
+}
+@media(max-width:767px){
+ .wool-nav-divider{height:9px}
+ .wool-mobile-menu .wool-folder-scene{width:72px;height:63px;flex-basis:72px}
+ .wool-mobile-menu .wool-folder-paper{left:20px;bottom:9px;width:31px;height:39px}
+ .wool-mobile-menu .wool-folder-front{height:24px}
+}

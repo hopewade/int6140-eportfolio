@@ -1,0 +1,41 @@
+/* Reading structure for the two imported sections, over the retained material shell. */
+.yarn-header .yarn-links{gap:30px}
+.yarn-header .yarn-links a{font-family:"PingFang SC",Arial,sans-serif;font-size:16px;letter-spacing:.02em}
+.yarn-title{font-size:clamp(33px,3.8vw,57px);line-height:1.55;max-width:580px}
+.yarn-copy{width:42%;max-width:580px}
+.yarn-typewriter{font-size:clamp(16px,1.4vw,21px);line-height:1.9;min-height:5.7em;margin:22px 0 0}
+.imported-about.about-section{padding:clamp(80px,9vw,140px) clamp(20px,4.5vw,76px) 75px;overflow:visible}
+.imported-about-inner{max-width:1280px;margin:auto}
+.imported-section-heading{margin:0 0 28px;padding-bottom:30px;border-bottom:1px dashed #94785b80}
+.imported-about .mega-title,.imported-research .research-heading .mega-title{
+ font-family:"PingFang SC","Microsoft YaHei",Arial,sans-serif;font-size:clamp(29px,3.6vw,52px);font-weight:650;
+ line-height:1.5;letter-spacing:.025em;word-spacing:normal;text-transform:none;margin:0;
+ color:#604027;background-image:url("assets/cocoa-yarn.jpg");background-size:260px;
+ background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+ -webkit-text-stroke:.25px #785234;filter:drop-shadow(0 .65px .25px #40230d60);
+}
+.imported-about .journey-rope{margin:0 auto 64px}
+.imported-about-prose{max-width:1080px;margin:0 auto;font-family:"PingFang SC","Microsoft YaHei",Arial,sans-serif;
+ color:#493b2d;font-size:clamp(17px,1.45vw,20px);line-height:2.05;letter-spacing:.015em;text-align:justify}
+.imported-about-prose p+p{margin-top:24px}
+.imported-research .research-flow-table{min-width:0}
+.imported-research .role-person img{height:auto;aspect-ratio:1;object-fit:contain}
+.imported-research .role-person h4{margin:28px 0 8px}
+.portfolio-footer{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:40px clamp(20px,4.5vw,76px);font:16px/1.6 "PingFang SC",sans-serif;color:#725136;border-top:1px dashed #94785b60}
+.portfolio-footer a{color:inherit;text-decoration:none}
+@media(max-width:767px){
+ .yarn-hero{min-height:760px}
+ .yarn-title{font-size:30px;line-height:1.5;max-width:100%}
+ .yarn-typewriter{font-size:15px;line-height:1.8;min-height:5.4em}
+ .yarn-copy{width:86%;max-width:none;bottom:78px}
+ .imported-about.about-section{padding-top:70px;padding-bottom:36px}
+ .imported-about .journey-rope{margin-bottom:40px}
+ .imported-section-heading{padding-bottom:23px}
+ .imported-about-prose{text-align:left;line-height:1.95}
+}
+@media(prefers-contrast:more){
+ .imported-about .mega-title,.imported-research .research-heading .mega-title{background:none;-webkit-text-fill-color:currentColor;-webkit-text-stroke:0;filter:none}
+}
+@media print{
+ .imported-about .mega-title,.imported-research .research-heading .mega-title{background:none;-webkit-text-fill-color:#43362d;-webkit-text-stroke:0;filter:none}
+}

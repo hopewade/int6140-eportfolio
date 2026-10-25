@@ -1,0 +1,1217 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>生产产值演示 · 月度产值</title>
+<style>
+:root{--bg:#f4f6fa;--panel:#fff;--ink:#202b3d;--muted:#5e6b7e;--line:#dce3ed;--soft:#f5f7fb;--blue:#315dc5;--blue-deep:#234aa8;--blue-soft:#eaf0fc;--green:#187653;--green-soft:#edf7f1;--amber:#915510;--amber-soft:#fff6e8;--red:#b12e47;--red-soft:#fff0f2;--purple:#7752b8;--purple-soft:#f4effb;--shadow:0 2px 7px rgba(32,43,61,.035),0 12px 32px rgba(32,43,61,.025);--radius:14px}
+*{box-sizing:border-box}html{font-size:16px;scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}button,input,select,textarea{font:inherit}button,summary{cursor:pointer;touch-action:manipulation}button:disabled{cursor:not-allowed;opacity:.48}a{color:var(--blue)}button,a,input,select,textarea,summary{outline-offset:3px}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--blue)}input:focus,select:focus,textarea:focus{outline:2px solid #a8bde8;border-color:var(--blue)}h1,h2,h3,p{margin:0}h1{font-size:30px;font-weight:700;line-height:1.3;letter-spacing:-.6px}h2{font-size:18px;font-weight:650}h3{font-size:16px;font-weight:650}small,.small{font-size:13px}.muted{color:var(--muted)}.num{font-variant-numeric:tabular-nums}.nowrap{white-space:nowrap}.hidden,[hidden]{display:none!important}.positive{color:var(--green)}.negative{color:var(--red)}.blue{color:var(--blue-deep)}.icon{width:20px;height:20px;flex:0 0 20px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.skip{position:fixed;left:16px;top:-70px;background:var(--panel);padding:12px;z-index:200}.skip:focus{top:12px}.app{display:grid;grid-template-columns:224px minmax(0,1fr);min-height:100vh}.sidebar{position:sticky;top:0;height:100vh;background:rgba(255,255,255,.96);border-right:1px solid var(--line);padding:30px 16px 20px;display:flex;flex-direction:column;gap:28px}.brand{display:flex;align-items:center;gap:10px;padding:0 4px 26px;border-bottom:1px solid var(--line)}.brand-mark{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(145deg,#456fd2,#2c52a8);color:white;box-shadow:0 4px 10px #315dc526;flex-shrink:0}.brand strong{font-size:19px}.brand small{display:block;color:var(--muted);font-size:12px;letter-spacing:.4px}.nav-label{color:var(--muted);font-size:12px;letter-spacing:1.5px;padding:0 12px;margin-bottom:10px}.nav{display:grid;gap:8px}.nav button{border:0;border-radius:10px;min-height:48px;background:none;color:var(--muted);padding:12px;text-align:left;display:flex;align-items:center;gap:12px;font-size:15px;font-weight:550;transition:background .16s,color .16s}.nav button:hover{background:var(--soft);color:var(--ink)}.nav button.active{background:var(--blue-soft);color:var(--blue-deep);font-weight:650}.side-bottom{margin-top:auto;display:grid;gap:12px}.save-state{font-size:12px;color:var(--muted);padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--soft)}.save-state strong{display:flex;gap:6px;align-items:center;color:var(--green);font-size:13px;margin-bottom:4px}.save-state .icon{width:16px;height:16px;flex-basis:16px}.main{min-width:0;padding:30px clamp(20px,2.8vw,44px) 44px;max-width:1920px}.page-top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:24px;border-bottom:1px solid var(--line);margin-bottom:24px;flex-wrap:wrap}.eyebrow{font-size:12px;letter-spacing:1.7px;font-weight:550;color:var(--muted);margin-bottom:9px}.page-top p{font-size:14px;margin-top:8px;color:var(--muted)}.actions,.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.between{justify-content:space-between}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 15px;border:1px solid #c2ccda;border-radius:9px;background:var(--panel);color:var(--ink);font-size:14px;font-weight:600;line-height:1.4;white-space:nowrap;transition:background .16s,border-color .16s,color .16s}.btn .icon{width:17px;height:17px;flex-basis:17px}.btn:hover{background:var(--soft);border-color:#92a6c1}.btn:active{background:#e1e9f6}.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}.btn.primary:hover{background:var(--blue-deep)}.btn.soft{background:var(--blue-soft);color:var(--blue-deep);border-color:#ccd9f5}.btn.ghost{background:transparent;border-color:transparent}.btn.danger{color:var(--red);border-color:#e4bdc6}.btn.icon-only{padding:10px;min-width:44px}.btn.small{min-height:36px;padding:6px 10px;font-size:13px}.text-btn{border:0;background:none;color:var(--blue-deep);font-size:14px;padding:8px 4px;min-height:36px;white-space:nowrap}.text-btn:hover{text-decoration:underline}.text-btn.danger{color:var(--red)}.month-control{display:flex;align-items:center;gap:5px;padding:4px;background:var(--panel);border:1px solid var(--line);border-radius:10px}.month-control input{border:0;background:transparent;min-height:36px;width:150px;padding:5px;font-size:15px;font-weight:600}.month-control button{min-width:34px;min-height:34px;padding:5px;border:0;background:transparent;border-radius:6px;color:var(--muted)}.month-control button:hover{background:var(--soft)}
+.panel{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);box-shadow:var(--shadow);overflow:hidden}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 22px;border-bottom:1px solid #edf0f5;flex-wrap:wrap}.panel-head p{font-size:13px;color:var(--muted);margin-top:4px}.panel-body{padding:22px}.section-gap{margin-top:22px}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:24px}.metric{border:1px solid var(--line);border-radius:14px;padding:21px 22px;background:var(--panel);min-width:0;box-shadow:var(--shadow)}.metric.blue-card{background:linear-gradient(130deg,#fff,#edf2fd)}.metric.green-card{background:linear-gradient(130deg,#fff,#edf7f1)}.metric.amber-card{background:linear-gradient(130deg,#fff,#fff6e8)}.metric.purple-card{background:linear-gradient(130deg,#fff,#f4effb)}.metric-label{font-size:14px;color:var(--muted)}.metric-value{font-size:clamp(24px,2.6vw,36px);font-weight:650;line-height:1.25;margin:12px 0 11px;letter-spacing:-.8px;overflow-wrap:anywhere}.metric-caption{font-size:12px;color:var(--muted)}.metric .currency{font-size:18px;vertical-align:baseline;margin-right:3px}.overview-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(290px,1fr);gap:22px}.split-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}.legend{display:flex;gap:15px;flex-wrap:wrap;font-size:12px;color:var(--muted)}.legend span{display:inline-flex;align-items:center;gap:7px}.swatch{width:8px;height:8px;border-radius:2px;background:var(--blue);display:inline-block}.swatch.cost{background:#93a4bf}.swatch.sample{background:var(--purple)}.swatch.pattern{background:#16847c}.chart{width:100%;height:auto;display:block;overflow:visible}.chart text{font-family:inherit;fill:var(--muted);font-size:12px}.chart .axis{stroke:#e6ebf2;stroke-width:1}.chart .value-label{fill:var(--ink);font-size:11px}.chart-wrap{padding:12px 4px 0;min-height:224px}.chart-empty{min-height:228px;display:grid;place-items:center;text-align:center;color:var(--muted);font-size:14px}.type-summary{display:grid;gap:21px}.type-row{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:12px;align-items:center}.type-icon{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:var(--blue-soft);color:var(--blue)}.type-icon.sample{background:var(--purple-soft);color:var(--purple)}.type-icon.pattern{background:#e8f5f3;color:#14746b}.type-row strong{font-size:15px}.type-row small{display:block;font-size:12px;color:var(--muted);margin-top:3px}.type-row .value{font-size:19px;font-weight:600}.mini-track{height:5px;background:#edf1f7;border-radius:99px;overflow:hidden;margin-top:9px}.mini-track span{height:100%;display:block;background:var(--blue);border-radius:99px}.mini-track.purple span{background:var(--purple)}.mini-track.teal span{background:#16847c}.note{font-size:13px;color:var(--muted);background:var(--soft);border:1px solid var(--line);border-radius:9px;padding:12px 14px;line-height:1.7}.notice{padding:14px 16px;border:1px solid #ead3a7;background:var(--amber-soft);color:#714510;border-radius:10px;font-size:14px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.notice.error{border-color:#e6bfca;background:var(--red-soft);color:var(--red)}.empty{padding:48px 22px;text-align:center;color:var(--muted)}.empty .empty-icon{display:grid;place-items:center;width:54px;height:54px;margin:0 auto 16px;border:1px solid var(--line);background:var(--soft);border-radius:15px;color:var(--blue)}.empty h3{color:var(--ink);font-size:17px;margin-bottom:7px}.empty p{font-size:14px;max-width:460px;margin:0 auto 18px}.onboard{display:flex;gap:20px;align-items:center;justify-content:space-between;padding:20px 24px;background:linear-gradient(110deg,#eef3fd,#f8fbff);border:1px solid #cfdbf2;border-radius:14px;margin-bottom:24px}.onboard h2{margin-bottom:5px}.onboard p{font-size:14px;color:var(--muted)}.steps{display:flex;gap:20px;flex-wrap:wrap;font-size:13px;margin-top:12px;color:var(--blue-deep)}.steps span{display:flex;gap:6px;align-items:center}.steps b{width:21px;height:21px;border-radius:50%;background:#dce7fb;display:inline-grid;place-items:center;font-size:11px}.toolbar{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:20px}.toolbar .grow{flex:1;min-width:200px}.toolbar label{min-width:130px}.field{display:flex;flex-direction:column;gap:6px;min-width:0}.field>span,.field-label{font-size:13px;font-weight:600;color:var(--muted)}input,select,textarea{min-height:44px;border:1px solid #b8c5d7;border-radius:8px;background:#fff;color:var(--ink);padding:10px 12px;min-width:0;width:100%;font-size:15px;line-height:1.4}input::placeholder,textarea::placeholder{color:#728096;opacity:1}input[readonly],input:disabled,select:disabled{background:var(--soft);color:var(--muted)}textarea{min-height:84px;resize:vertical}input[type=checkbox]{width:18px;height:18px;min-height:18px;margin:0;accent-color:var(--blue);flex:0 0 18px}input[type=number]{font-variant-numeric:tabular-nums}.check{display:flex;align-items:center;gap:9px;min-height:40px;font-size:14px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.form-grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.full{grid-column:1/-1}.form-section{padding-top:20px;margin-top:20px;border-top:1px solid var(--line)}.form-section h3{margin-bottom:12px}.form-error{padding:12px 14px;background:var(--red-soft);color:var(--red);font-size:14px;border-radius:8px;margin:0 0 16px;white-space:pre-line}.helper{font-size:12px;color:var(--muted);font-weight:400}.table-wrap{width:100%;overflow:auto}.table{border-collapse:collapse;width:100%;font-size:14px;text-align:left}.table th{background:#f8fafd;color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.2px;white-space:nowrap;padding:13px 20px;border-bottom:1px solid var(--line)}.table td{padding:16px 20px;border-bottom:1px solid #edf0f5;vertical-align:middle}.table tr:last-child td{border-bottom:0}.table tbody tr:hover{background:#fafcff}.table th.right,.table td.right{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.table td.title-cell{min-width:180px;max-width:300px;overflow-wrap:anywhere}.title-cell strong{font-weight:600;display:block;color:var(--ink)}.title-cell small{display:block;color:var(--muted);font-size:12px;margin-top:3px}.table .row{gap:6px;flex-wrap:nowrap}.badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;line-height:1.5;font-weight:550;padding:3px 8px;border-radius:6px;background:var(--soft);color:var(--muted);white-space:nowrap}.badge.bulk{background:var(--blue-soft);color:var(--blue-deep)}.badge.sample{background:var(--purple-soft);color:#68449c}.badge.pattern{background:#e8f5f3;color:#146b63}.badge.success{background:var(--green-soft);color:var(--green)}.badge.warn{background:var(--amber-soft);color:var(--amber)}.badge.error{background:var(--red-soft);color:var(--red)}.progress-cell{min-width:135px}.progress-caption{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--muted)}.pagination{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}.page-hint{font-size:12px;color:var(--muted);margin-top:20px;line-height:1.7}.income-strip{display:flex;gap:20px;flex-wrap:wrap;padding:14px 20px;background:#fbfcff;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}.income-strip strong{color:var(--ink);font-weight:600;margin-left:8px}.task-sum{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:16px 18px;background:var(--blue-soft);border-radius:10px;margin-top:16px;color:var(--blue-deep)}.task-sum strong{font-size:22px}.process-rows{display:grid;gap:10px}.process-row{display:grid;grid-template-columns:minmax(120px,1fr) 140px 100px 44px;gap:10px;align-items:end}.process-head{display:grid;grid-template-columns:minmax(120px,1fr) 140px 100px 44px;gap:10px;font-size:12px;color:var(--muted);margin-bottom:8px}.percent{position:relative}.percent input{padding-right:28px}.percent::after{content:'%';position:absolute;right:11px;top:10px;color:var(--muted);pointer-events:none}.weight-total{display:flex;justify-content:space-between;gap:15px;margin-top:13px;font-size:13px}.daily-top{display:grid;grid-template-columns:190px minmax(240px,1fr);gap:16px;max-width:850px;margin-bottom:20px}.entry-rows{display:grid;gap:12px}.entry-row{display:grid;grid-template-columns:minmax(120px,1fr) minmax(150px,1.35fr) 100px 110px minmax(130px,1fr) 44px;align-items:start;gap:10px;background:var(--soft);padding:14px;border:1px solid var(--line);border-radius:10px}.entry-row>button{align-self:end;margin-bottom:1px}.entry-row .field{gap:7px}.entry-footer{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:18px;flex-wrap:wrap}.day-total{font-size:14px;color:var(--muted)}.day-total strong{color:var(--blue-deep);font-size:20px}.worker-name{display:flex;align-items:center;gap:10px}.avatar{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:var(--blue-soft);color:var(--blue-deep);font-size:13px;font-weight:650;flex-shrink:0}.cost-line{display:flex;align-items:center;justify-content:space-between;font-size:14px;gap:12px;padding:12px 0;border-bottom:1px solid #edf0f5}.cost-line:last-child{border-bottom:0}.cost-line strong{font-weight:600}.cost-total{border-top:1px solid var(--line);margin-top:15px;padding-top:16px;display:flex;justify-content:space-between;align-items:center}.cost-total strong{font-size:24px}.tabs{display:flex;gap:5px;flex-wrap:wrap;padding:5px;background:var(--soft);border-radius:9px}.tabs button{border:0;background:none;color:var(--muted);padding:8px 14px;border-radius:6px;font-size:13px;min-height:36px}.tabs button.active{background:#fff;box-shadow:0 1px 4px #202b3d12;color:var(--blue-deep);font-weight:600}.detail-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0}.detail-kpi{background:var(--soft);border-radius:9px;padding:14px}.detail-kpi span{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}.detail-kpi strong{font-size:22px}.detail-list{display:grid;gap:12px}.process-detail{border:1px solid var(--line);border-radius:10px;padding:15px}.process-detail .row{font-size:14px}.process-detail .mini-track{margin-top:13px}.modal{border:1px solid var(--line);padding:0;border-radius:18px;background:#fff;color:var(--ink);width:min(780px,calc(100vw - 32px));max-height:calc(100dvh - 40px);box-shadow:0 26px 90px #17233938;overflow:hidden}.modal.wide{width:min(1060px,calc(100vw - 32px))}.modal::backdrop{background:rgba(23,35,57,.3);backdrop-filter:blur(4px)}.modal-shell{display:flex;flex-direction:column;max-height:calc(100dvh - 42px)}.modal-header{padding:22px 24px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:15px;flex-shrink:0}.modal-header h2{font-size:22px}.modal-header p{font-size:13px;color:var(--muted);margin-top:5px}.modal-body{padding:24px;overflow-y:auto;min-height:0}.modal-footer{padding:16px 24px;display:flex;align-items:center;justify-content:flex-end;gap:10px;border-top:1px solid var(--line);background:#fbfcfe;flex-shrink:0}.modal-footer .left{margin-right:auto}.form-body-wrap{display:contents}.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:10px;box-shadow:0 6px 25px #202b3d22;font-size:14px;max-width:calc(100vw - 32px);z-index:120;pointer-events:none}.toast.error{background:var(--red)}.backup-actions{display:grid;grid-template-columns:1fr 1fr;gap:16px}.backup-box{border:1px solid var(--line);border-radius:12px;padding:20px}.backup-box p{font-size:13px;color:var(--muted);margin:8px 0 18px}.export-options{display:grid;gap:10px}.export-options .btn{justify-content:space-between;text-align:left;white-space:normal;padding:16px}.export-options .btn small{display:block;color:var(--muted);font-weight:400;margin-top:4px}.mini-detail{font-size:12px;color:var(--muted)}.intro-callout{display:grid;gap:10px}.skeleton{min-height:300px;display:grid;place-items:center;color:var(--muted)}details summary{font-size:14px;font-weight:600;padding:8px 0}details .note{margin-top:8px}.danger-zone{margin-top:25px;border-top:1px solid var(--line);padding-top:18px}.sticky-none{position:static}
+.swatch.cost{background:#7b8fac}.chart-mobile{display:none}.mobile-chart-row{display:grid;grid-template-columns:35px 1fr;gap:10px;margin-bottom:20px}.mobile-chart-row>strong{font-size:13px;padding-top:2px}.mobile-bar-label{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}.mobile-chart-row .mini-track{margin:4px 0 8px;height:6px}.mini-track.cost span{background:#7b8fac}
+.settings-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);gap:22px;align-items:start}.setting-heading{display:flex;align-items:center;gap:12px}.setting-action{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 0;border-bottom:1px solid var(--line)}.setting-action p{font-size:13px;color:var(--muted);margin-top:6px;max-width:360px}.setting-action .btn{flex-shrink:0}.data-counts{display:grid;grid-template-columns:repeat(3,1fr);padding:4px 0 20px;border-bottom:1px solid var(--line)}.data-counts>div{display:grid;gap:5px}.data-counts strong{font-size:30px;font-weight:650;font-variant-numeric:tabular-nums}.data-counts span{font-size:13px;color:var(--muted)}.guide-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}.step-number{display:block;font-size:13px;font-weight:650;color:var(--blue);margin-bottom:13px}.guide-step p{font-size:14px;color:var(--muted);margin:9px 0 10px}.guide-details{margin-top:26px;border-top:1px solid var(--line)}.guide-details details{padding:10px 0;border-bottom:1px solid var(--line)}.guide-details details:last-child{border-bottom:0}.guide-details p{font-size:14px;color:var(--muted);margin:8px 0;line-height:1.85;max-width:980px}
+@media(max-width:1100px){.settings-grid{grid-template-columns:1fr}.guide-grid{gap:20px}}
+@media(max-width:680px){.guide-grid{grid-template-columns:1fr;gap:24px}.setting-action{gap:12px}.setting-action p{font-size:12px}.setting-action .btn{padding:8px 11px}.data-counts strong{font-size:26px}.setting-heading{gap:9px}}
+@media(min-width:1600px){.main{padding-left:44px;padding-right:44px}.metrics .metric-value{font-size:38px}}
+@media(max-width:1180px){.app{grid-template-columns:196px minmax(0,1fr)}.sidebar{padding:25px 12px}.main{padding:24px}.metrics{gap:12px}.metric{padding:18px 16px}.overview-grid{grid-template-columns:minmax(0,1.35fr) minmax(260px,1fr);gap:16px}.entry-row{grid-template-columns:minmax(120px,1fr) minmax(150px,1.3fr) 90px 100px 44px}.entry-row .entry-note{grid-column:1/5;grid-row:2}.entry-row .remove-entry{grid-column:5;grid-row:1}.split-grid{gap:16px}}
+@media(max-width:960px){.app{grid-template-columns:1fr}.sidebar{height:auto;position:static;border-right:0;border-bottom:1px solid var(--line);padding:16px 22px;gap:14px}.brand{padding:0;border:0}.brand small{display:none}.brand-mark{width:36px;height:36px;border-radius:10px}.sidebar-top{display:flex;align-items:center;justify-content:space-between}.nav-label{display:none}.nav{display:flex;gap:8px}.nav button{flex:1;justify-content:center;min-height:44px;padding:10px 8px;font-size:14px;gap:8px}.side-bottom{position:absolute;right:22px;top:17px;display:flex;gap:5px}.side-bottom>.btn{min-height:36px;font-size:12px;padding:8px}.save-state{display:none}.main{padding:24px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.metric-value{font-size:32px}.overview-grid{grid-template-columns:1.4fr 1fr}.split-grid{grid-template-columns:1fr}.page-top{gap:16px}.page-top .actions{width:100%;justify-content:space-between}.type-row{grid-template-columns:34px 1fr auto;gap:8px}.type-icon{width:34px;height:34px}.type-row .value{font-size:16px}}
+@media(max-width:680px){.sidebar{padding:16px}.side-bottom{right:16px}.side-bottom>.btn .icon{display:none}.side-bottom>.btn{padding:8px 7px}.brand strong{font-size:17px}.nav{gap:4px}.nav button{flex-direction:column;gap:4px;font-size:12px;min-height:60px}.main{padding:22px 16px 32px}.page-top{margin-bottom:20px;padding-bottom:20px}h1{font-size:27px}.page-top p{font-size:13px}.page-top .actions{gap:8px}.actions>.btn{padding:10px 12px}.metrics{gap:12px;margin-bottom:18px}.metric{padding:17px 14px}.metric-label{font-size:13px}.metric-value{font-size:25px;letter-spacing:-.6px}.metric-caption{font-size:12px}.overview-grid{grid-template-columns:1fr}.panel-head,.panel-body{padding:18px}.type-summary{gap:18px}.type-row .value{font-size:20px}.onboard{align-items:flex-start;flex-direction:column;padding:20px}.steps{gap:12px}.toolbar{gap:10px}.toolbar label{flex:1;min-width:120px}.toolbar .grow{flex-basis:100%}.table th,.table td{padding:13px 15px}.table{font-size:14px;min-width:620px}.daily-top{grid-template-columns:1fr}.entry-row{grid-template-columns:1fr 1fr;gap:12px}.entry-row .entry-note{grid-column:1/3;grid-row:auto}.entry-row .remove-entry{grid-column:2;grid-row:auto;justify-self:end;width:auto}.entry-footer{align-items:stretch}.entry-footer>.btn{flex:1}.form-grid,.form-grid.three{grid-template-columns:1fr}.process-row,.process-head{grid-template-columns:minmax(90px,1fr) 105px 75px 36px;gap:6px}.process-row input,.process-row select{padding:9px 7px;font-size:14px}.process-row .btn{min-width:36px;padding:6px}.process-row .percent input{padding-right:23px}.percent::after{right:7px}.modal{width:calc(100vw - 18px);max-height:calc(100dvh - 18px);border-radius:14px}.modal-shell{max-height:calc(100dvh - 20px)}.modal-body{padding:18px}.modal-header{padding:18px}.modal-footer{padding:14px 18px;flex-wrap:wrap}.modal-footer .btn{flex:1}.detail-kpis{gap:8px}.detail-kpi{padding:11px}.detail-kpi strong{font-size:18px}.backup-actions{grid-template-columns:1fr}.chart-wrap{padding:4px 0}.month-control input{width:138px}.pagination{padding:12px 16px}.small-mobile{font-size:12px}.worker-name{min-width:120px}.income-strip{gap:10px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+@media(min-width:681px) and (max-width:1100px){.overview-grid{grid-template-columns:1fr}.type-summary{grid-template-columns:repeat(3,minmax(0,1fr))}.type-row{grid-template-columns:34px 1fr}.type-row .value{grid-column:2}}
+@media(max-width:680px){.chart-desktop{display:none}.chart-mobile{display:block}.chart-wrap{min-height:0}.mobile-chart-row:last-child{margin-bottom:4px}}
+@media print{.sidebar,.page-top .actions,.btn,.text-btn,.toolbar,.notice,.page-hint{display:none!important}.app{display:block}.main{padding:0}.panel,.metric{box-shadow:none;break-inside:avoid}.table-wrap{overflow:visible}.overview-grid{grid-template-columns:1.4fr 1fr}.table{min-width:0;font-size:12px}.table td,.table th{padding:8px}.metrics{grid-template-columns:repeat(4,1fr)}body{background:#fff;font-size:14px}}
+.brand-mark{font-size:12px;font-weight:700;line-height:1;letter-spacing:normal}.brand small{display:block;white-space:nowrap}
+/* Shared month selector appearance with the finance workspace. */
+.month-control{gap:7px;padding:0;border:0;border-radius:0;background:transparent}
+.month-control .month-input{width:154px;height:44px;min-height:44px;padding:0 10px;border:1px solid #bdc9d9;border-radius:8px;background:var(--panel);color:var(--ink);font-size:15px;font-weight:400;line-height:1.55;transition:border-color .15s ease,box-shadow .15s ease,background-color .15s ease}
+.month-control .month-input:hover{border-color:#8da3bf}
+.month-control .month-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(49,93,197,.12)}
+.month-control .month-input:focus-visible{outline:2px solid #3b82f6;outline-offset:1px}
+.month-control .month-step{display:inline-flex;align-items:center;justify-content:center;flex:0 0 44px;width:44px;min-width:44px;height:44px;min-height:44px;padding:0;border:1px solid #ccd5e2;border-radius:9px;background:var(--panel);color:var(--muted);font-size:14px;font-weight:600;line-height:1.4;transition:color .16s,background .16s,border-color .16s,box-shadow .16s}
+.month-control .month-step:hover{background:var(--panel);border-color:#a9b9cd}
+.month-control .month-step:active{filter:brightness(.96)}
+@media(max-width:760px){.month-control .month-step{display:none}.month-control .month-input{width:136px;padding:0 8px;font-size:16px}}
+.hours-entry-row{display:grid;grid-template-columns:minmax(110px,1fr) minmax(160px,1.5fr) 110px minmax(120px,1fr) 44px;gap:10px;align-items:end;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px}.hours-entry-row .field{min-width:0}.trend-list{display:grid;gap:15px}.trend-line{display:grid;grid-template-columns:75px minmax(50px,1fr) 120px;gap:12px;align-items:center;font-size:14px}.trend-line strong{text-align:right;font-size:14px;font-variant-numeric:tabular-nums}.trend-track{height:18px;background:var(--soft);border-radius:5px;overflow:hidden;display:flex}.trend-track span{height:100%;min-width:0;background:var(--blue)}.trend-track .sample{background:var(--purple)}.trend-track .pattern{background:#16847c}.stat-strip{display:flex;flex-wrap:wrap;gap:24px;padding:16px 22px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}.stat-strip strong{color:var(--ink);margin-right:5px}.migration-panel{max-width:800px;margin:30px auto}.migration-panel .panel-body{display:grid;gap:20px}.migration-panel ul{margin:0;padding-left:22px;font-size:15px;line-height:1.9}.worker-edit-row{display:grid;grid-template-columns:minmax(100px,1fr) 90px 90px;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.table button{min-height:44px}.locked-hint{color:var(--muted);font-size:13px;white-space:nowrap}.trend-legend{margin:18px 0 0}.page-top .actions{min-width:0}.hours-notes{white-space:pre-wrap;overflow-wrap:anywhere}.daily-draft-badge{font-size:13px;color:var(--amber)}
+@media(max-width:1180px){.hours-entry-row{grid-template-columns:minmax(110px,1fr) minmax(130px,1.4fr) 100px 44px}.hours-entry-row .hours-note{grid-column:1/4}.hours-entry-row .remove-hour-row{grid-column:4;grid-row:1}}
+@media(max-width:680px){.hours-entry-row{grid-template-columns:1fr 1fr}.hours-entry-row .hours-activity,.hours-entry-row .hours-note{grid-column:1/-1}.hours-entry-row .remove-hour-row{grid-column:2;grid-row:4;justify-self:end}.trend-line{grid-template-columns:60px minmax(20px,1fr) 100px;gap:8px;font-size:12px}.trend-line strong{font-size:12px}.worker-edit-row{grid-template-columns:minmax(90px,1fr) 75px 75px}.stat-strip{gap:12px;padding:15px 18px}.brand small{font-size:11px}}
+@media(max-width:680px){.hours-entry-row>.field:nth-child(1){grid-column:1;grid-row:1}.hours-entry-row>.field:nth-child(3){grid-column:2;grid-row:1}.hours-entry-row .hours-activity{grid-row:2}.hours-entry-row .hours-note{grid-row:3}.entry-footer>.actions{display:grid;grid-template-columns:1fr 1fr;width:100%}.entry-footer>.actions .day-total{grid-column:1/-1}}
+.table .order-row-actions{display:flex;flex-wrap:nowrap;gap:6px;align-items:center;width:max-content}.order-row-actions .btn{min-width:52px;flex:0 0 auto;white-space:nowrap}.delete-impact{display:grid;gap:12px}.delete-impact .notice{margin-bottom:0}
+@media(max-width:680px){.delete-impact .detail-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.delete-impact .detail-kpi:first-child{grid-column:1/-1}}
+
+.portfolio-demo-note{width:fit-content;max-width:100%;padding:7px 12px;margin-bottom:16px;border:1px solid #ded5c7;border-radius:999px;color:#705638;background:#faf6ee;font-size:12px;line-height:1.5;letter-spacing:.02em}
+@media print{.portfolio-demo-note{margin-bottom:10px}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+<div class="app">
+<aside class="sidebar">
+  <div class="sidebar-top"><div class="brand"><div class="brand-mark">PRO</div><div><strong>生产产值演示</strong><small>月度产值工作台</small></div></div></div>
+  <div><div class="nav-label">生产管理</div><nav id="navigation" class="nav" aria-label="主要导航"></nav></div>
+  <div class="side-bottom"><div class="save-state" id="saveState"><strong>正在读取本地数据</strong><span>独立存储 · 数据不上传</span></div></div>
+</aside>
+<main id="main" class="main" tabindex="-1"><div class="portfolio-demo-note" role="note">作品集演示 · 数据为虚拟示例</div><header class="page-top" id="pageHeader"></header><div id="externalNotice"></div><div id="pageContent"><div class="skeleton">正在打开生产工作台…</div></div></main>
+</div>
+<dialog id="modal" class="modal" aria-labelledby="modalTitle"></dialog>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<input id="backupFile" type="file" accept="application/json,.json" hidden>
+<script>
+(function (root, factory) {
+  'use strict';
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  if (root) root.LegacyProduction = api;
+})(typeof window !== 'undefined' ? window : null, function () {
+  'use strict';
+
+  const MAX_QTY = 1000000;
+  const MAX_MONEY = 10000000;
+  const MAX_SAFE = BigInt(Number.MAX_SAFE_INTEGER);
+  const ROLES = ['sewing', 'other'];
+  const LIMITS = { workers: 1000, templates: 100, batches: 10000, logs: 100000, wages: 24000, costs: 50000 };
+  const own = (object, key) => Object.prototype.hasOwnProperty.call(object, key);
+  const compare = (a, b) => a < b ? -1 : a > b ? 1 : 0;
+  const cents = value => Math.round(value * 100);
+  const roundRatio = (amount, numerator, denominator) => Number((BigInt(amount) * BigInt(numerator) * 2n + BigInt(denominator)) / (2n * BigInt(denominator)));
+
+  function emptyState() {
+    return {
+      schemaVersion: 1, revision: 0,
+      settings: { name: '生产产值演示', sewingRate: 40, otherRate: 10 },
+      workers: [],
+      templates: [
+        { id: 'tpl-basic', name: '基础三阶段（示例待确认）', processes: [
+          { id: 'cut', name: '裁剪', weight: 10, role: 'other' },
+          { id: 'sew', name: '车缝', weight: 70, role: 'sewing' },
+          { id: 'finish', name: '整烫包装', weight: 20, role: 'other' }
+        ] },
+        { id: 'tpl-detailed', name: '精细车缝模板（示例待确认）', processes: [
+          { id: 'cut', name: '裁剪', weight: 10, role: 'other' },
+          { id: 'front', name: '前片', weight: 25, role: 'sewing' },
+          { id: 'back', name: '后片', weight: 25, role: 'sewing' },
+          { id: 'join', name: '合缝', weight: 20, role: 'sewing' },
+          { id: 'finish', name: '后整', weight: 20, role: 'other' }
+        ] },
+        { id: 'tpl-sewing', name: '全车缝（示例待确认）', processes: [
+          { id: 'sew', name: '车缝', weight: 100, role: 'sewing' }
+        ] },
+        { id: 'single-pattern', name: '单工序打版（示例待确认）', processes: [
+          { id: 'pattern', name: '打版', weight: 100, role: 'other' }
+        ] },
+        { id: 'single-sample', name: '单工序样衣（示例待确认）', processes: [
+          { id: 'sample', name: '样衣制作', weight: 100, role: 'sewing' }
+        ] }
+      ],
+      batches: [], logs: [], wages: [], costs: []
+    };
+  }
+
+  function validDate(value) {
+    if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+    const year = Number(value.slice(0, 4));
+    if (year < 1900 || year > 2199) return false;
+    const time = Date.parse(value + 'T00:00:00.000Z');
+    return Number.isFinite(time) && new Date(time).toISOString().slice(0, 10) === value;
+  }
+
+  function validMonth(value) {
+    return typeof value === 'string' && /^\d{4}-(0[1-9]|1[0-2])$/.test(value) && validDate(value + '-01');
+  }
+
+  function validTimestamp(value) {
+    if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(value)) return false;
+    if (!validDate(value.slice(0, 10))) return false;
+    const time = Date.parse(value);
+    return Number.isFinite(time) && new Date(time).toISOString() === (value.length === 20 ? value.slice(0, -1) + '.000Z' : value);
+  }
+
+  function decimal(value, min, max) {
+    return typeof value === 'number' && Number.isFinite(value) && value >= min && value <= max && /^\d+(?:\.\d{1,2})?$/.test(String(value));
+  }
+
+  // Validation is deliberately strict: a backup is data, never an extension of the application schema.
+  function validateState(state) {
+    const errors = [];
+    const add = message => { if (errors.length < 80) errors.push(message); };
+    const shape = (value, keys, path, optional = []) => {
+      if (!value || typeof value !== 'object' || Array.isArray(value) || ![Object.prototype, null].includes(Object.getPrototypeOf(value))) {
+        add(path + '必须是普通对象'); return false;
+      }
+      let safe = true;
+      for (const key of Reflect.ownKeys(value)) {
+        if (typeof key !== 'string' || (!keys.includes(key) && !optional.includes(key))) { add(path + '包含未知字段'); safe = false; }
+        const descriptor = Object.getOwnPropertyDescriptor(value, key);
+        if (!descriptor || !own(descriptor, 'value')) { add(path + '不能包含访问器'); safe = false; }
+      }
+      for (const key of keys) if (!own(value, key)) { add(path + '缺少字段：' + key); safe = false; }
+      return safe;
+    };
+    const string = (value, path, max = 100, required = true) => {
+      if (typeof value !== 'string' || value.length > max || (required && !value.trim()) || /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(value)) {
+        add(path + '须为' + (required ? '非空' : '') + '文本，最多' + max + '字符'); return false;
+      }
+      return true;
+    };
+    const id = (value, path) => {
+      if (typeof value !== 'string' || !/^[A-Za-z0-9_-]{1,80}$/.test(value)) { add(path + 'ID格式无效'); return false; }
+      return true;
+    };
+    const money = (value, path) => { if (!decimal(value, 0, MAX_MONEY)) add(path + '须为0–10000000元，最多两位小数'); };
+    const quantity = (value, path) => { if (!Number.isSafeInteger(value) || value < 1 || value > MAX_QTY) add(path + '须为1–1000000的整数'); };
+    const date = (value, path) => { if (!validDate(value)) add(path + '日期无效（须为1900–2199年的YYYY-MM-DD）'); };
+    const month = (value, path) => { if (!validMonth(value)) add(path + '月份无效（须为YYYY-MM）'); };
+    const rates = (value, path) => {
+      for (const key of ['sewingRate', 'otherRate']) if (!decimal(value[key], 0, 100)) add(path + '.' + key + '须为0–100且最多两位小数');
+      if (decimal(value.sewingRate, 0, 100) && decimal(value.otherRate, 0, 100) && cents(value.sewingRate) + cents(value.otherRate) > 10000) add(path + '两组预算比例之和不得超过100%');
+    };
+    const role = (value, path) => { if (!ROLES.includes(value)) add(path + '角色无效'); };
+    const collections = {};
+    const topKeys = ['schemaVersion', 'revision', 'settings', ...Object.keys(LIMITS)];
+    if (!shape(state, topKeys, '备份', ['updatedAt'])) return errors;
+    if (state.schemaVersion !== 1) add('不支持的schemaVersion');
+    if (!Number.isSafeInteger(state.revision) || state.revision < 0) add('revision须为非负安全整数');
+    if (own(state, 'updatedAt') && !validTimestamp(state.updatedAt)) add('updatedAt须为有效ISO UTC时间');
+    if (shape(state.settings, ['name', 'sewingRate', 'otherRate'], '设置')) {
+      string(state.settings.name, '设置名称'); rates(state.settings, '设置');
+    }
+    for (const [key, limit] of Object.entries(LIMITS)) {
+      if (!Array.isArray(state[key]) || state[key].length > limit) {
+        add(key + '须为数组且最多' + limit + '条'); collections[key] = []; continue;
+      }
+      collections[key] = state[key];
+    }
+    const seen = Object.fromEntries(Object.keys(LIMITS).map(key => [key, new Set()]));
+    const checkId = (value, collection, path) => {
+      if (!id(value, path)) return;
+      if (seen[collection].has(value)) add(path + 'ID重复：' + value);
+      seen[collection].add(value);
+    };
+    const checkProcesses = (processes, path) => {
+      if (!Array.isArray(processes) || processes.length < 1 || processes.length > 100) { add(path + '须有1–100个工序'); return; }
+      const ids = new Set(), names = new Set(); let total = 0;
+      for (const [index, process] of processes.entries()) {
+        const p = path + '[' + index + ']';
+        if (!shape(process, ['id', 'name', 'weight', 'role'], p)) continue;
+        if (id(process.id, p)) { if (ids.has(process.id)) add(p + '工序ID重复'); ids.add(process.id); }
+        if (string(process.name, p + '名称')) { const name = process.name.trim(); if (names.has(name)) add(p + '工序名称重复'); names.add(name); }
+        role(process.role, p);
+        if (!decimal(process.weight, 0.01, 100)) add(p + '权重须为0.01–100且最多两位小数');
+        else total += cents(process.weight);
+      }
+      if (total !== 10000) add(path + '工序权重合计必须为100%');
+    };
+    const workerMap = new Map(), batchMap = new Map(), batchCodes = new Set();
+    let moneyTotal = 0n;
+    const addMoney = value => { if (Number.isSafeInteger(value) && value >= 0) moneyTotal += BigInt(value); };
+    for (const [index, worker] of collections.workers.entries()) {
+      const p = '工人[' + index + ']';
+      if (!shape(worker, ['id', 'name', 'role', 'active'], p)) continue;
+      checkId(worker.id, 'workers', p); string(worker.name, p + '姓名'); role(worker.role, p);
+      if (typeof worker.active !== 'boolean') add(p + 'active须为布尔值');
+      workerMap.set(worker.id, worker);
+    }
+    for (const [index, template] of collections.templates.entries()) {
+      const p = '模板[' + index + ']';
+      if (!shape(template, ['id', 'name', 'processes'], p)) continue;
+      checkId(template.id, 'templates', p); string(template.name, p + '名称'); checkProcesses(template.processes, p + '工序');
+    }
+    for (const [index, batch] of collections.batches.entries()) {
+      const p = '批次[' + index + ']';
+      if (!shape(batch, ['id', 'code', 'name', 'customer', 'qty', 'price', 'startDate', 'note', 'archived', 'sewingRate', 'otherRate', 'processes', 'type', 'budgetEnabled'], p)) continue;
+      checkId(batch.id, 'batches', p); string(batch.name, p + '名称', 200); string(batch.customer, p + '客户', 200, false); string(batch.note, p + '备注', 2000, false);
+      if (!['bulk', 'sample', 'pattern'].includes(batch.type)) add(p + '任务类型无效');
+      if (typeof batch.budgetEnabled !== 'boolean') add(p + 'budgetEnabled须为布尔值');
+      if (string(batch.code, p + '订单号', 100)) { const code = batch.code.trim().toLocaleLowerCase('en-US'); if (batchCodes.has(code)) add(p + '订单号重复'); batchCodes.add(code); }
+      quantity(batch.qty, p + '数量'); money(batch.price, p + '单价'); date(batch.startDate, p + '开工日期'); rates(batch, p);
+      if (typeof batch.archived !== 'boolean') add(p + 'archived须为布尔值');
+      checkProcesses(batch.processes, p + '工序');
+      if (Number.isSafeInteger(batch.qty) && decimal(batch.price, 0, MAX_MONEY)) addMoney(batch.qty * cents(batch.price));
+      batchMap.set(batch.id, batch);
+    }
+    const qualified = new Map();
+    for (const [index, log] of collections.logs.entries()) {
+      const p = '报工[' + index + ']';
+      if (!shape(log, ['id', 'date', 'batchId', 'workerId', 'processId', 'qty', 'type', 'note', 'createdAt'], p)) continue;
+      checkId(log.id, 'logs', p); date(log.date, p); quantity(log.qty, p + '数量'); string(log.note, p + '备注', 2000, false);
+      if (!validTimestamp(log.createdAt)) add(p + 'createdAt须为有效ISO UTC时间');
+      if (!['qualified', 'rework'].includes(log.type)) add(p + '报工类型无效');
+      for (const key of ['batchId', 'workerId', 'processId']) id(log[key], p + '.' + key);
+      const batch = batchMap.get(log.batchId);
+      if (!batch) add(p + '引用的批次不存在');
+      if (batch && validDate(log.date) && validDate(batch.startDate) && log.date < batch.startDate) add(p + '报工日期不能早于所属任务的开工日期（' + batch.startDate + '）');
+      if (!workerMap.has(log.workerId)) add(p + '引用的工人不存在');
+      if (batch && (!Array.isArray(batch.processes) || !batch.processes.some(process => process && typeof process === 'object' && Object.getOwnPropertyDescriptor(process, 'id')?.value === log.processId))) add(p + '引用的工序不存在');
+      if (batch && log.type === 'qualified' && Number.isSafeInteger(log.qty) && log.qty > 0) {
+        const key = JSON.stringify([log.batchId, log.processId]);
+        const total = (qualified.get(key) || 0) + log.qty; qualified.set(key, total);
+        if (total > batch.qty) add(p + '该工序合格累计数量超过批次数量');
+      }
+    }
+    const wageKeys = new Set();
+    for (const [index, wage] of collections.wages.entries()) {
+      const p = '工资[' + index + ']';
+      if (!shape(wage, ['id', 'month', 'workerId', 'amount', 'note'], p)) continue;
+      checkId(wage.id, 'wages', p); month(wage.month, p); id(wage.workerId, p + '.workerId'); money(wage.amount, p + '金额'); string(wage.note, p + '备注', 2000, false);
+      if (!workerMap.has(wage.workerId)) add(p + '引用的工人不存在');
+      const key = JSON.stringify([wage.month, wage.workerId]);
+      if (wageKeys.has(key)) add(p + '同一工人同月只能有一条工资'); wageKeys.add(key);
+      if (decimal(wage.amount, 0, MAX_MONEY)) addMoney(cents(wage.amount));
+    }
+    for (const [index, cost] of collections.costs.entries()) {
+      const p = '费用[' + index + ']';
+      if (!shape(cost, ['id', 'month', 'category', 'amount', 'note'], p)) continue;
+      checkId(cost.id, 'costs', p); month(cost.month, p); string(cost.category, p + '类别', 100); money(cost.amount, p + '金额'); string(cost.note, p + '备注', 2000, false);
+      if (decimal(cost.amount, 0, MAX_MONEY)) addMoney(cents(cost.amount));
+    }
+    if (moneyTotal > MAX_SAFE) add('所有记录金额合计超过安全计算范围');
+    return errors;
+  }
+
+  function assertState(state) {
+    const errors = validateState(state);
+    if (errors.length) throw new Error('数据无效：' + errors.join('；'));
+  }
+
+  // Hamilton / largest-remainder allocation. Ties follow the saved process order.
+  function allocate(totalCents, processes) {
+    if (!processes.length) return new Map();
+    const weights = processes.map(process => cents(process.weight));
+    const denominator = BigInt(weights.reduce((sum, weight) => sum + weight, 0));
+    const portions = processes.map((process, index) => {
+      const product = BigInt(totalCents) * BigInt(weights[index]);
+      return { id: process.id, index, value: Number(product / denominator), remainder: product % denominator };
+    });
+    let left = totalCents - portions.reduce((sum, portion) => sum + portion.value, 0);
+    const ranked = portions.slice().sort((a, b) => a.remainder === b.remainder ? a.index - b.index : a.remainder > b.remainder ? -1 : 1);
+    for (let index = 0; index < left; index++) ranked[index].value++;
+    return new Map(portions.map(portion => [portion.id, portion.value]));
+  }
+
+  function allocations(batch) {
+    const totalCents = batch.qty * cents(batch.price);
+    const values = allocate(totalCents, batch.processes), budgets = new Map();
+    // Allocate groups together, including the unbudgeted remainder: independently rounding
+    // two 50% groups could otherwise promise two cents from a one-cent batch.
+    const groupBudgets = allocate(batch.budgetEnabled ? totalCents : 0, [
+      { id: 'sewing', weight: batch.sewingRate },
+      { id: 'other', weight: batch.otherRate },
+      { id: 'reserve', weight: (10000 - cents(batch.sewingRate) - cents(batch.otherRate)) / 100 }
+    ]);
+    for (const role of ROLES) {
+      const group = batch.processes.filter(process => process.role === role);
+      const groupBudget = groupBudgets.get(role);
+      for (const [id, value] of allocate(groupBudget, group)) budgets.set(id, value);
+    }
+    return { totalCents, values, budgets };
+  }
+
+  function makeLedger(state) {
+    const batchMap = new Map(state.batches.map(batch => [batch.id, { batch, ...allocations(batch) }]));
+    const cumulative = new Map();
+    return state.logs.slice().sort((a, b) => compare(a.date, b.date) || compare(Date.parse(a.createdAt), Date.parse(b.createdAt)) || compare(a.id, b.id)).map(log => {
+      if (log.type === 'rework') return { ...log, valueCents: 0, budgetCents: 0, unratedValueCents: 0 };
+      const data = batchMap.get(log.batchId), key = JSON.stringify([log.batchId, log.processId]);
+      const before = cumulative.get(key) || 0, after = before + log.qty;
+      cumulative.set(key, after);
+      const value = data.values.get(log.processId), budget = data.budgets.get(log.processId);
+      const valueCents = roundRatio(value, after, data.batch.qty) - roundRatio(value, before, data.batch.qty);
+      return { ...log, valueCents,
+        budgetCents: roundRatio(budget, after, data.batch.qty) - roundRatio(budget, before, data.batch.qty),
+        unratedValueCents: data.batch.budgetEnabled ? 0 : valueCents
+      };
+    });
+  }
+
+  function ledger(state) { assertState(state); return makeLedger(state); }
+
+  function progressFor(batch, rows) {
+    const alloc = allocations(batch), quantities = new Map(), values = new Map();
+    for (const log of rows) if (log.batchId === batch.id && log.type === 'qualified') {
+      quantities.set(log.processId, (quantities.get(log.processId) || 0) + log.qty);
+      values.set(log.processId, (values.get(log.processId) || 0) + log.valueCents);
+    }
+    let weighted = 0, valueCents = 0;
+    const processes = batch.processes.map(process => {
+      const qty = quantities.get(process.id) || 0, value = values.get(process.id) || 0;
+      weighted += qty * cents(process.weight); valueCents += value;
+      return { id: process.id, qty, remaining: batch.qty - qty, valueCents: value, totalCents: alloc.values.get(process.id), budgetCents: alloc.budgets.get(process.id) };
+    });
+    return { progress: weighted / (batch.qty * 10000), valueCents, remainingCents: alloc.totalCents - valueCents, totalCents: alloc.totalCents, processes };
+  }
+
+  function batchProgress(state, batchId) {
+    assertState(state);
+    const batch = state.batches.find(item => item.id === batchId);
+    if (!batch) throw new Error('批次不存在');
+    return progressFor(batch, makeLedger(state));
+  }
+
+  function allBatchProgress(state) {
+    assertState(state);
+    const byBatch = new Map();
+    for (const row of makeLedger(state)) {
+      if (!byBatch.has(row.batchId)) byBatch.set(row.batchId, []);
+      byBatch.get(row.batchId).push(row);
+    }
+    return new Map(state.batches.map(batch => [batch.id, progressFor(batch, byBatch.get(batch.id) || [])]));
+  }
+
+  function monthReport(state, month) {
+    assertState(state);
+    if (!validMonth(month)) throw new Error('月份无效');
+    const all = makeLedger(state), rows = all.filter(log => log.date.slice(0, 7) === month);
+    const asOf = all.filter(log => log.date.slice(0, 7) <= month);
+    const batchMap = new Map(state.batches.map(batch => [batch.id, batch]));
+    const asOfByBatch = new Map();
+    for (const row of asOf) {
+      if (!asOfByBatch.has(row.batchId)) asOfByBatch.set(row.batchId, []);
+      asOfByBatch.get(row.batchId).push(row);
+    }
+    const wages = state.wages.filter(wage => wage.month === month), costs = state.costs.filter(cost => cost.month === month);
+    const report = {
+      month, productionCents: 0, bulkCents: 0, patternCents: 0, sampleCents: 0, unratedValueCents: 0,
+      wageCents: wages.reduce((sum, wage) => sum + cents(wage.amount), 0),
+      costCents: costs.reduce((sum, cost) => sum + cents(cost.amount), 0),
+      totalCostCents: 0, balanceCents: 0, budgetCents: 0,
+      qualifiedQty: 0, reworkQty: 0, logCount: rows.length,
+      batchRows: [], workerRows: [], days: [], logs: rows,
+      wageCount: wages.length, missingWageCount: 0
+    };
+    const workers = new Map(state.workers.map(worker => [worker.id, { workerId: worker.id, valueCents: 0, bulkCents: 0, sampleCents: 0, patternCents: 0, budgetCents: 0, unratedValueCents: 0, wageCents: null, qualifiedQty: 0, reworkQty: 0, days: 0 }]));
+    const workerDays = new Map(), batchTotals = new Map(), dayMap = new Map();
+    const dayRow = date => {
+      if (!dayMap.has(date)) dayMap.set(date, { date, valueCents: 0, bulkCents: 0, patternCents: 0, sampleCents: 0 });
+      return dayMap.get(date);
+    };
+    for (const row of rows) {
+      const typeKey = batchMap.get(row.batchId).type + 'Cents';
+      report.productionCents += row.valueCents; report[typeKey] += row.valueCents;
+      report.budgetCents += row.budgetCents; report.unratedValueCents += row.unratedValueCents;
+      report[row.type === 'qualified' ? 'qualifiedQty' : 'reworkQty'] += row.qty;
+      const worker = workers.get(row.workerId);
+      worker.valueCents += row.valueCents; worker.budgetCents += row.budgetCents;
+      worker[typeKey] += row.valueCents; worker.unratedValueCents += row.unratedValueCents;
+      worker[row.type === 'qualified' ? 'qualifiedQty' : 'reworkQty'] += row.qty;
+      if (!workerDays.has(row.workerId)) workerDays.set(row.workerId, new Set());
+      workerDays.get(row.workerId).add(row.date);
+      if (!batchTotals.has(row.batchId)) batchTotals.set(row.batchId, { valueCents: 0, budgetCents: 0, unratedValueCents: 0, qualifiedQty: 0, reworkQty: 0 });
+      const batch = batchTotals.get(row.batchId);
+      batch.valueCents += row.valueCents; batch.budgetCents += row.budgetCents;
+      batch.unratedValueCents += row.unratedValueCents;
+      batch[row.type === 'qualified' ? 'qualifiedQty' : 'reworkQty'] += row.qty;
+      const day = dayRow(row.date); day[typeKey] += row.valueCents; day.valueCents += row.valueCents;
+    }
+    for (const wage of wages) workers.get(wage.workerId).wageCents = cents(wage.amount);
+    report.workerRows = Array.from(workers.values()).map(worker => ({ ...worker, days: workerDays.has(worker.workerId) ? workerDays.get(worker.workerId).size : 0 }));
+    report.missingWageCount = report.workerRows.filter(worker => worker.wageCents === null && (worker.qualifiedQty > 0 || worker.reworkQty > 0)).length;
+    const touched = new Set(asOf.map(log => log.batchId));
+    report.batchRows = state.batches.filter(batch => batch.startDate.slice(0, 7) <= month || touched.has(batch.id)).map(batch => {
+      const cumulative = progressFor(batch, asOfByBatch.get(batch.id) || []), current = batchTotals.get(batch.id) || { valueCents: 0, budgetCents: 0, unratedValueCents: 0, qualifiedQty: 0, reworkQty: 0 };
+      return { batchId: batch.id, type: batch.type, ...current, progress: cumulative.progress, cumulativeValueCents: cumulative.valueCents, totalCents: cumulative.totalCents };
+    });
+    report.days = Array.from(dayMap.values()).sort((a, b) => compare(a.date, b.date));
+    report.totalCostCents = report.wageCents + report.costCents;
+    report.balanceCents = report.productionCents - report.totalCostCents;
+    return report;
+  }
+
+  function escapeHTML(value) {
+    return String(value == null ? '' : value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
+  }
+
+  function csv(rows) {
+    if (!Array.isArray(rows) || rows.some(row => !Array.isArray(row))) throw new Error('CSV须为二维数组');
+    const cell = value => {
+      let text = value == null ? '' : String(value);
+      // A leading apostrophe is visible as text in Excel and neutralizes formulas, including whitespace-prefixed ones.
+      const numeric = typeof value === 'number' && Number.isFinite(value);
+      if (!numeric && (/^[\s\uFEFF]*[=+@-]/.test(text) || /^[\t\r\n]/.test(text))) text = "'" + text;
+      return '"' + text.replace(/"/g, '""') + '"';
+    };
+    return '\uFEFF' + rows.map(row => row.map(cell).join(',')).join('\r\n');
+  }
+
+  return Object.freeze({ emptyState, validateState, ledger, monthReport, batchProgress, allBatchProgress, escapeHTML, csv });
+});
+
+</script>
+<script>
+(function (root, factory) {
+  'use strict';
+  const legacy = typeof module === 'object' && module.exports ? require('./legacy-engine.js') : root && root.LegacyProduction;
+  const api = factory(legacy);
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  if (root) root.Production = api;
+})(typeof window !== 'undefined' ? window : null, function (LegacyProduction) {
+  'use strict';
+
+  const MAX_SAFE = BigInt(Number.MAX_SAFE_INTEGER);
+  const MAX_QTY = 1000000;
+  const MAX_PRICE = 10000000;
+  const TYPES = ['bulk', 'sample', 'pattern'];
+  const LIMITS = { workers: 1000, orders: 10000, timeEntries: 200000 };
+  const own = (value, key) => Object.prototype.hasOwnProperty.call(value, key);
+  const compare = (a, b) => a < b ? -1 : a > b ? 1 : 0;
+
+  function emptyState() {
+    return {
+      schemaVersion: 2, revision: 0, settings: { name: '生产产值演示' },
+      workers: [], orders: [], timeEntries: [], legacyData: null
+    };
+  }
+
+  function validDate(value) {
+    if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+    const year = Number(value.slice(0, 4));
+    if (year < 1900 || year > 2199) return false;
+    const timestamp = Date.parse(value + 'T00:00:00.000Z');
+    return Number.isFinite(timestamp) && new Date(timestamp).toISOString().slice(0, 10) === value;
+  }
+
+  function validMonth(value) {
+    return typeof value === 'string' && /^\d{4}-(0[1-9]|1[0-2])$/.test(value) && validDate(value + '-01');
+  }
+
+  function validTimestamp(value) {
+    if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(value) || !validDate(value.slice(0, 10))) return false;
+    const timestamp = Date.parse(value);
+    return Number.isFinite(timestamp) && new Date(timestamp).toISOString() === (value.length === 20 ? value.slice(0, -1) + '.000Z' : value);
+  }
+
+  function decimal(value, min, max) {
+    return typeof value === 'number' && Number.isFinite(value) && value >= min && value <= max && /^\d+(?:\.\d{1,2})?$/.test(String(value));
+  }
+
+  // Read the decimal representation rather than multiplying floating point values.
+  function cents(value) {
+    if (typeof value !== 'number' || !Number.isFinite(value) || !/^-?\d+(?:\.\d{1,2})?$/.test(String(value))) throw new Error('金额须为最多两位小数的有限数字');
+    const negative = value < 0;
+    const parts = String(Math.abs(value)).split('.');
+    const result = BigInt(parts[0]) * 100n + BigInt((parts[1] || '').padEnd(2, '0'));
+    if (result > MAX_SAFE) throw new Error('金额超过安全计算范围');
+    return Number(negative ? -result : result);
+  }
+
+  function hoursUnits(value) {
+    if (!decimal(value, 0.01, 24)) throw new Error('工时须为0.01–24小时，最多两位小数');
+    return cents(value);
+  }
+
+  function totalCents(order) {
+    if (!order || !Number.isSafeInteger(order.qty) || order.qty < 1 || order.qty > MAX_QTY || !decimal(order.price, 0, MAX_PRICE)) throw new Error('订单数量或单价无效');
+    const result = BigInt(order.qty) * BigInt(cents(order.price));
+    if (result > MAX_SAFE) throw new Error('订单总额超过安全计算范围');
+    return Number(result);
+  }
+
+  function plainObject(value) {
+    return value !== null && typeof value === 'object' && !Array.isArray(value) && [Object.prototype, null].includes(Object.getPrototypeOf(value));
+  }
+
+  function arrayShape(value, path, limit, add) {
+    if (!Array.isArray(value) || Object.getPrototypeOf(value) !== Array.prototype || value.length > limit) {
+      add(path + '须为普通数组且最多' + limit + '条'); return false;
+    }
+    const keys = Reflect.ownKeys(value);
+    if (keys.length !== value.length + 1) { add(path + '不能包含空项或未知字段'); return false; }
+    for (const key of keys) {
+      if (key === 'length') continue;
+      if (typeof key !== 'string' || !/^(0|[1-9]\d*)$/.test(key) || Number(key) >= value.length) { add(path + '包含未知字段'); return false; }
+      const descriptor = Object.getOwnPropertyDescriptor(value, key);
+      if (!descriptor || !own(descriptor, 'value') || !descriptor.enumerable) { add(path + '不能包含访问器或隐藏字段'); return false; }
+    }
+    return true;
+  }
+
+  // The old validator owns the v1 schema. This preflight makes its traversal safe
+  // for programmatic inputs as well as ordinary parsed JSON backups.
+  function legacyErrors(value) {
+    const errors = [];
+    const add = text => { if (errors.length < 80) errors.push(text); };
+    const visiting = new Set();
+    function walk(node, depth) {
+      if (depth > 20) { add('旧版数据嵌套过深'); return; }
+      if (node === null || typeof node === 'string' || typeof node === 'boolean') return;
+      if (typeof node === 'number' && Number.isFinite(node)) return;
+      if (!node || typeof node !== 'object') { add('旧版数据含非JSON值'); return; }
+      if (visiting.has(node)) { add('旧版数据不能循环引用'); return; }
+      if (Array.isArray(node)) {
+        if (!arrayShape(node, '旧版数组', 200000, add)) return;
+      } else if (!plainObject(node)) { add('旧版数据须为普通对象'); return; }
+      visiting.add(node);
+      for (const key of Reflect.ownKeys(node)) {
+        if (Array.isArray(node) && key === 'length') continue;
+        const descriptor = Object.getOwnPropertyDescriptor(node, key);
+        if (typeof key !== 'string' || !descriptor || !own(descriptor, 'value') || !descriptor.enumerable) { add('旧版数据不能含访问器、隐藏字段或符号字段'); continue; }
+        if (errors.length >= 80) break;
+        walk(descriptor.value, depth + 1);
+      }
+      visiting.delete(node);
+    }
+    walk(value, 0);
+    if (errors.length) return errors;
+    if (!LegacyProduction || typeof LegacyProduction.validateState !== 'function') return ['缺少旧版数据校验组件'];
+    return LegacyProduction.validateState(value);
+  }
+
+  function validateState(state) {
+    const errors = [];
+    const add = message => { if (errors.length < 80) errors.push(message); };
+    const shape = (value, required, path, optional = []) => {
+      if (!plainObject(value)) { add(path + '必须是普通对象'); return false; }
+      let safe = true;
+      for (const key of Reflect.ownKeys(value)) {
+        if (typeof key !== 'string' || (!required.includes(key) && !optional.includes(key))) { add(path + '包含未知字段'); safe = false; }
+        const descriptor = Object.getOwnPropertyDescriptor(value, key);
+        if (!descriptor || !own(descriptor, 'value') || !descriptor.enumerable) { add(path + '不能包含访问器或隐藏字段'); safe = false; }
+      }
+      for (const key of required) if (!own(value, key)) { add(path + '缺少字段：' + key); safe = false; }
+      return safe;
+    };
+    const string = (value, path, max = 100, required = true) => {
+      if (typeof value !== 'string' || value.length > max || (required && !value.trim()) || /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(value)) {
+        add(path + '须为' + (required ? '非空' : '') + '文本，最多' + max + '字符'); return false;
+      }
+      return true;
+    };
+    const id = (value, path) => {
+      if (typeof value !== 'string' || !/^[A-Za-z0-9_-]{1,80}$/.test(value)) { add(path + 'ID格式无效'); return false; }
+      return true;
+    };
+    const date = (value, path) => { if (!validDate(value)) add(path + '日期无效（须为1900–2199年的YYYY-MM-DD）'); };
+    if (!shape(state, ['schemaVersion', 'revision', 'settings', 'workers', 'orders', 'timeEntries', 'legacyData'], '备份', ['updatedAt'])) return errors;
+    if (state.schemaVersion !== 2) add('不支持的schemaVersion');
+    if (!Number.isSafeInteger(state.revision) || state.revision < 0) add('revision须为非负安全整数');
+    if (own(state, 'updatedAt') && !validTimestamp(state.updatedAt)) add('updatedAt须为有效ISO UTC时间');
+    if (shape(state.settings, ['name'], '设置')) string(state.settings.name, '设置名称');
+    const collections = {};
+    for (const [key, limit] of Object.entries(LIMITS)) collections[key] = arrayShape(state[key], key, limit, add) ? state[key] : [];
+    const seen = { workers: new Set(), orders: new Set(), timeEntries: new Set() };
+    const checkId = (value, collection, path) => {
+      if (!id(value, path)) return;
+      if (seen[collection].has(value)) add(path + 'ID重复：' + value);
+      seen[collection].add(value);
+    };
+    const workerMap = new Map(), orderMap = new Map(), codes = new Set();
+    let moneyTotal = 0n;
+    for (const [index, worker] of collections.workers.entries()) {
+      const p = '工人[' + index + ']';
+      if (!shape(worker, ['id', 'name', 'active'], p)) continue;
+      checkId(worker.id, 'workers', p); string(worker.name, p + '姓名');
+      if (typeof worker.active !== 'boolean') add(p + 'active须为布尔值');
+      workerMap.set(worker.id, worker);
+    }
+    for (const [index, order] of collections.orders.entries()) {
+      const p = '订单[' + index + ']';
+      if (!shape(order, ['id', 'type', 'code', 'name', 'customer', 'qty', 'price', 'startDate', 'note', 'status', 'completedAt'], p)) continue;
+      checkId(order.id, 'orders', p); string(order.name, p + '名称', 200); string(order.customer, p + '客户', 200, false); string(order.note, p + '备注', 2000, false);
+      if (!TYPES.includes(order.type)) add(p + '订单类型无效');
+      if (string(order.code, p + '订单号')) {
+        const code = order.code.trim().toLocaleLowerCase('en-US');
+        if (codes.has(code)) add(p + '订单号重复');
+        codes.add(code);
+      }
+      const validQty = Number.isSafeInteger(order.qty) && order.qty >= 1 && order.qty <= MAX_QTY;
+      const validPrice = decimal(order.price, 0, MAX_PRICE);
+      if (!validQty) add(p + '数量须为1–1000000的整数');
+      if (!validPrice) add(p + '单价须为0–10000000元，最多两位小数');
+      if (validQty && validPrice) moneyTotal += BigInt(order.qty) * BigInt(cents(order.price));
+      date(order.startDate, p + '开工日期');
+      if (!['active', 'completed'].includes(order.status)) add(p + '状态无效');
+      if (order.status === 'active' && order.completedAt !== '') add(p + '在制订单的完工日期必须为空');
+      if (order.status === 'completed') {
+        date(order.completedAt, p + '完工日期');
+        if (validDate(order.startDate) && validDate(order.completedAt) && order.completedAt < order.startDate) add(p + '完工日期不能早于开工日期');
+      }
+      orderMap.set(order.id, order);
+    }
+    if (moneyTotal > MAX_SAFE) add('所有订单金额合计超过安全计算范围');
+    const dailyHours = new Map(), orderHours = new Map();
+    for (const [index, entry] of collections.timeEntries.entries()) {
+      const p = '工时[' + index + ']';
+      if (!shape(entry, ['id', 'orderId', 'workerId', 'date', 'activity', 'hours', 'note', 'createdAt'], p)) continue;
+      checkId(entry.id, 'timeEntries', p); id(entry.orderId, p + '.orderId'); id(entry.workerId, p + '.workerId');
+      date(entry.date, p); string(entry.activity, p + '工作内容'); string(entry.note, p + '备注', 2000, false);
+      if (!validTimestamp(entry.createdAt)) add(p + 'createdAt须为有效ISO UTC时间');
+      if (!decimal(entry.hours, 0.01, 24)) add(p + '工时须为0.01–24小时，最多两位小数');
+      else {
+        const units = hoursUnits(entry.hours);
+        if (typeof entry.workerId === 'string' && validDate(entry.date)) {
+          const key = entry.workerId + '\u0000' + entry.date;
+          dailyHours.set(key, (dailyHours.get(key) || 0) + units);
+          if (dailyHours.get(key) > 2400) add(p + '同一工人每天跨全部订单累计工时不能超过24小时');
+        }
+        orderHours.set(entry.orderId, (orderHours.get(entry.orderId) || 0) + units);
+      }
+      const order = orderMap.get(entry.orderId);
+      if (!order) add(p + '引用的订单不存在');
+      if (!workerMap.has(entry.workerId)) add(p + '引用的工人不存在');
+      if (order && validDate(entry.date)) {
+        if (validDate(order.startDate) && entry.date < order.startDate) add(p + '日期不能早于订单开工日期');
+        if (order.status === 'completed' && validDate(order.completedAt) && entry.date > order.completedAt) add(p + '日期不能晚于订单完工日期');
+      }
+    }
+    for (const order of orderMap.values()) if (order.status === 'completed' && !(orderHours.get(order.id) > 0)) add('订单没有有效工时，不能完工');
+    if (state.legacyData !== null) for (const error of legacyErrors(state.legacyData)) add('历史数据：' + error);
+    return errors;
+  }
+
+  function assertState(state) {
+    const errors = validateState(state);
+    if (errors.length) throw new Error('数据无效：' + errors.join('；'));
+  }
+
+  function migrateLegacy(old) {
+    const errors = legacyErrors(old);
+    if (errors.length) throw new Error('旧版数据无效：' + errors.join('；'));
+    const legacyData = JSON.parse(JSON.stringify(old));
+    const state = emptyState();
+    state.revision = legacyData.revision;
+    if (own(legacyData, 'updatedAt')) state.updatedAt = legacyData.updatedAt;
+    state.settings.name = legacyData.settings.name;
+    state.workers = legacyData.workers.map(worker => ({ id: worker.id, name: worker.name, active: worker.active }));
+    state.orders = legacyData.batches.map(batch => ({
+      id: batch.id, type: batch.type, code: batch.code, name: batch.name, customer: batch.customer,
+      qty: batch.qty, price: batch.price, startDate: batch.startDate, note: batch.note,
+      status: 'active', completedAt: ''
+    }));
+    state.legacyData = legacyData;
+    assertState(state);
+    return state;
+  }
+
+  function groupHours(state) {
+    const groups = new Map();
+    for (const entry of state.timeEntries) {
+      if (!groups.has(entry.orderId)) groups.set(entry.orderId, new Map());
+      const group = groups.get(entry.orderId), month = entry.date.slice(0, 7);
+      group.set(month, (group.get(month) || 0) + hoursUnits(entry.hours));
+    }
+    return groups;
+  }
+
+  function reportFor(order, group = new Map()) {
+    const amount = totalCents(order), confirmed = order.status === 'completed';
+    const ordered = Array.from(group.entries()).sort((a, b) => compare(a[0], b[0]));
+    const totalUnits = ordered.reduce((sum, row) => sum + row[1], 0);
+    if (!totalUnits) return { orderId: order.id, totalCents: amount, totalHours: 0, months: [], confirmed };
+    const denominator = BigInt(totalUnits);
+    const portions = ordered.map(([month, units]) => {
+      const product = BigInt(amount) * BigInt(units);
+      return { month, units, value: confirmed ? Number(product / denominator) : 0, remainder: product % denominator };
+    });
+    if (confirmed) {
+      const remaining = amount - portions.reduce((sum, row) => sum + row.value, 0);
+      const ranked = portions.slice().sort((a, b) => a.remainder === b.remainder ? compare(a.month, b.month) : a.remainder > b.remainder ? -1 : 1);
+      for (let index = 0; index < remaining; index++) ranked[index].value++;
+    }
+    return {
+      orderId: order.id, totalCents: amount, totalHours: totalUnits / 100, confirmed,
+      months: portions.map(row => ({ month: row.month, hours: row.units / 100, share: row.units / totalUnits, valueCents: row.value }))
+    };
+  }
+
+  function monthlyFor(orders, groups, month) {
+    if (!validMonth(month)) throw new Error('月份无效');
+    const report = {
+      month, totalCents: 0, bulkCents: 0, sampleCents: 0, patternCents: 0,
+      totalHours: 0, confirmedHours: 0, pendingHours: 0, confirmedOrderCount: 0, pendingOrderCount: 0,
+      rows: [], pendingRows: []
+    };
+    let confirmedUnits = 0, pendingUnits = 0;
+    for (const order of orders) {
+      const group = groups.get(order.id);
+      if (!group || !group.has(month)) continue;
+      const detail = reportFor(order, group), current = detail.months.find(row => row.month === month);
+      if (detail.confirmed) {
+        report.rows.push({ orderId: order.id, type: order.type, monthHours: current.hours, totalHours: detail.totalHours, share: current.share, valueCents: current.valueCents, totalCents: detail.totalCents });
+        report.totalCents += current.valueCents;
+        report[order.type + 'Cents'] += current.valueCents;
+        confirmedUnits += group.get(month);
+      } else {
+        report.pendingRows.push({ orderId: order.id, type: order.type, monthHours: current.hours, totalHours: detail.totalHours, totalCents: detail.totalCents });
+        pendingUnits += group.get(month);
+      }
+    }
+    report.rows.sort((a, b) => compare(a.orderId, b.orderId));
+    report.pendingRows.sort((a, b) => compare(a.orderId, b.orderId));
+    report.totalHours = (confirmedUnits + pendingUnits) / 100;
+    report.confirmedHours = confirmedUnits / 100;
+    report.pendingHours = pendingUnits / 100;
+    report.confirmedOrderCount = report.rows.length;
+    report.pendingOrderCount = report.pendingRows.length;
+    return report;
+  }
+
+  // One validated, detached calculation snapshot for repeated UI queries. No
+  // global state/cache is retained and callers cannot mutate its internal maps.
+  function createReporter(state) {
+    assertState(state);
+    const orders = state.orders.map(order => ({ ...order }));
+    const orderMap = new Map(orders.map(order => [order.id, order]));
+    const groups = groupHours(state);
+    const monthList = Array.from(new Set(Array.from(groups.values()).flatMap(group => Array.from(group.keys())))).sort(compare);
+    return Object.freeze({
+      orderReport(orderId) {
+        const order = orderMap.get(orderId);
+        if (!order) throw new Error('订单不存在');
+        return reportFor(order, groups.get(orderId));
+      },
+      monthReport(month) { return monthlyFor(orders, groups, month); },
+      months() { return monthList.slice(); }
+    });
+  }
+
+  function orderReport(state, orderId) {
+    return createReporter(state).orderReport(orderId);
+  }
+
+  function monthReport(state, month) {
+    return createReporter(state).monthReport(month);
+  }
+
+  function months(state) {
+    return createReporter(state).months();
+  }
+
+  function csv(rows) {
+    if (!Array.isArray(rows) || rows.some(row => !Array.isArray(row))) throw new Error('CSV须为二维数组');
+    const cell = value => {
+      let text = value == null ? '' : String(value);
+      const numeric = typeof value === 'number' && Number.isFinite(value);
+      if (!numeric && (/^[\s\uFEFF]*[=+@-]/.test(text) || /^[\t\r\n]/.test(text))) text = "'" + text;
+      return '"' + text.replace(/"/g, '""') + '"';
+    };
+    return '\uFEFF' + rows.map(row => row.map(cell).join(',')).join('\r\n');
+  }
+
+  return Object.freeze({ emptyState, validDate, validMonth, validateState, migrateLegacy, cents, totalCents, hoursUnits, createReporter, orderReport, monthReport, months, csv });
+});
+
+</script>
+<script>
+(function (root) {
+  'use strict';
+
+  const DATABASE_NAME = 'portfolio-production-v1';
+  const STORE_NAME = 'states';
+  const listeners = new Set();
+  let connection = null;
+  let opening = null;
+  let channel = null;
+
+  function storageError(error) {
+    if (error && error.code && typeof error.code === 'string') return error;
+    const name = error && error.name;
+    let message = '本地保存失败，请保留当前页面并导出备份后重试。';
+    let code = 'STORAGE_ERROR';
+    if (name === 'QuotaExceededError') {
+      message = '浏览器存储空间不足，数据尚未保存。请先导出备份，再释放存储空间后重试。';
+      code = 'STORAGE_QUOTA';
+    } else if (name === 'SecurityError' || name === 'NotAllowedError') {
+      message = '浏览器禁止本地存储，数据尚未保存。请允许此页面使用本地存储，或更换正常浏览模式。';
+      code = 'STORAGE_DENIED';
+    } else if (name === 'DataCloneError') {
+      message = '数据包含无法保存的内容，数据尚未保存。请导出备份并检查输入数据。';
+      code = 'STORAGE_INVALID_DATA';
+    } else if (name === 'VersionError') {
+      message = '本地数据库版本较新，请使用最新版本的产值系统打开；不要清理浏览器数据。';
+      code = 'STORAGE_VERSION';
+    } else if (name === 'InvalidStateError') {
+      message = '本地数据库连接已关闭，数据尚未保存。请保留当前数据并重试。';
+      code = 'STORAGE_CLOSED';
+    }
+    const result = new Error(message);
+    result.code = code;
+    if (error) result.cause = error;
+    return result;
+  }
+
+  function fail(message, code) {
+    const error = new Error(message);
+    error.code = code;
+    return error;
+  }
+
+  function emit(message) {
+    for (const handler of listeners) {
+      try { handler(message); } catch (error) { console.error('产值系统存储通知处理失败', error); }
+    }
+  }
+
+  try {
+    if (typeof root.BroadcastChannel === 'function') {
+      channel = new root.BroadcastChannel(DATABASE_NAME + ':changes');
+      channel.onmessage = function (event) {
+        const data = event.data;
+        if (data && data.type === 'saved' && Number.isSafeInteger(data.revision)) {
+          emit({ type: 'saved', revision: data.revision, updatedAt: data.updatedAt, source: 'broadcast' });
+        }
+      };
+    }
+  } catch (_) { channel = null; }
+
+  root.addEventListener('focus', function () {
+    if (!channel) emit({ type: 'focus', source: 'window' });
+  });
+
+  function broadcast(saved) {
+    if (!channel) return;
+    try {
+      channel.postMessage({ type: 'saved', revision: saved.revision, updatedAt: saved.updatedAt });
+    } catch (_) {
+      // A notification failure must not turn an already committed save into a reported failure.
+      try { channel.close(); } catch (_) { /* The focus fallback remains available. */ }
+      channel = null;
+    }
+  }
+
+  function open() {
+    if (connection) return Promise.resolve(connection);
+    if (opening) return opening;
+    const attempt = new Promise(function (resolve, reject) {
+      let request;
+      let rejected = false;
+      try {
+        if (!root.indexedDB) {
+          throw fail('当前浏览器无法使用本地数据库，数据不能保存。请使用支持 IndexedDB 的浏览器并允许本地存储。', 'STORAGE_UNAVAILABLE');
+        }
+        request = root.indexedDB.open(DATABASE_NAME, 1);
+      } catch (error) { reject(storageError(error)); return; }
+      request.onupgradeneeded = function () {
+        if (!request.result.objectStoreNames.contains(STORE_NAME)) {
+          request.result.createObjectStore(STORE_NAME);
+        }
+      };
+      request.onblocked = function () {
+        rejected = true;
+        reject(fail('本地数据库正被其他产值系统窗口占用。请关闭其他窗口后重试；不要清理浏览器数据。', 'STORAGE_BLOCKED'));
+      };
+      request.onerror = function () { reject(storageError(request.error)); };
+      request.onsuccess = function () {
+        const database = request.result;
+        if (rejected) { database.close(); return; }
+        connection = database;
+        database.onversionchange = function () {
+          database.close();
+          if (connection === database) connection = null;
+          emit({ type: 'versionchange', source: 'database' });
+        };
+        database.onclose = function () {
+          if (connection === database) connection = null;
+        };
+        resolve(database);
+      };
+    });
+    opening = attempt;
+    attempt.then(function () { if (opening === attempt) opening = null; }, function () { if (opening === attempt) opening = null; });
+    return attempt;
+  }
+
+  async function load() {
+    const database = await open();
+    return new Promise(function (resolve, reject) {
+      let transaction;
+      let result = null;
+      let error = null;
+      try {
+        transaction = database.transaction(STORE_NAME, 'readonly');
+        const request = transaction.objectStore(STORE_NAME).get('main');
+        request.onsuccess = function () { result = request.result === undefined ? null : request.result; };
+        request.onerror = function () { error = request.error; };
+        transaction.oncomplete = function () { resolve(result); };
+        transaction.onabort = function () { reject(storageError(error || transaction.error)); };
+        transaction.onerror = function (event) { error = error || event.target.error || transaction.error; };
+      } catch (cause) { reject(storageError(cause)); }
+    });
+  }
+
+  async function save(candidate, expectedRevision) {
+    if (!Number.isSafeInteger(expectedRevision) || expectedRevision < 0 || expectedRevision === Number.MAX_SAFE_INTEGER) {
+      throw fail('保存版本无效，请重新读取本地数据后重试。', 'STORAGE_INVALID_REVISION');
+    }
+    if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) {
+      throw fail('保存数据格式无效，原有数据未被修改。', 'STORAGE_INVALID_DATA');
+    }
+    if (candidate.schemaVersion !== 2) {
+      throw fail('仅可保存工时版数据，原有数据未被修改。请先完成旧数据备份和升级。', 'STORAGE_INVALID_DATA');
+    }
+    // Snapshot before awaiting the database, so later UI edits cannot enter this save.
+    let snapshot;
+    try { snapshot = typeof root.structuredClone === 'function' ? root.structuredClone(candidate) : candidate; }
+    catch (error) { throw storageError(error); }
+    const database = await open();
+    return new Promise(function (resolve, reject) {
+      let transaction;
+      let saved = null;
+      let error = null;
+      try {
+        transaction = database.transaction(STORE_NAME, 'readwrite');
+        const store = transaction.objectStore(STORE_NAME);
+        const request = store.get('main');
+        transaction.onabort = function () { reject(storageError(error || transaction.error)); };
+        transaction.onerror = function (event) { error = error || event.target.error || transaction.error; };
+        transaction.oncomplete = function () {
+          broadcast(saved);
+          resolve(saved);
+        };
+        request.onsuccess = function () {
+          try {
+            const current = request.result;
+            const revision = current === undefined ? 0 : current.revision;
+            if (!Number.isSafeInteger(revision) || revision < 0) {
+              throw fail('本地数据版本异常，已停止保存以保护原有数据。请先导出备份并检查数据。', 'STORAGE_CORRUPT');
+            }
+            if (current !== undefined && current.schemaVersion !== 1 && current.schemaVersion !== 2) {
+              throw fail('本地数据格式版本不受当前工时版支持，已停止保存以保护原有数据。请使用匹配的最新版本打开；不要清理浏览器数据。', 'STORAGE_VERSION');
+            }
+            if (revision !== expectedRevision) {
+              throw fail('另一窗口已更新数据，本次修改尚未保存。请先备份当前编辑内容，再重新读取最新数据后重试。', 'CONFLICT');
+            }
+            const next = Object.assign({}, snapshot, { revision: expectedRevision + 1, updatedAt: new Date().toISOString() });
+            if (current !== undefined) store.put(current, 'previous');
+            store.put(next, 'main');
+            // IndexedDB performs the structured clone; return a separate stored snapshot.
+            const readBack = store.get('main');
+            readBack.onsuccess = function () { saved = readBack.result; };
+          } catch (cause) {
+            error = cause;
+            transaction.abort();
+          }
+        };
+      } catch (cause) { reject(storageError(cause)); }
+    });
+  }
+
+  function subscribe(handler) {
+    if (typeof handler !== 'function') throw new TypeError('存储订阅处理器必须为函数。');
+    listeners.add(handler);
+    return function () { listeners.delete(handler); };
+  }
+
+  async function requestPersistence() {
+    try {
+      const storage = root.navigator && root.navigator.storage;
+      return Boolean(storage && typeof storage.persist === 'function' && await storage.persist());
+    } catch (_) { return false; }
+  }
+
+  root.ProductionStore = Object.freeze({ open: open, load: load, save: save, subscribe: subscribe, requestPersistence: requestPersistence });
+})(window);
+
+</script>
+<script>
+/* An isolated, deterministic portfolio dataset; never reads the source app's database. */
+(function (root) {
+  'use strict';
+  const P = root.Production;
+  function create() {
+    const state = P.emptyState();
+    state.settings.name = '生产产值演示';
+    state.workers = Array.from({length:6}, (_,index) => ({
+      id:'demo-worker-'+String(index+1).padStart(2,'0'),
+      name:'示例员工'+String(index+1).padStart(2,'0'), active:true
+    }));
+    const specs = [
+      ['牛津纺衬衫','示例客户A',160,89,'2026-09-24','2026-10-08'],
+      ['针织卫衣','示例客户B',240,128,'2026-10-01','2026-10-16'],
+      ['基础T恤','示例客户C',180,49,'2026-10-05','2026-10-20'],
+      ['休闲长裤','示例客户A',120,108,'2026-10-09','2026-10-22'],
+      ['牛津纺衬衫','示例客户B',80,92,'2026-10-19','']
+    ];
+    state.orders = specs.map((row,index) => ({
+      id:'demo-order-'+String(index+1).padStart(2,'0'), type:'bulk',
+      code:'PRD-DEMO-202610-'+String(index+1).padStart(2,'0'),
+      name:row[0],customer:row[1],qty:row[2],price:row[3],startDate:row[4],
+      note:index===0?'虚拟示例：跨月订单按已登记实际工时分摊。':'虚拟示例：订单单价为演示输入，不代表实际报价或工资。',
+      status:row[5]?'completed':'active',completedAt:row[5]
+    }));
+    const schedules = [
+      {dates:['2026-09-24','2026-09-25','2026-09-28','2026-09-29','2026-10-01','2026-10-02','2026-10-06','2026-10-07','2026-10-08'],hours:[2,2.5,2.75,3,2.25,2]},
+      {dates:['2026-10-01','2026-10-02','2026-10-06','2026-10-07','2026-10-08','2026-10-09','2026-10-12','2026-10-13','2026-10-14','2026-10-15','2026-10-16'],hours:[2,2,2.5,2.75,2.5,2]},
+      {dates:['2026-10-05','2026-10-06','2026-10-07','2026-10-08','2026-10-09','2026-10-12','2026-10-13','2026-10-14','2026-10-15','2026-10-16','2026-10-19','2026-10-20'],hours:[1.25,1.25,1.5,1.75,1.25,1.25]},
+      {dates:['2026-10-09','2026-10-12','2026-10-13','2026-10-14','2026-10-15','2026-10-16','2026-10-19','2026-10-20','2026-10-21','2026-10-22'],hours:[1.75,2,2.25,2.5,2,1.75]},
+      {dates:['2026-10-19','2026-10-20','2026-10-21','2026-10-22'],hours:[2,2,1.75,2,1.75,2]}
+    ];
+    const activities = [
+      ['裁剪备料','领口与袖口缝制','口袋及前片缝制','主体拼缝','整烫整理','成衣检验包装'],
+      ['面辅料整理与裁剪','帽片与罗纹缝制','前后片缝制','主体合缝','线头整理与整烫','检验与包装'],
+      ['裁片准备','领口缝制','肩袖拼接','侧缝与下摆缝制','后整与熨烫','成品检验'],
+      ['裤片裁剪','腰头缝制','口袋缝制','裤腿与裆部合缝','整烫与尺寸复核','成品检验包装'],
+      ['面料备料与裁剪','领口缝制','前片与口袋缝制','主缝工序','后整检查','包装准备']
+    ];
+    for (const [orderIndex,schedule] of schedules.entries()) {
+      for (const date of schedule.dates) {
+        state.workers.forEach((worker,workerIndex) => state.timeEntries.push({
+          id:'demo-time-'+String(state.timeEntries.length+1).padStart(4,'0'),
+          orderId:state.orders[orderIndex].id,workerId:worker.id,date,
+          activity:activities[orderIndex][workerIndex],hours:schedule.hours[workerIndex],
+          note:'虚拟工时示例',createdAt:date+'T09:30:00.000Z'
+        }));
+      }
+    }
+    const errors=P.validateState(state);
+    if(errors.length)throw new Error('演示数据校验失败：'+errors.join('；'));
+    return state;
+  }
+  function employeeHours(state,month){
+    if(!P.validMonth(month))throw new Error('月份无效');
+    const orders=new Map(state.orders.map(order=>[order.id,order]));
+    return state.workers.map(worker=>{
+      const entries=state.timeEntries.filter(entry=>entry.workerId===worker.id&&entry.date.slice(0,7)===month);
+      let confirmedUnits=0,pendingUnits=0;
+      for(const entry of entries){
+        if(orders.get(entry.orderId)?.status==='completed')confirmedUnits+=P.hoursUnits(entry.hours);
+        else pendingUnits+=P.hoursUnits(entry.hours);
+      }
+      return{workerId:worker.id,name:worker.name,orderCount:new Set(entries.map(entry=>entry.orderId)).size,
+        activities:Array.from(new Set(entries.map(entry=>entry.activity))),
+        confirmedHours:confirmedUnits/100,pendingHours:pendingUnits/100,totalHours:(confirmedUnits+pendingUnits)/100};
+    }).filter(row=>row.totalHours>0);
+  }
+  root.PortfolioProductionDemo=Object.freeze({create,employeeHours,month:'2026-10'});
+
+  // srcdoc normally inherits the portfolio origin and can use IndexedDB. An
+  // opaque or storage-blocked frame remains usable for this session, explicitly
+  // labelled as non-persistent; it never overwrites unreadable stored data.
+  const persistent=root.ProductionStore;
+  let sessionMode=false,sessionData=null;
+  const copy=value=>value===null?null:JSON.parse(JSON.stringify(value));
+  root.ProductionStore=Object.freeze({
+    get mode(){return sessionMode?'session':'indexeddb';},
+    open:()=>persistent.open(),
+    async load(){
+      if(sessionMode)return copy(sessionData);
+      try{return await persistent.load();}
+      catch(error){
+        if(!['STORAGE_UNAVAILABLE','STORAGE_DENIED'].includes(error.code))throw error;
+        sessionMode=true;return null;
+      }
+    },
+    async save(candidate,expectedRevision){
+      if(!sessionMode)return persistent.save(candidate,expectedRevision);
+      const errors=P.validateState(candidate);
+      if(errors.length)throw new Error(errors.join('；'));
+      const currentRevision=sessionData?sessionData.revision:0;
+      if(!Number.isSafeInteger(expectedRevision)||expectedRevision!==currentRevision||expectedRevision===Number.MAX_SAFE_INTEGER){
+        const error=new Error('演示会话版本已变化，请重新读取后重试。');error.code='CONFLICT';throw error;
+      }
+      sessionData=Object.assign(copy(candidate),{revision:expectedRevision+1,updatedAt:new Date().toISOString()});
+      return copy(sessionData);
+    },
+    subscribe:handler=>persistent.subscribe(message=>{if(!sessionMode)handler(message);}),
+    requestPersistence:()=>sessionMode?Promise.resolve(false):persistent.requestPersistence()
+  });
+})(window);
+</script>
+<script>
+(function(){
+'use strict';
+const P=window.Production,S=window.ProductionStore,$=s=>document.querySelector(s);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clone=v=>structuredClone(v), uid=p=>p+'_'+crypto.randomUUID(), today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
+const types={bulk:'大货',sample:'打样',pattern:'打版'},money=n=>{const v=BigInt(n||0),abs=v<0n?-v:v;return (v<0n?'-':'')+(abs/100n).toLocaleString('zh-CN')+'.'+String(abs%100n).padStart(2,'0');},num=n=>Number(n||0).toLocaleString('zh-CN',{maximumFractionDigits:2}),pct=n=>(Number(n||0)*100).toFixed(2)+'%';
+const icons={overview:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',orders:'<path d="M8 4H5a2 2 0 0 0-2 2v14h18V6a2 2 0 0 0-2-2h-3"/><rect x="8" y="2" width="8" height="5" rx="1"/><path d="M7 12h10M7 16h7"/>',hours:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',settings:'<path d="M4 6h16M4 12h16M4 18h16"/><circle cx="8" cy="6" r="2" fill="white"/><circle cx="16" cy="12" r="2" fill="white"/><circle cx="9" cy="18" r="2" fill="white"/>',check:'<path d="M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6z"/><path d="m8 12 3 3 5-6"/>',close:'<path d="m6 6 12 12M18 6 6 18"/>'};
+const decimalAmount=n=>{const v=BigInt(n||0),abs=v<0n?-v:v;return (v<0n?'-':'')+String(abs/100n)+'.'+String(abs%100n).padStart(2,'0');};
+const icon=k=>`<svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${icons[k]||icons.orders}</svg>`;
+const btn=(text,action,id='',style='')=>`<button type="button" class="btn ${style}" data-action="${action}"${id?` data-id="${esc(id)}"`:''}>${text}</button>`;
+const badge=t=>`<span class="badge ${t}">${types[t]}</span>`;
+let state=null,rawLegacy=null,page='overview',month=window.PortfolioProductionDemo.month,saving=false,externalChange=false,modalDirty=false,modalSubmit=null,lastFocus=null,toastTimer,gateDownloaded=false;
+let orderSearch='',orderType='',orderStatus='',orderPage=1,logSearch='',logPage=1;
+let draft={date:today(),orderId:'',rows:[blankRow()]},dailyDirty=false;
+let settingsDraft='',settingsDirty=false,lastSaveError='',reporterState=null,reporter=null;
+function getReports(){if(reporterState!==state){reporter=P.createReporter(state);reporterState=state;}return reporter;}
+function lockInputs(){const controls=[...document.querySelectorAll('button,input,select,textarea')].filter(el=>!el.disabled);for(const el of controls)el.disabled=true;return()=>{for(const el of controls)if(el.isConnected)el.disabled=false;};}
+const dialog=$('#modal');
+function blankRow(){return{workerId:'',activity:'',hours:'',note:''};}
+function notify(message,error=false){const el=$('#toast');el.textContent=message;el.classList.toggle('error',error);el.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.hidden=true,5000);}
+function saveStatus(status='saved',message=''){if(status==='saved'&&lastSaveError){status='error';message=lastSaveError;}const labels={loading:'正在读取本地数据',saved:dailyDirty||settingsDirty?'有未保存的草稿':state?.updatedAt?'所有更改已保存':'本地存储已就绪',saving:'正在保存…',error:'尚未保存',legacy:'旧数据已安全保留'};if(status==='saved'&&S.mode==='session')labels.saved=dailyDirty||settingsDirty?'有未保存的草稿':'更改保留在本次会话';const time=S.mode==='session'?'本次会话 · 关闭前请导出备份':state?.updatedAt?new Date(state.updatedAt).toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'独立存储 · 数据不上传';$('#saveState').innerHTML=`<strong style="color:var(--${status==='error'?'red':status==='saving'||status==='saved'&&(dailyDirty||settingsDirty)?'amber':'green'})">${icon(status==='saving'||status==='saved'&&(dailyDirty||settingsDirty)?'hours':'check')}${labels[status]}</strong><span>${esc(message||time)}</span>`;}
+async function commit(next){if(saving)throw Error('正在保存，请稍候。');if(externalChange)throw Error('其他窗口已更新数据，请先备份当前草稿，再重新读取。');const errors=P.validateState(next);if(errors.length)throw Error(errors.slice(0,5).join('\n'));saving=true;const unlock=lockInputs();saveStatus('saving');try{const saved=await S.save(next,state?.revision??rawLegacy?.revision??0);state=saved;lastSaveError='';saveStatus();return saved;}catch(e){lastSaveError=e.message;saveStatus('error',e.message);if(e.code==='CONFLICT'){externalChange=true;renderExternal();}throw e;}finally{saving=false;unlock();}}
+function renderExternal(){ $('#externalNotice').innerHTML=externalChange?`<div class="notice error"><span>其他窗口已更新本地数据。当前输入不会自动覆盖，请先导出草稿，再重新读取。</span><div class="actions">${btn('导出当前草稿','export-draft')}${btn('重新读取','reload')}</div></div>`:'';}
+function formError(message,id='modalError'){const el=document.getElementById(id);if(el){el.textContent=message;el.hidden=false;el.focus();}else notify(message,true);}
+function monthControl(){return `<div class="month-control" role="group" aria-label="选择统计月份"><button type="button" class="month-step" data-action="prev-month" aria-label="上一个月">‹</button><input class="month-input" id="monthPicker" type="month" aria-label="统计月份" value="${month}" min="1900-01" max="2199-12"><button type="button" class="month-step" data-action="next-month" aria-label="下一个月">›</button></div>`;}
+const pages={overview:['月度产值','按实际工时分摊，只统计已确认完工的订单'],orders:['订单管理','打版、打样、大货，统一管理订单金额与完工状态'],hours:['每日工时','记录每位工人每天为订单投入的实际小时数'],settings:['设置中心','数据备份、导出与使用说明']};
+function render(){if(!state)return;$('#navigation').innerHTML=Object.entries(pages).map(([key,v])=>`<button type="button" data-page="${key}" class="${page===key?'active':''}" ${page===key?'aria-current="page"':''}>${icon(key)}${v[0]}</button>`).join('');$('.brand strong').textContent=state.settings.name;document.title=state.settings.name+' · 月度产值';const actions=page==='orders'?btn('新建订单','new-order','','primary'):page==='hours'?btn('管理工人','workers'):page==='overview'?btn('导出本月明细','export-month'):'';$('#pageHeader').innerHTML=`<div><div class="eyebrow">示例 · 生产管理</div><h1>${pages[page][0]}</h1><p>${pages[page][1]}</p></div><div class="actions">${page!=='settings'?monthControl():''}${actions}</div>`;renderExternal();$('#pageContent').innerHTML=page==='overview'?overview():page==='orders'?orders():page==='hours'?hours():settings();if(page==='orders')renderOrderResults();if(page==='hours'){renderDailyRows();renderLogs();}saveStatus();}
+function empty(title,body,action=''){return `<div class="empty"><div class="empty-icon">${icon('orders')}</div><h3>${title}</h3><p>${body}</p>${action}</div>`;}
+function table(headers,rows){return `<div class="table-wrap"><table class="table"><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;}
+function orderTitle(o){return `<strong>${esc(o.name)}</strong><small>${esc(o.code)}${o.customer?' · '+esc(o.customer):''}</small>`;}
+function monthShift(m,n){const [y,mo]=m.split('-').map(Number),d=new Date(y,mo-1+n,1);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;}
+function overview(){const r=getReports().monthReport(month),metrics=[['本月确认产值',r.totalCents,'blue','已完工订单分摊到本月的价值'],['大货产值',r.bulkCents,'green','大货订单 · 按工时分摊'],['打样产值',r.sampleCents,'purple','样衣订单 · 按工时分摊'],['打版产值',r.patternCents,'amber','打版订单 · 按工时分摊']];const reports=Array.from({length:6},(_,i)=>monthShift(month,i-5)).filter(P.validMonth).map(m=>getReports().monthReport(m)),max=Math.max(1,...reports.map(x=>x.totalCents));let html=!state.orders.length?`<div class="onboard"><div><h2>从第一张订单开始</h2><p>填写订单金额，登记每天工时，完工后自动计算月度产值。</p><div class="steps"><span><b>1</b>新建订单</span><span><b>2</b>登记工时</span><span><b>3</b>确认完工</span></div></div>${btn('新建订单','new-order','','primary')}</div>`:'';html+=`<div class="metrics">${metrics.map(([label,value,color,caption])=>`<div class="metric ${color}-card"><div class="metric-label">${label}</div><div class="metric-value num"><span class="currency">¥</span>${money(value)}</div><div class="metric-caption">${caption}</div></div>`).join('')}</div><div class="overview-grid"><section class="panel"><div class="panel-head"><div><h2>近六个月产值</h2><p>订单完工后，产值归回实际投入工时的月份</p></div></div><div class="panel-body"><div class="trend-list">${reports.map(x=>`<div class="trend-line"><span>${x.month}</span><div class="trend-track" role="img" aria-label="${x.month}确认产值${money(x.totalCents)}元"><span style="width:${x.bulkCents/max*100}%"></span><span class="sample" style="width:${x.sampleCents/max*100}%"></span><span class="pattern" style="width:${x.patternCents/max*100}%"></span></div><strong>¥${money(x.totalCents)}</strong></div>`).join('')}</div><div class="legend trend-legend"><span><i class="swatch"></i>大货</span><span><i class="swatch sample"></i>打样</span><span><i class="swatch pattern"></i>打版</span></div></div></section><section class="panel"><div class="panel-head"><h2>本月工时与结算</h2></div><div class="panel-body"><div class="cost-line"><span>登记总工时</span><strong>${num(r.totalHours)} 小时</strong></div><div class="cost-line"><span>已确认订单工时</span><strong>${num(r.confirmedHours)} 小时</strong></div><div class="cost-line"><span>待结算订单工时</span><strong>${num(r.pendingHours)} 小时</strong></div><div class="note section-gap">本月 ${r.confirmedOrderCount} 笔已确认订单，${r.pendingOrderCount} 笔待结算订单。未完工的订单不提前计入产值。</div></div></section></div>`;
+html+=`<section class="panel section-gap"><div class="panel-head"><div><h2>本月产值明细</h2><p>订单总金额 × 本月该订单总工时 ÷ 该订单所有月份总工时</p></div><span class="badge success">${r.confirmedOrderCount} 笔已确认</span></div>${r.rows.length?table(['订单','类型','订单总金额','本月工时','全单工时','本月占比','本月产值',''],r.rows.map(x=>{const o=state.orders.find(o=>o.id===x.orderId);return `<tr><td class="title-cell">${orderTitle(o)}</td><td>${badge(o.type)}</td><td class="right">¥${money(x.totalCents)}</td><td class="right">${num(x.monthHours)}h</td><td class="right">${num(x.totalHours)}h</td><td class="right">${pct(x.share)}</td><td class="right blue"><strong>¥${money(x.valueCents)}</strong></td><td>${btn('明细','order-detail',o.id,'small')}</td></tr>`;})):empty('本月暂无确认产值','订单登记工时并确认完工后，系统会将产值分配到实际工作月份。')}</section>`;
+html+=`<section class="panel section-gap"><div class="panel-head"><div><h2>待结算订单</h2><p>只列出本月有工时、尚未确认完工的订单，不计入上方产值</p></div><span class="badge warn">${r.pendingOrderCount} 笔待结算</span></div>${r.pendingRows.length?table(['订单','类型','订单总金额（非本月产值）','本月工时','已登记总工时',''],r.pendingRows.map(x=>{const o=state.orders.find(o=>o.id===x.orderId);return `<tr><td class="title-cell">${orderTitle(o)}</td><td>${badge(o.type)}</td><td class="right">¥${money(x.totalCents)}</td><td class="right">${num(x.monthHours)}h</td><td class="right">${num(x.totalHours)}h</td><td>${btn('查看订单','order-detail',o.id,'small')}</td></tr>`;})):empty('暂无待结算记录','本月有实际工时的未完工订单会显示在这里。')}</section>`;return html+workerContribution();}
+function workerContribution(){const rows=window.PortfolioProductionDemo.employeeHours(state,month);return `<section class="panel section-gap"><div class="panel-head"><div><h2>员工工时贡献</h2><p>按本月登记工时汇总参与情况；工时不等于个人产值、工资或绩效评分</p></div></div>${rows.length?table(['员工','参与订单','工作内容','已确认订单工时','待结算订单工时','总登记工时'],rows.map(row=>`<tr><td><strong>${esc(row.name)}</strong></td><td>${row.orderCount} 笔</td><td title="${esc(row.activities.join('、'))}">${esc(row.activities.slice(0,2).join('、'))}${row.activities.length>2?' 等 '+row.activities.length+' 项':''}</td><td class="right">${num(row.confirmedHours)}h</td><td class="right">${num(row.pendingHours)}h</td><td class="right"><strong>${num(row.totalHours)}h</strong></td></tr>`)):empty('本月暂无员工工时','登记工时后，员工参与订单与工序情况将汇总到这里。')}</section>`;}
+function orders(){return `<div class="toolbar"><label class="field grow"><span>搜索订单</span><input id="orderSearch" placeholder="订单号、品名或客户" value="${esc(orderSearch)}"></label><label class="field"><span>订单类型</span><select id="orderType"><option value="">全部类型</option>${typeOptions(orderType)}</select></label><label class="field"><span>状态</span><select id="orderStatus"><option value="">全部状态</option><option value="active" ${orderStatus==='active'?'selected':''}>待结算</option><option value="completed" ${orderStatus==='completed'?'selected':''}>已确认完工</option></select></label></div><div id="orderResults"></div><p class="page-hint">订单列表显示全部月份。点击“编辑”修改订单；已完工订单保存修改后会转回待结算，需要重新确认完工。删除前会提示关联工时与产值影响。</p>`;}
+function typeOptions(selected){return Object.entries(types).map(([v,t])=>`<option value="${v}" ${selected===v?'selected':''}>${t}</option>`).join('');}
+function nextOrderCode(type){
+  const prefix=({bulk:'DH',sample:'YY',pattern:'DB'}[type]||'DH')+'-'+today().replaceAll('-','')+'-';
+  const used=new Set(state.orders.map(order=>order.code.trim().toUpperCase()));
+  let highest=0n;
+  for(const code of used){if(!code.startsWith(prefix))continue;const suffix=code.slice(prefix.length);if(/^\d+$/.test(suffix)){const sequence=BigInt(suffix);if(sequence>highest)highest=sequence;}}
+  let sequence=highest+1n;
+  // Exceptionally long manually entered numbers must not exceed the field limit.
+  if(prefix.length+String(sequence).length>100)sequence=1n;
+  while(used.has(prefix+String(sequence).padStart(3,'0')))sequence++;
+  return prefix+String(sequence).padStart(3,'0');
+}
+function renderOrderResults(){const q=orderSearch.trim().toLowerCase(),all=state.orders.filter(o=>(!orderType||o.type===orderType)&&(!orderStatus||o.status===orderStatus)&&(!q||[o.name,o.code,o.customer].some(v=>v.toLowerCase().includes(q)))).sort((a,b)=>b.startDate.localeCompare(a.startDate)||a.code.localeCompare(b.code,'zh-CN'));const total=all.length;orderPage=Math.min(orderPage,Math.max(1,Math.ceil(total/25)));const rows=all.slice((orderPage-1)*25,orderPage*25);$('#orderResults').innerHTML=`<section class="panel">${rows.length?table(['订单','类型','数量 × 单价','订单总金额','累计工时','状态','操作'],rows.map(o=>{const r=getReports().orderReport(o.id);return `<tr><td class="title-cell">${orderTitle(o)}<small>开始：${o.startDate}</small></td><td>${badge(o.type)}</td><td class="right">${num(o.qty)} × ¥${money(P.cents(o.price))}</td><td class="right">¥${money(r.totalCents)}</td><td class="right">${num(r.totalHours)}h</td><td><span class="badge ${r.confirmed?'success':'warn'}">${r.confirmed?'已确认完工':'待结算'}</span></td><td><div class="order-row-actions">${btn('查看','order-detail',o.id,'small')}${btn('编辑','edit-order',o.id,'small')}${btn('删除','delete-order',o.id,'small danger')}${btn('复制','copy-order',o.id,'small')}${!r.confirmed?btn('完工','complete-order',o.id,'small soft'):''}</div></td></tr>`;})):empty('没有符合条件的订单','可调整搜索条件，或新建一张订单。',btn('新建订单','new-order','','primary'))}${pagination('orders',orderPage,total)}</section>`;}
+function pagination(kind,p,total){return `<div class="pagination"><span>共 ${total} 条 · 第 ${p} / ${Math.max(1,Math.ceil(total/25))} 页</span><div class="actions"><button class="btn small" type="button" data-action="${kind}-prev" ${p<=1?'disabled':''}>上一页</button><button class="btn small" type="button" data-action="${kind}-next" ${p*25>=total?'disabled':''}>下一页</button></div></div>`;}
+function field(label,name,value='',type='text',attrs=''){return `<label class="field"><span>${label}</span><input name="${name}" type="${type}" value="${esc(value)}" ${attrs}></label>`;}
+function openDialog({title,subtitle='',body,submit,submitText='保存',submitClass='primary',footer='',wide=false,onReady}){if(dialog.open&&modalDirty&&!confirm('当前弹窗内容尚未保存，是否放弃？'))return;lastFocus=document.activeElement;modalDirty=false;modalSubmit=submit||null;dialog.classList.toggle('wide',wide);dialog.innerHTML=`<form id="modalForm" class="modal-shell" novalidate><header class="modal-header"><div><h2 id="modalTitle">${esc(title)}</h2>${subtitle?`<p>${esc(subtitle)}</p>`:''}</div><button class="btn icon-only ghost" type="button" data-action="close-modal" aria-label="关闭弹窗">${icon('close')}</button></header><div class="modal-body"><div id="modalError" class="form-error" role="alert" tabindex="-1" hidden></div>${body}</div><footer class="modal-footer">${footer}${btn(submit?'取消':'关闭','close-modal')}${submit?`<button type="submit" class="btn ${esc(submitClass)}" id="modalSave">${submitText}</button>`:''}</footer></form>`;if(!dialog.open)dialog.showModal();onReady?.();}
+function closeDialog(force=false){if(saving)return;if(!force&&modalDirty&&!confirm('当前弹窗内容尚未保存，是否放弃？'))return;dialog.close();modalDirty=false;modalSubmit=null;lastFocus?.isConnected&&lastFocus.focus();}
+function openOrder(id,copy=false){const original=state.orders.find(o=>o.id===id);const reopening=Boolean(original?.status==='completed'&&!copy);const o=original?{...original}: {type:'bulk',code:nextOrderCode('bulk'),name:'',customer:'',qty:1,price:0,startDate:today(),note:''};if(copy){o.code=nextOrderCode(o.type);o.startDate=today();}openDialog({title:copy?'复制为新订单':id?'编辑订单':'新建订单',subtitle:'订单总金额 = 客户支付的单价 × 订单数量',body:`${reopening?'<div class="notice">这张订单已确认完工。保存修改后将转回待结算，并暂时撤回各月份的确认产值；全部工时保留，修改后请重新确认完工。取消不会改变现有数据。</div>':''}<div class="form-grid"><label class="field"><span>订单类型</span><select name="type">${typeOptions(o.type)}</select></label>${field(copy||!id?'订单号（自动生成，可修改）':'订单号','code',o.code,'text',`required maxlength="100"${copy||!id?' data-auto-code="'+esc(o.code)+'"':''}`)}${field('品名 / 服务名称','name',o.name,'text','required maxlength="200"')}${field('客户（可选）','customer',o.customer,'text','maxlength="200"')}${field('数量','qty',o.qty,'number','required min="1" max="1000000" step="1"')}${field('客户单价（元）','price',o.price,'number','required min="0" max="10000000" step="0.01"')}${field('开始日期','startDate',o.startDate,'date','required min="1900-01-01" max="2199-12-31"')}<label class="field full"><span>备注（可选）</span><textarea name="note" maxlength="2000">${esc(o.note)}</textarea></label></div><div class="task-sum"><span>订单总金额</span><strong id="orderAmount">¥${money(P.cents(o.price)*o.qty)}</strong></div>${reopening?'<label class="check section-gap"><input type="checkbox" name="reopenConfirmed">确认保存后转回待结算，稍后重新确认完工</label>':''}`,submit:async form=>{if(reopening&&!form.elements.reopenConfirmed.checked)throw Error('请确认此订单保存修改后转回待结算。');const d=Object.fromEntries(new FormData(form));if((copy||!id)&&!d.code.trim()){d.code=nextOrderCode(d.type);form.elements.code.value=d.code;form.elements.code.dataset.autoCode=d.code;}const qty=Number(d.qty),price=Number(d.price);if(!d.qty||!d.price)throw Error('请填写数量和客户单价。');if(!d.code.trim()||!d.name.trim())throw Error('请填写订单号和品名。');if(state.orders.some(x=>x.id!==(copy?'':id)&&x.code.toLowerCase()===d.code.trim().toLowerCase()))throw Error('订单号已存在，请使用不同的订单号。');const record={id:copy||!id?uid('order'):id,type:d.type,code:d.code.trim(),name:d.name.trim(),customer:d.customer.trim(),qty,price,startDate:d.startDate,note:d.note.trim(),status:'active',completedAt:''};const next=clone(state);if(id&&!copy)next.orders[next.orders.findIndex(x=>x.id===id)]=record;else next.orders.push(record);await commit(next);closeDialog(true);render();notify(reopening?'修改已保存，订单已转回待结算，请重新确认完工':'订单已保存');}});}
+function orderDetail(id){const o=state.orders.find(x=>x.id===id);if(!o)return;const r=getReports().orderReport(id);openDialog({title:o.name,subtitle:`${types[o.type]} · ${o.code} · ${o.status==='completed'?'已确认完工 '+o.completedAt:'待结算'}`,wide:true,body:`<div class="detail-kpis"><div class="detail-kpi"><span>订单总金额</span><strong>¥${money(r.totalCents)}</strong></div><div class="detail-kpi"><span>所有工人累计工时</span><strong>${num(r.totalHours)}h</strong></div><div class="detail-kpi"><span>已登记月份</span><strong>${r.months.length} 个月</strong></div></div><p class="note">${r.confirmed?'以下金额已计入各个月份的公司产值。':'该订单尚未完工，不确认产值。完工时将按最终工时比例结算。'}</p>${r.months.length?table(['工作月份','全体工人工时','工时占比','确认产值'],r.months.map(x=>`<tr><td>${x.month}</td><td>${num(x.hours)}h</td><td>${pct(x.share)}</td><td>${r.confirmed?'¥'+money(x.valueCents):'待结算'}</td></tr>`)):empty('还没有工时记录','先进入每日工时，为这个订单登记实际投入的小时数。')}${o.note?`<p class="note hours-notes section-gap">${esc(o.note)}</p>`:''}`,footer:`<div class="left actions">${btn('编辑','edit-order',id)}${r.confirmed?btn('重新打开','reopen-order',id):btn('确认完工','complete-order',id,'soft')}${btn('删除','delete-order',id,'danger')}</div>`});}
+function completeOrder(id){const o=state.orders.find(x=>x.id===id);if(!o||o.status==='completed')return;if(draft.orderId===id&&dailyDirty&&draft.rows.some(row=>row.workerId||row.activity||row.hours||row.note)){notify('这张订单还有未保存的工时草稿，请先保存或清空草稿，再确认完工。',true);return;}const r=getReports().orderReport(id);if(!r.totalHours){notify('请先登记实际工时，不能确认没有工时的订单。',true);return;}const lastDate=state.timeEntries.filter(e=>e.orderId===id).reduce((a,e)=>e.date>a?e.date:a,o.startDate);const preview=clone(state);const po=preview.orders.find(x=>x.id===id);po.status='completed';po.completedAt=lastDate;const allocation=P.orderReport(preview,id);openDialog({title:'确认订单完工',subtitle:o.code+' · '+o.name,body:`<p class="note">确认后，¥${money(r.totalCents)} 将按最终工时分配回以下月份。订单金额与工时将锁定，修订时需先重新打开订单。</p>${table(['工作月份','工时','占比','分配产值'],allocation.months.map(x=>`<tr><td>${x.month}</td><td>${num(x.hours)}h</td><td>${pct(x.share)}</td><td>¥${money(x.valueCents)}</td></tr>`))}<div class="form-section">${field('实际完工日期','completedAt',today(),'date',`required min="${lastDate}" max="${today()}"`)}<label class="check section-gap"><input name="confirmed" type="checkbox">我已确认这张订单的全部工时均已登记完整</label></div>`,submitText:'确认完工并结算',submit:async form=>{const d=new FormData(form);if(!d.has('confirmed'))throw Error('请先确认全部工时已经登记完整。');if(d.get('completedAt')>today())throw Error('完工日期不能晚于今天。');const next=clone(state),target=next.orders.find(x=>x.id===id);target.status='completed';target.completedAt=d.get('completedAt');await commit(next);if(draft.orderId===id&&!dailyDirty)draft.orderId='';closeDialog(true);render();notify('已确认完工，产值已分配到各工作月份');}});}
+function deleteOrder(id){
+  const order=state.orders.find(o=>o.id===id);if(!order)return;
+  captureDraft();
+  const linked=state.timeEntries.filter(e=>e.orderId===id),report=getReports().orderReport(id);
+  const affectedDraft=draft.orderId===id&&dailyDirty;
+  openDialog({
+    title:'删除订单',subtitle:order.code+' · '+order.name,
+    body:`<div class="delete-impact"><p class="notice error">删除后无法在页面内撤销，建议先导出完整备份。</p><div class="detail-kpis"><div class="detail-kpi"><span>订单总金额</span><strong>¥${money(report.totalCents)}</strong></div><div class="detail-kpi"><span>关联工时记录</span><strong>${linked.length} 条</strong></div><div class="detail-kpi"><span>累计工时</span><strong>${num(report.totalHours)}h</strong></div></div><p class="note">${linked.length?`这张订单及其 ${linked.length} 条工时记录将一起删除。`:'这张订单没有已保存的工时记录。'}${report.confirmed?` 该订单在 ${report.months.map(m=>esc(m.month)).join('、')} 的确认产值也会从月报中移除。`:' 该订单目前尚未计入确认产值。'}其他订单、工人和旧版档案不受影响。</p>${affectedDraft?'<p class="notice">此订单还有未保存的工时草稿，确认删除后也会清空。</p>':''}<label class="check"><input type="checkbox" name="confirmDelete">我确认删除此订单${linked.length?'及全部关联工时记录':''}${affectedDraft?'和未保存草稿':''}</label></div>`,
+    footer:`<div class="left">${btn('先导出完整备份','backup')}</div>`,submitText:'确认删除',
+    submitClass:'danger',
+    submit:async form=>{
+      if(!form.elements.confirmDelete.checked)throw Error('请先勾选确认删除，避免误删订单及工时。');
+      const next=clone(state);
+      next.orders=next.orders.filter(o=>o.id!==id);
+      next.timeEntries=next.timeEntries.filter(e=>e.orderId!==id);
+      await commit(next);
+      if(draft.orderId===id){draft={date:draft.date,orderId:'',rows:[blankRow()]};dailyDirty=false;}
+      closeDialog(true);render();notify('订单已删除'+(linked.length?'，关联工时已一并移除':''));
+    }
+  });
+}
+function workerOptions(selected,all=false){return `<option value="">选择工人</option>`+state.workers.filter(w=>all||w.active||w.id===selected).map(w=>`<option value="${w.id}" ${w.id===selected?'selected':''}>${esc(w.name)}${w.active?'':'（已停用）'}</option>`).join('');}
+function orderOptions(selected,all=false){return `<option value="">选择订单</option>`+state.orders.filter(o=>all||o.status==='active'||o.id===selected).map(o=>`<option value="${o.id}" ${o.id===selected?'selected':''}>${esc(o.code)} · ${esc(o.name)} · ${types[o.type]}${o.status==='completed'?'（已完工）':''}</option>`).join('');}
+function hours(){return `<section class="panel"><div class="panel-head"><div><h2>登记每日工时</h2><p>同一订单可以一次登记多位工人；不同订单分开保存</p></div><span id="draftStatus" class="daily-draft-badge">${dailyDirty?'有未保存的草稿':''}</span></div><form id="dailyForm" class="panel-body" novalidate><div id="dailyError" class="form-error" role="alert" tabindex="-1" hidden></div><div class="daily-top">${field('工作日期','date',draft.date,'date',`required min="1900-01-01" max="${today()}"`)}<label class="field"><span>订单</span><select name="orderId" required>${orderOptions(draft.orderId)}</select></label></div><div id="dailyRows" class="entry-rows"></div><div class="entry-footer">${btn('＋ 添加一位工人','add-hour-row')}<div class="actions"><span class="day-total">本次合计 <strong id="draftTotal">0</strong> 小时</span>${btn('清空草稿','clear-draft')}<button class="btn primary" id="saveDaily" type="submit">保存工时</button></div></div><p class="page-hint">0.5 小时表示 30 分钟。每位工人一天在所有订单上登记的工时合计不能超过 24 小时。</p></form></section><section class="panel section-gap"><div class="panel-head"><div><h2>已登记工时 · ${month}</h2><p>记录用于计算整个公司的月度产值，不计算个人产值或工资</p></div>${btn('导出工时记录','export-hours')}</div><div class="panel-body"><label class="field"><span>查询记录</span><input id="logSearch" value="${esc(logSearch)}" placeholder="搜索工人、订单号、品名、工作内容"></label></div><div id="logResults"></div></section>`;}
+function captureDraft(){const form=$('#dailyForm');if(!form)return;draft={date:form.elements.date.value,orderId:form.elements.orderId.value,rows:[...form.querySelectorAll('.hours-entry-row')].map(row=>Object.fromEntries([...row.querySelectorAll('[data-field]')].map(el=>[el.dataset.field,el.value])))};}
+function renderDailyRows(){const el=$('#dailyRows');if(!el)return;el.innerHTML=draft.rows.map((r,i)=>`<div class="hours-entry-row"><label class="field"><span>工人</span><select data-field="workerId" aria-label="第${i+1}行工人">${workerOptions(r.workerId)}</select></label><label class="field hours-activity"><span>工作内容</span><input data-field="activity" value="${esc(r.activity)}" maxlength="100" placeholder="例如：车缝、整烫、打版" aria-label="第${i+1}行工作内容"></label><label class="field"><span>小时数</span><input data-field="hours" value="${esc(r.hours)}" type="number" min="0.01" max="24" step="0.01" inputmode="decimal" aria-label="第${i+1}行小时数"></label><label class="field hours-note"><span>备注（可选）</span><input data-field="note" value="${esc(r.note)}" maxlength="2000" aria-label="第${i+1}行备注"></label><button type="button" class="btn icon-only remove-hour-row" data-action="remove-hour-row" data-id="${i}" aria-label="删除第${i+1}行">${icon('close')}</button></div>`).join('');draftTotals();}
+function draftTotals(){const el=$('#draftTotal');if(el)el.textContent=num(draft.rows.reduce((s,r)=>s+(Number(r.hours)||0),0));if($('#draftStatus'))$('#draftStatus').textContent=dailyDirty?'有未保存的草稿':'';saveStatus();}
+async function saveDaily(form){captureDraft();if(!P.validDate(draft.date)||draft.date>today())throw Error('请选择有效的工作日期，且不能晚于今天。');const order=state.orders.find(o=>o.id===draft.orderId);if(!order||order.status!=='active')throw Error('请选择一个尚未完工的订单。');const next=clone(state),now=new Date().toISOString();let duplicates=0;for(const r of draft.rows){if(!r.workerId||!r.activity.trim()||!r.hours)throw Error('请为每一行填写工人、工作内容和小时数。');if(!state.workers.find(w=>w.id===r.workerId)?.active)throw Error('已停用的工人不能登记新工时。');const e={id:uid('time'),orderId:draft.orderId,workerId:r.workerId,date:draft.date,activity:r.activity.trim(),hours:Number(r.hours),note:r.note.trim(),createdAt:now};if(next.timeEntries.some(x=>x.date===e.date&&x.orderId===e.orderId&&x.workerId===e.workerId&&x.activity===e.activity&&x.hours===e.hours))duplicates++;next.timeEntries.push(e);}const errors=P.validateState(next);if(errors.length)throw Error(errors.slice(0,5).join('\n'));if(duplicates&&!confirm(`发现 ${duplicates} 条与已有记录相同的工时，仍要重复登记吗？`))return;await commit(next);dailyDirty=false;draft.rows=[blankRow()];month=draft.date.slice(0,7);render();notify('每日工时已保存');}
+function renderLogs(){const q=logSearch.trim().toLowerCase(),om=new Map(state.orders.map(o=>[o.id,o])),wm=new Map(state.workers.map(w=>[w.id,w]));const all=state.timeEntries.filter(e=>e.date.startsWith(month)&&(!q||[wm.get(e.workerId)?.name,om.get(e.orderId)?.code,om.get(e.orderId)?.name,e.activity].some(v=>String(v).toLowerCase().includes(q)))).sort((a,b)=>b.date.localeCompare(a.date)||b.createdAt.localeCompare(a.createdAt));logPage=Math.min(logPage,Math.max(1,Math.ceil(all.length/25)));$('#logResults').innerHTML=(all.length?table(['日期','工人','订单','工作内容','小时数','操作'],all.slice((logPage-1)*25,logPage*25).map(e=>{const o=om.get(e.orderId);return `<tr><td class="nowrap">${e.date}</td><td class="nowrap">${esc(wm.get(e.workerId)?.name)}</td><td class="title-cell">${orderTitle(o)}</td><td class="title-cell">${esc(e.activity)}${e.note?`<small>${esc(e.note)}</small>`:''}</td><td class="right">${num(e.hours)}h</td><td>${o.status==='completed'?'<span class="locked-hint">已完工 · 已锁定</span>':`<div class="row">${btn('编辑','edit-entry',e.id,'small')}${btn('删除','delete-entry',e.id,'small danger')}</div>`}</td></tr>`;})):empty('本月暂无工时记录','可在上方登记，或通过右上角切换月份。'))+pagination('logs',logPage,all.length);}
+function manageWorkers(){openDialog({title:'管理工人',subtitle:'工人仅用于记录工时，停用后仍保留历史记录',body:`<div class="row"><label class="field" style="flex:1"><span>工人姓名</span><input id="newWorkerName" maxlength="100" placeholder="输入姓名"></label>${btn('添加工人','add-worker','','primary')}</div><div class="section-gap">${state.workers.map(w=>`<div class="worker-edit-row"><span>${esc(w.name)}${w.active?'':' <span class="badge">已停用</span>'}</span>${btn('改名','rename-worker',w.id,'small')}${btn(w.active?'停用':'启用','toggle-worker',w.id,'small')}</div>`).join('')||'<p class="note">暂未添加工人。</p>'}</div>`});}
+function editEntry(id){const e=state.timeEntries.find(x=>x.id===id);if(!e||state.orders.find(o=>o.id===e.orderId)?.status==='completed'){notify('已完工订单的工时已锁定。',true);return;}openDialog({title:'编辑工时',body:`<div class="form-grid">${field('工作日期','date',e.date,'date',`min="1900-01-01" max="${today()}"`)}<label class="field"><span>工人</span><select name="workerId">${workerOptions(e.workerId)}</select></label><label class="field full"><span>订单</span><select name="orderId">${orderOptions(e.orderId)}</select></label>${field('工作内容','activity',e.activity,'text','maxlength="100"')}${field('小时数','hours',e.hours,'number','min="0.01" max="24" step="0.01"')}<label class="field full"><span>备注</span><textarea name="note" maxlength="2000">${esc(e.note)}</textarea></label></div>`,submit:async form=>{const d=Object.fromEntries(new FormData(form));if(d.date>today())throw Error('工作日期不能晚于今天。');if(state.orders.find(o=>o.id===d.orderId)?.status!=='active')throw Error('请选择未完工订单。');const next=clone(state);Object.assign(next.timeEntries.find(x=>x.id===id),{...d,activity:d.activity.trim(),note:d.note.trim(),hours:Number(d.hours)});await commit(next);closeDialog(true);render();notify('工时已更新');}});}
+function settings(){const legacy=state.legacyData;return `<div class="settings-grid"><section class="panel"><div class="panel-head"><h2>数据与备份</h2><span class="badge success">${S.mode==='session'?'仅本次会话':'仅保存在当前浏览器'}</span></div><div class="panel-body"><div class="data-counts"><div><strong>${state.orders.length}</strong><span>订单</span></div><div><strong>${state.workers.length}</strong><span>工人</span></div><div><strong>${state.timeEntries.length}</strong><span>工时记录</span></div></div><div class="setting-action"><div><h3>完整备份</h3><p>包含所有订单、工时、工人以及保留的旧版原始数据。</p></div>${btn('导出备份','backup','','primary')}</div><div class="setting-action"><div><h3>恢复备份</h3><p>会替换当前数据。恢复前请先导出当前备份。</p></div>${btn('选择备份','import')}</div>${legacy?`<div class="setting-action"><div><h3>旧版数据档案</h3><p>原有数量记录、工资与其他旧版设置完整保留，不参与当前工时产值计算。</p></div>${btn('导出旧版','legacy-backup')}</div>`:''}<p class="page-hint">本页使用独立演示数据。${S.mode==='session'?'当前环境无法使用持久存储，关闭页面前请导出备份。':'更换浏览器或清理本地数据前，请先导出备份。'}</p></div></section><section class="panel"><div class="panel-head"><h2>导出表格</h2></div><div class="panel-body export-options">${btn('<span>月度产值汇总<small>所有已登记月份，按大货、打样、打版分类</small></span>','export-summary')}${btn('<span>订单月度分摊明细<small>订单金额、工时比例与确认产值</small></span>','export-allocations')}${btn('<span>全部工时记录<small>日期、工人、订单、工作内容和小时数</small></span>','export-all-hours')}${btn('<span>订单清单<small>全部订单的金额与完工状态</small></span>','export-orders')}<p class="page-hint">表格导出为 CSV，可用 Excel 打开。表格仅用于查看，恢复数据请使用完整 JSON 备份。</p></div></section></div><section class="panel section-gap"><div class="panel-head"><h2>系统设置</h2></div><form id="settingsForm" class="panel-body"><div class="row">${field('系统名称','name',settingsDirty?settingsDraft:state.settings.name,'text','required maxlength="100"')}<button class="btn" type="submit">保存名称</button></div></form></section><section class="panel section-gap"><div class="panel-head"><h2>使用说明</h2></div><div class="panel-body"><div class="guide-grid"><div class="guide-step"><span class="step-number">01 / 建立订单</span><h3>填写数量与客户单价</h3><p>选择打版、打样或大货。订单总金额由数量乘以单价自动计算。</p></div><div class="guide-step"><span class="step-number">02 / 每天登记</span><h3>只记实际工时</h3><p>主任登记日期、工人、订单、工作内容和小时数。不需要工序权重或计件单价。</p></div><div class="guide-step"><span class="step-number">03 / 完工确认</span><h3>按工时分回工作月份</h3><p>工时登记齐全后确认完工，系统才计算公司月度产值。未完工订单单独待结算。</p></div></div><div class="guide-details"><details open><summary>跨月订单怎样分配？</summary><p>某月产值 = 订单单价 × 订单数量 ×（该订单当月所有工人工时 ÷ 该订单所有月份所有工人工时）。例如订单金额 10,000 元，9 月投入 40 小时、10 月投入 60 小时，则分别确认 4,000 元、6,000 元。与工人人数、完成日期所在月份无关。</p></details><details><summary>补录、修改和重新打开订单</summary><p>在订单列表点击“编辑”即可修改。已完工订单保存修改后会转回待结算，再次确认完工后重新计算产值；编辑工时仍需先重新打开订单。删除订单会同时删除它的工时记录，并移除它在所有月份的产值，操作前可在确认窗口导出备份。重新打开期间，该订单的所有月度产值会暂时撤回。补录的跨月工时会改变分摊比例，因此历史月份产值也会更新。</p></details><details><summary>为什么旧数量记录没有变成工时？</summary><p>完成件数无法可靠换算为实际小时。旧版记录原样归档，新版须补录真实工时并重新确认完工；不会编造小时或沿用旧的个人产值结果。</p></details></div></div></section>`;}
+function download(name,content,type='application/json'){const url=URL.createObjectURL(new Blob([content],{type})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),30000);}
+function backup(data=state,suffix='完整备份'){download(`悦动生产_${suffix}_${today()}.json`,JSON.stringify({app:'yuedong-production',schemaVersion:data.schemaVersion,exportedAt:new Date().toISOString(),data}));}
+function exportCsv(kind){let rows,name;const orderMap=new Map(state.orders.map(o=>[o.id,o])),workerMap=new Map(state.workers.map(w=>[w.id,w]));if(kind==='summary'){name='月度产值汇总';rows=[['月份','确认总产值(元)','大货产值(元)','打样产值(元)','打版产值(元)','总工时','已确认订单工时','待结算工时','已确认订单数','待结算订单数'],...getReports().months().map(m=>{const r=getReports().monthReport(m);return[m,decimalAmount(r.totalCents),decimalAmount(r.bulkCents),decimalAmount(r.sampleCents),decimalAmount(r.patternCents),r.totalHours,r.confirmedHours,r.pendingHours,r.confirmedOrderCount,r.pendingOrderCount];})];}else if(kind==='orders'){name='订单清单';rows=[['订单号','品名','客户','类型','数量','单价(元)','总金额(元)','累计工时','开始日期','状态','完工日期','备注'],...state.orders.map(o=>[o.code,o.name,o.customer,types[o.type],o.qty,o.price,decimalAmount(P.totalCents(o)),getReports().orderReport(o.id).totalHours,o.startDate,o.status==='completed'?'已确认完工':'待结算',o.completedAt,o.note])];}else if(kind==='hours'||kind==='all-hours'){name=kind==='hours'?month+'_工时记录':'全部工时记录';rows=[['日期','工人','订单号','品名','类型','工作内容','小时数','备注'],...state.timeEntries.filter(e=>kind==='all-hours'||e.date.startsWith(month)).sort((a,b)=>a.date.localeCompare(b.date)).map(e=>{const o=orderMap.get(e.orderId);return[e.date,workerMap.get(e.workerId).name,o.code,o.name,types[o.type],e.activity,e.hours,e.note];})];}else{name=kind==='month'?month+'_产值明细':'订单月度分摊';rows=[['月份','订单号','品名','客户','类型','状态','订单总金额(元)','当月工时','全部工时','当月工时比例','确认产值(元)']];for(const o of state.orders){const r=getReports().orderReport(o.id);for(const m of r.months){if(kind==='month'&&m.month!==month)continue;rows.push([m.month,o.code,o.name,o.customer,types[o.type],r.confirmed?'已确认完工':'待结算',decimalAmount(r.totalCents),m.hours,r.totalHours,m.share,r.confirmed?decimalAmount(m.valueCents):0]);}}}download(`悦动生产_${name}_${today()}.csv`,P.csv(rows),'text/csv;charset=utf-8');notify('表格已导出');}
+async function importBackup(file){if(!file)return;if(file.size>40*1024*1024&&!confirm('这个备份较大，读取时可能需要较多内存。请确认文件来自本系统，并保持页面打开。继续读取吗？'))return;let parsed;try{parsed=JSON.parse(await file.text());}catch{throw Error('文件不是有效的 JSON 备份。');}const raw=parsed?.app==='yuedong-production'?parsed.data:parsed;let candidate;if(raw?.schemaVersion===1){const errors=LegacyProduction.validateState(raw);if(errors.length)throw Error('旧版备份校验失败：'+errors.slice(0,3).join('；'));candidate=P.migrateLegacy(raw);}else candidate=raw;const errors=P.validateState(candidate);if(errors.length)throw Error('备份校验失败：'+errors.slice(0,3).join('；'));openDialog({title:'恢复备份',body:`<p class="notice">此操作会替换当前全部数据，不是合并。请先导出当前备份。</p><p class="note">将恢复 ${candidate.orders.length} 个订单、${candidate.workers.length} 位工人、${candidate.timeEntries.length} 条工时。${raw.schemaVersion===1?'这是旧数量版备份：只迁入订单和工人基础信息，原记录完整归档，须补录真实工时并重新确认完工。':''}</p><label class="check section-gap"><input type="checkbox" name="confirmed">我已导出当前备份，并确认替换数据</label>`,footer:`<div class="left">${btn('导出当前备份','backup')}</div>`,submitText:'替换并恢复',submit:async form=>{if(!new FormData(form).has('confirmed'))throw Error('请先确认已备份并同意替换。');if((dailyDirty||settingsDirty)&&!confirm('存在未保存的草稿，恢复后将清空。确定继续？'))return;candidate.revision=state.revision;await commit(candidate);dailyDirty=false;settingsDirty=false;draft={date:today(),orderId:'',rows:[blankRow()]};closeDialog(true);render();notify('备份恢复成功');}});}
+function migration(){saveStatus('legacy');$('#navigation').innerHTML='';$('#pageHeader').innerHTML='<div><h1>升级为工时产值版</h1><p>先保留原始数据，再启用新的计算方式</p></div>';$('#pageContent').innerHTML=`<section class="panel migration-panel"><div class="panel-head"><h2>检测到旧版生产记录</h2></div><div class="panel-body"><p>原有 ${rawLegacy.workers.length} 位工人、${rawLegacy.batches.length} 个订单将沿用基础资料。</p><ul><li>旧的完成件数不能换算成实际工时，需要补录真实小时数。</li><li>原始记录、工资、设置等完整保留为旧版档案，不参与新计算。</li><li>迁入订单全部为待结算，补齐工时后需要重新确认完工。</li></ul><div class="actions">${btn('先下载旧版完整备份','gate-backup','','soft')}</div><label class="check"><input id="migrationConfirmed" type="checkbox">我已保存备份，理解需要按真实工时重新结算</label><div id="migrationError" class="form-error" role="alert" tabindex="-1" hidden></div>${btn('启用工时版','migrate','','primary')}</div></section>`;}
+async function boot(){saveStatus('loading');try{let data=await S.load();if(data===null){const seed=window.PortfolioProductionDemo.create();try{data=await S.save(seed,0);}catch(error){if(error.code!=='CONFLICT')throw error;data=await S.load();if(data===null)throw error;}}if(data?.schemaVersion===1){const errors=LegacyProduction.validateState(data);if(errors.length)throw Error('原数据校验异常，已停止升级：'+errors.slice(0,3).join('；'));rawLegacy=data;migration();return;}const loaded=data||P.emptyState(),errors=P.validateState(loaded);if(errors.length)throw Error('本地数据校验失败，未作任何修改：'+errors.slice(0,3).join('；'));state=loaded;render();}catch(e){saveStatus('error',e.message);$('#pageContent').innerHTML=`<div class="notice error">${esc(e.message)}</div><section class="panel">${empty('数据未被覆盖','请不要清理浏览器数据。可重试读取，或导出现有原始数据进行排查。',btn('重新读取','reload')+btn('导出原始数据','export-raw'))}</section>`;}}
+document.addEventListener('click',async ev=>{const b=ev.target.closest('button');if(!b)return;if(saving){notify('正在保存，请稍候');return;}const nav=b.dataset.page;if(nav&&state){captureDraft();page=nav;render();window.scrollTo({top:0});return;}const action=b.dataset.action,id=b.dataset.id;if(!action)return;if(saving){notify('正在保存，请稍候');return;}try{switch(action){case'prev-month':case'next-month':{const m=monthShift(month,action==='prev-month'?-1:1);if(P.validMonth(m)){captureDraft();month=m;logPage=1;render();}break;}case'new-order':openOrder();break;case'edit-order':openOrder(id);break;case'copy-order':openOrder(id,true);break;case'order-detail':orderDetail(id);break;case'complete-order':completeOrder(id);break;case'reopen-order':{if(!confirm('重新打开后，此订单已分配到所有月份的确认产值将暂时撤回。修改完成并再次确认完工后才恢复。继续吗？'))break;const next=clone(state),o=next.orders.find(o=>o.id===id);o.status='active';o.completedAt='';await commit(next);closeDialog(true);render();notify('订单已重新打开，产值暂时撤回');break;}case'delete-order':deleteOrder(id);break;case'close-modal':closeDialog();break;case'workers':captureDraft();manageWorkers();break;case'add-worker':{const name=$('#newWorkerName').value.trim();if(!name)throw Error('请填写工人姓名。');if(state.workers.some(w=>w.name===name))throw Error('已存在同名工人，请添加区别信息。');const next=clone(state);next.workers.push({id:uid('worker'),name,active:true});await commit(next);modalDirty=false;manageWorkers();if(page==='hours')renderDailyRows();notify('工人已添加');break;}case'rename-worker':{const w=state.workers.find(w=>w.id===id);const name=prompt('工人姓名',w.name)?.trim();if(!name||name===w.name)break;if(state.workers.some(w=>w.id!==id&&w.name===name))throw Error('已存在同名工人。');const next=clone(state);next.workers.find(w=>w.id===id).name=name;await commit(next);modalDirty=false;manageWorkers();if(page==='hours'){renderDailyRows();renderLogs();}break;}case'toggle-worker':{const next=clone(state),w=next.workers.find(w=>w.id===id);w.active=!w.active;await commit(next);modalDirty=false;manageWorkers();if(page==='hours')renderDailyRows();break;}case'add-hour-row':captureDraft();if(draft.rows.length>=30)throw Error('一次最多登记 30 行，请分次保存。');draft.rows.push(blankRow());dailyDirty=true;renderDailyRows();break;case'remove-hour-row':captureDraft();draft.rows.splice(Number(id),1);if(!draft.rows.length)draft.rows.push(blankRow());dailyDirty=true;renderDailyRows();break;case'clear-draft':if(!dailyDirty||confirm('确定清空未保存的工时草稿？')){draft.rows=[blankRow()];dailyDirty=false;renderDailyRows();}break;case'edit-entry':editEntry(id);break;case'delete-entry':{const e=state.timeEntries.find(x=>x.id===id);if(state.orders.find(o=>o.id===e.orderId)?.status==='completed')throw Error('已完工订单的工时已锁定。');if(!confirm('确定删除这条工时记录？'))break;const next=clone(state);next.timeEntries=next.timeEntries.filter(e=>e.id!==id);await commit(next);renderLogs();notify('工时已删除');break;}case'orders-prev':orderPage--;renderOrderResults();break;case'orders-next':orderPage++;renderOrderResults();break;case'logs-prev':logPage--;renderLogs();break;case'logs-next':logPage++;renderLogs();break;case'backup':backup();break;case'legacy-backup':backup(state.legacyData,'旧版原始档案');break;case'gate-backup':backup(rawLegacy,'旧版升级前备份');gateDownloaded=true;notify('旧版备份已下载，请妥善保存');break;case'migrate':{if(!gateDownloaded||!$('#migrationConfirmed').checked)throw Error('请先下载旧版完整备份，再勾选确认。');const next=P.migrateLegacy(rawLegacy);await commit(next);rawLegacy=null;render();notify('工时版已启用，旧版原始数据已归档');break;}case'import':$('#backupFile').click();break;case'export-summary':exportCsv('summary');break;case'export-orders':exportCsv('orders');break;case'export-hours':exportCsv('hours');break;case'export-all-hours':exportCsv('all-hours');break;case'export-month':exportCsv('month');break;case'export-allocations':exportCsv('allocations');break;case'export-draft':{captureDraft();download(`悦动生产_未保存草稿_${today()}.json`,JSON.stringify({notice:'编辑草稿，仅供人工恢复，不是完整备份',dailyDraft:draft,modalFields:dialog.open?[...new FormData($('#modalForm'))]:null,settingsDraft:settingsDirty?settingsDraft:null,savedState:state},null,2));break;}case'reload':if((dailyDirty||modalDirty||settingsDirty)&&!confirm('存在未保存的内容。请先导出草稿，确定放弃并重新读取？'))break;location.reload();break;case'export-raw':{const raw=await S.load();if(raw)backup(raw,'原始数据');else notify('当前数据库没有记录');break;}}}catch(e){if(rawLegacy)formError(e.message,'migrationError');else if(dialog.open)formError(e.message);else notify(e.message,true);}});
+document.addEventListener('input',ev=>{const el=ev.target;if(el.closest('#settingsForm')){settingsDraft=el.value;settingsDirty=true;saveStatus();}if(dialog.contains(el)){modalDirty=true;if(el.name==='code')delete el.dataset.autoCode;if(el.name==='qty'||el.name==='price'){const form=$('#modalForm'),value=Number(form.elements.qty?.value)*Number(form.elements.price?.value);if($('#orderAmount'))$('#orderAmount').textContent=Number.isFinite(value)&&value>=0?'¥'+money(Math.round(value*100)):'请填写有效金额';}}if(el.closest('#dailyForm')){captureDraft();dailyDirty=true;draftTotals();saveStatus();}if(el.id==='orderSearch'&&!ev.isComposing){orderSearch=el.value;orderPage=1;renderOrderResults();}if(el.id==='logSearch'&&!ev.isComposing){logSearch=el.value;logPage=1;renderLogs();}});
+document.addEventListener('compositionend',ev=>{if(ev.target.id==='orderSearch'){orderSearch=ev.target.value;orderPage=1;renderOrderResults();}if(ev.target.id==='logSearch'){logSearch=ev.target.value;logPage=1;renderLogs();}});
+document.addEventListener('change',ev=>{const el=ev.target;if(el.id==='monthPicker'&&P.validMonth(el.value)){captureDraft();month=el.value;logPage=1;render();}if(el.id==='orderType'){orderType=el.value;orderPage=1;renderOrderResults();}if(el.id==='orderStatus'){orderStatus=el.value;orderPage=1;renderOrderResults();}if(el.closest('#dailyForm')){captureDraft();dailyDirty=true;draftTotals();}if(dialog.contains(el)){modalDirty=true;if(el.name==='type'){const code=$('#modalForm').elements.code;if(code&&code.dataset.autoCode!==undefined&&code.value===code.dataset.autoCode){code.value=nextOrderCode(el.value);code.dataset.autoCode=code.value;}}}});
+document.addEventListener('submit',async ev=>{ev.preventDefault();const form=ev.target;if(saving)return;const submit=form.querySelector('[type="submit"]');try{if(submit)submit.disabled=true;if(form.id==='modalForm'&&modalSubmit)await modalSubmit(form);else if(form.id==='dailyForm')await saveDaily(form);else if(form.id==='settingsForm'){const next=clone(state);next.settings.name=form.elements.name.value.trim();await commit(next);settingsDirty=false;render();notify('系统名称已保存');}}catch(e){formError(e.message,form.id==='dailyForm'?'dailyError':form.id==='modalForm'?'modalError':'settingsError');}finally{if(submit?.isConnected)submit.disabled=false;}});
+dialog.addEventListener('cancel',ev=>{ev.preventDefault();closeDialog();});
+$('#backupFile').addEventListener('change',async ev=>{const file=ev.target.files[0];ev.target.value='';try{await importBackup(file);}catch(e){notify(e.message,true);}});
+window.addEventListener('beforeunload',ev=>{if(saving||dailyDirty||modalDirty||settingsDirty){ev.preventDefault();ev.returnValue='';}});
+S.subscribe(async message=>{if(!state&&!rawLegacy)return;try{const latest=message.type==='saved'?message:await S.load();if(latest&&latest.revision>(state?.revision??rawLegacy?.revision??0)){externalChange=true;renderExternal();}}catch{saveStatus('error','无法检查其他窗口更新，请先备份');}});
+boot();
+})();
+
+</script>
+</body>
+</html>

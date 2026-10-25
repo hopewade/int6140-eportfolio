@@ -1,0 +1,56 @@
+/* Generated from white-fabric-figures.css by motion_css.py. */
+/* The same generated white knit supports the table, radar cards and flow chart. */
+.imported-research .flow-table-floating::before{
+ content:"";display:block;position:absolute;inset:46px -4px -4px;z-index:0;
+ border:18px solid transparent;
+ border-image:url("assets/white-wool-v1/white-wool-panel.webp") 155 125 155 125 fill / 25px / 0 stretch;
+ filter:drop-shadow(0 8px 6px #563a2519);pointer-events:none;
+}
+.imported-research .flow-table-floating .research-flow-table{
+ position:relative;z-index:1;background:none;border:0;border-radius:0;box-shadow:none;
+}
+.imported-research .flow-table-floating .research-flow-table caption{font-size:20px;padding-bottom:24px}
+.imported-research .flow-table-floating .research-flow-table th,
+.imported-research .flow-table-floating .research-flow-table td{padding-inline:24px}
+.imported-research .flow-table-floating .research-flow-table tbody td{padding-block:30px}
+.imported-research .flow-table-floating .research-flow-table tr>:not(:last-child){border-right:1px dashed #b49a805f}
+.imported-research .flow-table-floating .research-flow-table thead th,
+.imported-research .flow-table-floating .research-flow-table thead th:first-child{border-bottom:1px dashed #b49a8073;padding-block:24px}
+.imported-research .flow-arrow{color:#97704e;margin-block:4px}
+.imported-research .radar-fabric{
+ border:12px solid transparent;
+ border-image:url("assets/white-wool-v1/white-wool-panel.webp") 155 125 155 125 fill / 19px / 0 stretch;
+ filter:drop-shadow(0 7px 4px #563a2514);
+}
+/* Preserve every plotted point and label; replace only the old paper backing. */
+.imported-research .role-radar>rect{visibility:hidden}
+.closed-loop-figure{
+ border:20px solid transparent;border-radius:0;padding:18px 18px 22px;
+ border-image:url("assets/white-wool-v1/white-wool-panel.webp") 155 125 155 125 fill / 27px / 0 stretch;
+ background:none;box-shadow:none;filter:drop-shadow(0 9px 7px #563a2514);
+}
+.closed-loop-figure::before{display:none}
+.closed-loop-mobile>li{background:#fff;border-color:#c4aa91;box-shadow:0 4px 9px #63482c10}
+.closed-loop-mobile .cl-mobile-decision{background:#fff}
+.closed-loop-chart .cl-flow{fill:none;stroke:#fff6e8;stroke-width:1.7;stroke-dasharray:3 21;stroke-linecap:round;marker-end:none;pointer-events:none;animation:closed-thread-flow 2.8s linear infinite;animation-play-state:paused}
+.closed-loop-chart .cl-flow-return{stroke-width:1.1;opacity:.85}
+.closed-loop-figure[data-flow-active="true"] .cl-flow{animation-play-state:running}
+@keyframes closed-thread-flow{to{stroke-dashoffset:-48}}
+@media(max-width:767px){
+ .imported-research .flow-table-floating::before{inset:48px -3px -3px;border-image-width:19px}
+ .imported-research .flow-table-floating .research-flow-table caption{font-size:18px}
+ .imported-research .flow-table-floating .research-flow-table th,
+ .imported-research .flow-table-floating .research-flow-table td{padding-inline:9px}
+ .imported-research .flow-table-floating .research-flow-table tbody td{padding-block:23px}
+ .imported-research .flow-table-floating .research-flow-table thead th,
+ .imported-research .flow-table-floating .research-flow-table thead th:first-child{padding-block:22px}
+ .imported-research .radar-fabric{border-width:10px;border-image-width:17px}
+ .closed-loop-figure{border-width:14px;border-image-width:22px;padding:18px 9px 20px}
+}
+@media(prefers-reduced-motion:reduce){html:not([data-motion="full"]) .closed-loop-chart .cl-flow{animation:none!important}}
+html[data-motion="reduced"] .closed-loop-chart .cl-flow{animation:none!important}
+@media print{
+ .imported-research .flow-table-floating::before{filter:none}
+ .imported-research .radar-fabric,.closed-loop-figure{filter:none}
+ .closed-loop-chart .cl-flow{animation:none}
+}

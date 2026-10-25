@@ -1,0 +1,44 @@
+/* Final manuscript content, using the established reading measure.
+   These rules do not target the approved table, radar artwork or avatar. */
+.final-copy-section{position:relative;padding:clamp(80px,9vw,140px) clamp(24px,4.5vw,76px);color:#493b2d;font-family:"PingFang SC","Microsoft YaHei",Arial,sans-serif}
+.final-copy-inner{width:100%;max-width:var(--reading-width,1080px);margin:0 auto}
+.final-copy-title{font:600 clamp(29px,3.6vw,48px)/1.6 "PingFang SC","Microsoft YaHei",sans-serif;text-align:center;letter-spacing:.07em;color:#60452f;margin:0 0 clamp(52px,6vw,82px)}
+.final-copy-section h3{font-size:clamp(22px,2.15vw,30px);font-weight:600;line-height:1.65;letter-spacing:.02em;color:#513b2b;margin:clamp(54px,6vw,84px) 0 28px}
+.final-copy-section h4{font-size:clamp(20px,1.8vw,25px);font-weight:600;line-height:1.8;color:#60462f;letter-spacing:.015em;margin:44px 0 24px}
+.final-copy-prose{font-size:clamp(17px,1.45vw,20px);line-height:2.05;letter-spacing:.015em;text-align:justify;margin:0;color:#493b2d;overflow-wrap:break-word}
+.final-copy-prose+.final-copy-prose{margin-top:24px}
+.final-copy-section :is(h3,h4)+.final-copy-prose{margin-top:0}
+.final-copy-prose a{color:inherit;text-decoration:underline;text-decoration-color:#9b7c5c80;text-underline-offset:4px;overflow-wrap:anywhere}
+.final-source-figure{margin:36px 0 40px;width:100%;min-width:0}
+.final-source-figure button{display:block;width:100%;padding:0;border:0;background:none;border-radius:8px;overflow:hidden;cursor:zoom-in}
+.final-source-figure img{display:block;width:100%;height:auto;object-fit:contain}
+.final-source-figure button:hover img{transform:none}
+.final-source-figure figcaption{font-size:12px;line-height:1.8;letter-spacing:.04em;color:#8b7258;text-align:right;margin-top:10px}
+.final-copy-section .final-reference{font-size:clamp(16px,1.35vw,18px);line-height:1.95;text-align:left;padding-left:1.5em;text-indent:-1.5em}
+.final-copy-section#ai-disclosure .final-copy-title{font-size:clamp(26px,2.8vw,36px);margin-bottom:40px}
+.final-copy-section#ai-disclosure{padding-top:clamp(70px,7vw,100px);padding-bottom:clamp(75px,8vw,115px)}
+#source-figure-dialog{width:94vw;max-width:1500px;height:90svh;max-height:94svh;padding:0;border:1px solid #bba180;border-radius:18px;background:#fbf7ed;color:#493b2d}
+#source-figure-dialog::backdrop{background:#3b2b1c85;backdrop-filter:blur(5px)}
+.source-figure-bar{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:15px 20px;border-bottom:1px solid #b89a7560;background:#f5ecdf}
+.source-figure-bar h2{font:600 17px/1.6 "PingFang SC",sans-serif;letter-spacing:.02em;margin:0}
+.source-figure-actions{display:flex;gap:12px;margin-left:auto}
+.source-figure-actions button{font:14px/1.5 "PingFang SC",sans-serif;border:1px solid #af947273;border-radius:999px;padding:7px 15px;background:#fff9ee;color:#64482f;white-space:nowrap}
+.source-figure-viewport{height:calc(100% - 79px);width:100%;overflow:auto;overscroll-behavior:contain;padding:20px;display:flex;align-items:center;justify-content:center}
+.source-figure-viewport img{display:block;width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;margin:auto}
+.source-figure-viewport.is-zoomed{display:block}
+.source-figure-viewport.is-zoomed img{width:var(--source-image-width);max-width:none;max-height:none;margin:0}
+@media(max-width:767px){
+ .final-copy-section{padding:70px 24px 82px}
+ .final-copy-title{font-size:28px;line-height:1.75;letter-spacing:.05em;margin-bottom:46px}
+ .final-copy-section h3{font-size:22px;line-height:1.65;margin-top:54px;margin-bottom:25px}
+ .final-copy-section h4{font-size:20px;line-height:1.8;margin-top:38px;margin-bottom:22px}
+ .final-copy-prose{font-size:17px;line-height:2;text-align:left}
+ .final-copy-prose+.final-copy-prose{margin-top:24px}
+ .final-source-figure{margin:28px 0 34px}
+ .final-copy-section .final-reference{font-size:15px;line-height:1.9}
+ #source-figure-dialog{width:calc(100vw - 20px);height:88svh;border-radius:12px}
+ .source-figure-bar{padding:12px;gap:10px}.source-figure-bar h2{font-size:14px;max-width:100%}
+ .source-figure-actions button{font-size:12px;padding:6px 12px}
+ .source-figure-viewport{padding:12px;height:calc(100% - 110px)}
+}
+@media print{.final-copy-section{padding:35px 0;background:white!important}.final-copy-prose{font-size:12pt;line-height:1.8}.final-copy-title{font-size:26pt}.final-source-figure{break-inside:avoid}.final-source-figure figcaption{display:none}}

@@ -1,0 +1,45 @@
+/* One continuous linen ground; only the physical paper/cloth objects lift off it. */
+:root{--portfolio-linen:#e8dcc9;--portfolio-cloth:url("assets/linen-cloth.jpg")}
+html,body,main{background-color:var(--portfolio-linen)}
+:is(.yarn-hero,#marquee.marquee,.imported-about.about-section,.imported-research.chapter,.portfolio-footer){
+ background-color:var(--portfolio-linen);
+ background-image:var(--portfolio-cloth);
+ background-size:480px 480px;
+ background-position:0 0;
+ background-blend-mode:soft-light;
+}
+#marquee.marquee{border:0}
+.yarn-backdrop,.yarn-backdrop:after{background:none;display:none}
+.yarn-copy:before{background:none!important;mask-image:none!important}
+/* A rounded, stuffed-yarn edge gives the woven fill thickness and a contact
+   shadow without replacing accessible Chinese titles with raster lettering. */
+.imported-about .mega-title,.imported-research .research-heading .mega-title{
+ color:#775033;
+ background-image:url("assets/cocoa-yarn.jpg");
+ background-size:190px 190px;
+ background-position:0 0;
+ background-clip:text;-webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+ -webkit-text-stroke:.7px #896044;
+ text-shadow:none;
+ filter:drop-shadow(0 -.7px .35px #edd1a6a8)
+        drop-shadow(.15px 1px .15px #9b7351)
+        drop-shadow(.1px 2px .2px #7d5539)
+        drop-shadow(.05px 3px .3px #68462f)
+        drop-shadow(0 6px 3.5px #63452948);
+ letter-spacing:.035em;
+}
+.imported-section-heading,.imported-research .research-heading{border-bottom-color:#94785b50}
+.marquee-label{background-color:#e8dcc9}
+@media(max-width:767px){
+ :is(.yarn-hero,#marquee.marquee,.imported-about.about-section,.imported-research.chapter,.portfolio-footer){background-size:380px 380px}
+ .imported-about .mega-title,.imported-research .research-heading .mega-title{
+  -webkit-text-stroke:.5px #896044;
+  filter:drop-shadow(0 -.6px .3px #edd1a690) drop-shadow(0 1.2px .2px #7d5539) drop-shadow(0 3px 2px #63452948);
+ }
+}
+@media(prefers-contrast:more),print{
+ .imported-about .mega-title,.imported-research .research-heading .mega-title{
+  background:none;-webkit-text-fill-color:currentColor;-webkit-text-stroke:0;filter:none;
+ }
+}

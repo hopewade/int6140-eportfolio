@@ -1,0 +1,3104 @@
+<!doctype html>
+<html lang="zh-CN" data-app="quote">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quote Engine · 小单快反核价系统</title>
+<style>
+:root {
+  --portfolio-bar-h: 66px;
+  --portfolio-brand: #1f2024;
+  --portfolio-purple: #7356d8;
+}
+.portfolio-bar, .portfolio-bar * { box-sizing: border-box; }
+.portfolio-bar {
+  min-height: var(--portfolio-bar-h);
+  display: grid;
+  grid-template-columns: minmax(210px, auto) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 22px;
+  padding: 10px clamp(16px, 2.4vw, 34px);
+  position: sticky;
+  top: 0;
+  z-index: 10000;
+  color: #202126;
+  background: rgba(255,255,255,.95);
+  border-bottom: 1px solid #e5e7eb;
+  backdrop-filter: blur(18px);
+  font-family: -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
+}
+.portfolio-identity { min-width:0; display:flex; align-items:center; gap:11px; color:inherit; text-decoration:none; }
+.portfolio-identity-mark { width:38px; height:38px; border-radius:12px; display:grid; place-items:center; color:#fff; font-size:12px; font-weight:900; letter-spacing:.08em; background:linear-gradient(135deg,#202126,#7356d8 60%,#57c9d1); box-shadow:0 8px 18px rgba(50,42,82,.17); }
+.portfolio-identity-copy strong,.portfolio-identity-copy span { display:block; }
+.portfolio-identity-copy strong { color:#202126; font-size:13px; letter-spacing:.08em; line-height:1.25; }
+.portfolio-identity-copy span { color:#8a8e96; font-size:10px; margin-top:1px; line-height:1.25; }
+.portfolio-projects { min-width:0; display:flex; justify-content:center; align-items:center; gap:7px; }
+.portfolio-project-pill { min-height:38px; padding:8px 13px; display:inline-flex; align-items:center; gap:7px; border:1px solid transparent; border-radius:999px; color:#666a73; background:transparent; font-size:12px; font-weight:750; line-height:1; text-decoration:none; white-space:nowrap; }
+.portfolio-project-pill:hover { color:#202126; background:#f5f5f4; }
+.portfolio-project-pill.active { color:#342a54; border-color:rgba(115,86,216,.11); background:linear-gradient(100deg,rgba(166,128,242,.22),rgba(111,218,230,.18) 58%,rgba(255,211,125,.17)); }
+.portfolio-actions { display:flex; align-items:center; justify-content:flex-end; gap:8px; }
+.portfolio-demo-badge { min-height:30px; padding:6px 10px; display:inline-flex; align-items:center; gap:6px; border-radius:999px; color:#24705b; background:#edf8f3; border:1px solid #d1eade; font-size:10px; font-weight:850; line-height:1; white-space:nowrap; }
+.portfolio-demo-badge::before { content:""; width:7px; height:7px; border-radius:50%; background:#27a37d; box-shadow:0 0 0 4px rgba(39,163,125,.10); }
+.portfolio-action-btn { min-height:36px; padding:8px 11px; border:1px solid #dedfe3; border-radius:9px; color:#3c3e44; background:#fff; font-size:11px; font-weight:750; line-height:1; cursor:pointer; }
+.portfolio-action-btn:hover { border-color:#bfc1c7; background:#fafafa; }
+.portfolio-privacy { margin:14px clamp(14px,2.5vw,34px) 0; padding:10px 12px; display:flex; align-items:center; justify-content:space-between; gap:12px; border:1px solid #e7e3f4; border-radius:10px; color:#5f5970; background:linear-gradient(100deg,#f7f4ff,#f1faf8); font:11px/1.5 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial,sans-serif; }
+.portfolio-privacy strong { color:#3f365b; }
+.portfolio-guide[hidden] { display:none; }
+.portfolio-guide { position:fixed; inset:0; z-index:30000; display:grid; place-items:center; padding:22px; background:rgba(22,23,27,.58); backdrop-filter:blur(8px); font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial,sans-serif; }
+.portfolio-guide-card { width:min(640px,96vw); max-height:88vh; overflow:auto; border:1px solid rgba(255,255,255,.55); border-radius:20px; background:#fff; box-shadow:0 28px 80px rgba(20,21,25,.28); }
+.portfolio-guide-head { padding:21px 22px 17px; display:flex; align-items:flex-start; justify-content:space-between; gap:18px; border-bottom:1px solid #ececef; }
+.portfolio-guide-head small { display:block; color:#7356d8; font-size:10px; font-weight:900; letter-spacing:.12em; }
+.portfolio-guide-head h2 { margin:5px 0 0; color:#27282d; font-size:23px; line-height:1.25; font-weight:800; }
+.portfolio-guide-close { width:34px; height:34px; border:0; border-radius:10px; color:#27282d; background:#f3f3f2; font-size:19px; cursor:pointer; }
+.portfolio-guide-body { padding:20px 22px 22px; }
+.portfolio-guide-intro { margin:0 0 16px; color:#6e727c; font-size:13px; line-height:1.7; }
+.portfolio-guide-steps { display:grid; gap:10px; }
+.portfolio-guide-step { width:100%; display:grid; grid-template-columns:34px minmax(0,1fr) auto; align-items:center; gap:12px; padding:13px; border:1px solid #e5e7eb; border-radius:13px; background:#fff; text-align:left; cursor:pointer; }
+.portfolio-guide-step:hover { border-color:#cfc5ef; background:#faf9ff; }
+.portfolio-guide-index { width:30px; height:30px; display:grid; place-items:center; border-radius:9px; color:#5c41be; background:#f0ebff; font-size:12px; font-weight:900; }
+.portfolio-guide-copy strong,.portfolio-guide-copy span { display:block; }
+.portfolio-guide-copy strong { color:#27282d; font-size:13px; }
+.portfolio-guide-copy span { margin-top:2px; color:#858993; font-size:11px; line-height:1.45; }
+.portfolio-guide-arrow { color:#a3a6ad; font-size:17px; }
+.portfolio-guide-note { margin-top:15px; padding:12px 13px; border-radius:11px; color:#675d3f; background:#fff8e8; border:1px solid #f2dfb9; font-size:11px; line-height:1.6; }
+@media screen and (max-width:960px) {
+  .portfolio-bar { grid-template-columns:auto 1fr auto; gap:12px; }
+  .portfolio-identity-copy { display:none; }
+  .portfolio-projects { justify-content:flex-start; overflow-x:auto; scrollbar-width:none; }
+  .portfolio-projects::-webkit-scrollbar { display:none; }
+  .portfolio-demo-badge { display:none; }
+}
+@media screen and (max-width:650px) {
+  :root { --portfolio-bar-h:58px; }
+  .portfolio-bar { padding:8px 10px; gap:8px; }
+  .portfolio-identity-mark { width:36px; height:36px; }
+  .portfolio-project-pill { min-height:34px; padding:7px 10px; }
+  .portfolio-actions .portfolio-action-btn:first-of-type { display:none; }
+  .portfolio-action-btn { padding:7px 9px; }
+  .portfolio-privacy { margin:10px 10px 0; align-items:flex-start; flex-direction:column; }
+}
+@media print { .portfolio-bar,.portfolio-privacy,.portfolio-guide { display:none !important; } }
+
+
+    :root {
+      color-scheme: light;
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --ink: #1f2a3d;
+      --muted: #6b778c;
+      --line: #e1e7ef;
+      --soft: #f4f7fb;
+      --green: #13976b;
+      --green-soft: #e8f7f1;
+      --amber: #b46a16;
+      --amber-soft: #fff2df;
+      --red: #b8453e;
+      --red-soft: #fae8e7;
+      --blue: #3167e6;
+      --blue-soft: #eaf1ff;
+      --indigo: #5b5df0;
+      --black: #0f172a;
+      --radius: 18px;
+      --shadow: 0 16px 38px rgba(31, 42, 61, .08);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 24px;
+      padding: 28px;
+      align-items: start;
+    }
+
+    header {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, .92);
+      color: var(--ink);
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    h1, h2, h3, p { margin: 0; }
+    h1 {
+      font-size: 26px;
+      letter-spacing: 0;
+      font-weight: 820;
+    }
+    h2 {
+      font-size: 15px;
+      font-weight: 760;
+    }
+    h3 {
+      font-size: 13px;
+      font-weight: 760;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .subhead {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .header-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .header-pill {
+      border: 1px solid #dbe4f0;
+      color: #506078;
+      background: #f7f9fc;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .layout-col {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-width: 0;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 0;
+      overflow: hidden;
+      transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+    }
+
+    .panel.tight { padding: 0; }
+
+    .module-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 22px 24px 18px;
+      border-bottom: 1px solid #edf2f7;
+      background: #ffffff;
+    }
+
+    .collapsible.collapsed .module-head {
+      align-items: center;
+      padding: 17px 20px;
+      background: white;
+    }
+
+    .collapsible.collapsed .module-copy {
+      display: none;
+    }
+
+    .collapsible > .module-head {
+      cursor: pointer;
+    }
+
+    .module-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .step {
+      width: 25px;
+      height: 25px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--indigo), #356eea);
+      color: white;
+      font-size: 12px;
+      font-weight: 800;
+      flex: 0 0 auto;
+    }
+
+    .module-copy {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 2px;
+      line-height: 1.45;
+    }
+
+    .collapse-toggle {
+      height: 30px;
+      min-width: 64px;
+      border: 1px solid #d7e0eb;
+      border-radius: 999px;
+      background: white;
+      color: var(--muted);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 760;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .collapse-toggle:hover {
+      color: var(--green);
+      border-color: #bfe6d7;
+      background: var(--green-soft);
+    }
+
+    .collapsible:not(.collapsed) .collapse-toggle {
+      color: white;
+      border-color: var(--indigo);
+      background: var(--indigo);
+    }
+
+    .collapsible.collapsed > .module-body {
+      display: none;
+    }
+
+    .collapsible.collapsed > .module-head {
+      border-bottom: 0;
+    }
+
+    .collapsible.collapsed .step {
+      background: #94a3b8;
+    }
+
+    .collapsible:not(.collapsed) {
+      border-color: #cbd8ff;
+      box-shadow: 0 18px 42px rgba(49, 103, 230, .12);
+    }
+
+    .collapsible:not(.collapsed) .module-head {
+      background: linear-gradient(180deg, #f5f7ff 0%, #ffffff 100%);
+    }
+
+    .module-body {
+      padding: 20px 24px 24px;
+    }
+
+    .module-body + .module-body {
+      border-top: 1px solid #edf2f7;
+    }
+
+    .module-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .module-label span:last-child {
+      color: #8a949d;
+      font-weight: 680;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+      background: #f8fafc;
+      border: 1px solid #e3eaf3;
+      border-left: 3px solid #7da2ff;
+      border-radius: 10px;
+      padding: 10px 11px;
+    }
+
+    .hint strong {
+      color: var(--ink);
+    }
+
+    .stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .section-band {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      padding: 14px;
+    }
+
+    .section-band .module-label {
+      margin-bottom: 8px;
+    }
+
+    .toolbar-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) 120px auto;
+      gap: 8px;
+      align-items: end;
+      margin-top: 10px;
+    }
+
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .summary-card {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: var(--radius);
+      padding: 10px;
+      min-height: 70px;
+    }
+
+    .summary-card label {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .summary-card strong {
+      font-size: 19px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .people-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 680;
+    }
+
+    input, select {
+      width: 100%;
+      height: 44px;
+      border: 1px solid #d7e0eb;
+      background: #fbfcff;
+      border-radius: 10px;
+      padding: 0 14px;
+      color: var(--ink);
+      font: inherit;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--indigo);
+      box-shadow: 0 0 0 4px rgba(91, 93, 240, .12);
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      background: var(--soft);
+      padding: 5px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+    }
+
+    .segmented button,
+    .chip button,
+    .tool-button {
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 720;
+      height: 32px;
+      cursor: pointer;
+    }
+
+    .segmented button.active {
+      background: white;
+      border-color: var(--line);
+      box-shadow: 0 4px 12px rgba(31, 42, 61, .08);
+    }
+
+    .style-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .style-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: white;
+      min-height: 70px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .style-card.active {
+      border-color: #8fa7ff;
+      background: #f1f5ff;
+      box-shadow: inset 0 0 0 1px rgba(91, 93, 240, .16);
+    }
+
+    .style-select {
+      min-width: 0;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      padding: 0;
+      cursor: pointer;
+      color: var(--ink);
+      font: inherit;
+    }
+
+    .style-card strong {
+      display: block;
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .style-select span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    .addons {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .addon {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 11px;
+      display: grid;
+      grid-template-columns: 20px minmax(0, 1fr) 58px auto;
+      align-items: center;
+      gap: 8px;
+      background: white;
+      min-height: 46px;
+    }
+
+    .addon:has(input:checked) {
+      border-color: #b8c6ff;
+      background: #f2f5ff;
+    }
+
+    .addon input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+    }
+
+    .addon-name {
+      font-weight: 700;
+      min-width: 0;
+      line-height: 1.2;
+    }
+
+    .addon-time {
+      color: var(--muted);
+      text-align: right;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .ie-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .ie-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) 110px minmax(0, .9fr) auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .route-template-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto auto;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .ie-row.header {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 760;
+      padding: 0 4px;
+    }
+
+    .ie-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .ie-summary .summary-card {
+      min-height: 62px;
+    }
+
+    .mini-button,
+    .danger-button {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: white;
+      color: var(--ink);
+      height: 30px;
+      padding: 0 11px;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 760;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .mini-button {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+
+    .mini-button:disabled,
+    .danger-button:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+
+    .danger-button {
+      color: var(--red);
+      border-color: #edc2bf;
+      background: #fffafa;
+    }
+
+    .people-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .worker-choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .worker-choice {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: white;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 20px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .worker-choice:has(input:checked) {
+      border-color: #b8c6ff;
+      background: #f2f5ff;
+    }
+
+    .worker-choice input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+    }
+
+    .worker-choice strong {
+      display: block;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .worker-choice span {
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .quick-worker-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 130px auto;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .person-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) 120px auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .temp-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) 110px 110px auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .total-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      padding: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 720;
+    }
+
+    .total-line strong {
+      color: var(--ink);
+      font-size: 14px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      padding: 8px 0;
+      border-bottom: 1px solid #edf0ec;
+    }
+
+    .row:last-child { border-bottom: 0; }
+    .row span:first-child {
+      color: var(--muted);
+      min-width: 0;
+    }
+    .row strong {
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+      white-space: nowrap;
+      max-width: 62%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: var(--radius);
+      padding: 14px;
+    }
+
+    .metric label {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .metric .value {
+      font-size: 23px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .metric.green { background: var(--green-soft); border-color: #bfdccc; }
+    .metric.amber { background: var(--amber-soft); border-color: #ebc792; }
+    .metric.blue { background: var(--blue-soft); border-color: #bed8e7; }
+    .metric.red { background: var(--red-soft); border-color: #edc2bf; }
+
+    .quote-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .quote-card {
+      border: 1px solid rgba(148, 163, 184, .24);
+      border-left: 4px solid var(--green);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .06);
+      padding: 14px;
+      box-shadow: none;
+      color: #e5edf8;
+    }
+
+    .quote-card.relaxed { border-left-color: var(--blue); }
+    .quote-card.urgent { border-left-color: var(--red); }
+
+    .quote-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .quote-title {
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .quote-price {
+      font-size: 28px;
+      font-weight: 840;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .quote-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      font-size: 12px;
+      color: #93a4bc;
+    }
+
+    .quote-meta strong {
+      color: #f8fafc;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 720;
+      background: var(--soft);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      white-space: nowrap;
+    }
+
+    .tag.green { background: var(--green-soft); color: #165d47; border-color: #b9d8c9; }
+    .tag.amber { background: var(--amber-soft); color: #85500f; border-color: #e8c17f; }
+    .tag.red { background: var(--red-soft); color: #8f302b; border-color: #e8b9b5; }
+
+    .bar {
+      height: 10px;
+      background: #e7ebe6;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 7px;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 999px;
+      width: 0;
+      transition: width .2s ease;
+    }
+
+    .note {
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #fbfcfa;
+      padding: 10px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .decision {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px;
+      border-radius: var(--radius);
+      background: var(--soft);
+      border: 1px solid var(--line);
+    }
+
+    .board-panel {
+      background: #0f172a;
+      color: white;
+      border-color: #17213a;
+      border-radius: 28px;
+      box-shadow: 0 24px 56px rgba(15, 23, 42, .24);
+    }
+
+    .board-panel .module-head {
+      background: #1b1f55;
+      border-bottom-color: rgba(255, 255, 255, .08);
+      padding: 24px 28px;
+    }
+
+    .board-panel .module-copy,
+    .board-panel h2 {
+      color: #d8e3dc;
+    }
+
+    .board-panel .module-label {
+      color: #aebbb4;
+    }
+
+    .board-panel .module-label span:last-child {
+      color: #87958d;
+    }
+
+    .board-panel .module-body {
+      background: #0f172a;
+      padding: 22px 28px;
+    }
+
+    .board-panel .row {
+      border-bottom-color: rgba(255, 255, 255, .08);
+      padding: 10px 0;
+    }
+
+    .board-panel .row span:first-child {
+      color: #aebbb4;
+    }
+
+    .board-panel .metric {
+      background: rgba(255, 255, 255, .06);
+      border-color: rgba(255, 255, 255, .12);
+      color: white;
+    }
+
+    .board-panel .metric label {
+      color: #aebbb4;
+    }
+
+    .board-panel .quote-card,
+    .board-panel .case-item,
+    .board-panel .note,
+    .board-panel .decision {
+      background: rgba(255, 255, 255, .06);
+      color: #e5edf8;
+      border-color: rgba(148, 163, 184, .24);
+    }
+
+    .board-panel .decision .tag,
+    .board-panel .quote-card .tag {
+      background: rgba(91, 93, 240, .28);
+      border-color: rgba(129, 140, 248, .38);
+      color: #dbeafe;
+    }
+
+    .decision strong {
+      font-size: 16px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tool-button {
+      height: 36px;
+      padding: 0 12px;
+      background: var(--black);
+      color: white;
+    }
+
+    .tool-button.secondary {
+      background: white;
+      color: var(--ink);
+      border-color: var(--line);
+    }
+
+    .history-list {
+      display: grid;
+      gap: 8px;
+      max-height: 230px;
+      overflow: auto;
+    }
+
+    .case-item {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 9px;
+      background: white;
+      display: grid;
+      gap: 5px;
+    }
+
+    .case-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-weight: 760;
+    }
+
+    .case-meta {
+      color: var(--muted);
+      font-size: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .sticky {
+      position: sticky;
+      top: 16px;
+    }
+
+    @media (max-width: 1180px) {
+      .app { grid-template-columns: 1fr; }
+      .sticky { position: static; }
+      .style-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .summary-strip { grid-template-columns: 1fr; }
+      .toolbar-row,
+      .person-row { grid-template-columns: minmax(0, 1fr) 110px auto; }
+      .temp-row { grid-template-columns: minmax(0, 1fr) 100px 100px auto; }
+    }
+
+    @media (max-width: 720px) {
+      .app { padding: 10px; gap: 10px; }
+      header { align-items: flex-start; flex-direction: column; gap: 10px; }
+      .grid-2, .grid-3, .addons, .quote-meta, .worker-choice-grid { grid-template-columns: 1fr; }
+      .style-grid { grid-template-columns: 1fr; }
+      .toolbar-row,
+      .quick-worker-row,
+      .person-row,
+      .temp-row,
+      .ie-row,
+      .route-template-row,
+      .ie-summary { grid-template-columns: 1fr; }
+      .ie-row.header { display: none; }
+      .quote-head { align-items: flex-start; flex-direction: column; }
+      .quote-price { font-size: 23px; }
+    }
+  
+
+/* Portfolio integration */
+body.quote-portfolio { min-width:320px; }
+.quote-portfolio .app { padding-top:22px; }
+.quote-portfolio .sticky { top:calc(var(--portfolio-bar-h) + 16px); }
+@media (max-width:1180px) { .quote-portfolio .sticky { top:auto; } }
+
+
+          html,body{min-height:100%;background:#f4f6fb!important}.portfolio-privacy{display:none!important}
+          .app{padding:24px!important;min-height:100vh}.sticky{top:18px!important}
+          @media(max-width:720px){.app{padding:12px!important}}
+        </style>
+<script>
+(function(){
+  function install(name){
+    try {
+      var real = window[name];
+      var k = '__wy_storage_probe__';
+      real.setItem(k,'1'); real.removeItem(k);
+      return;
+    } catch (err) {}
+    var data = Object.create(null);
+    var api = {};
+    Object.defineProperties(api, {
+      getItem:{value:function(k){ k=String(k); return Object.prototype.hasOwnProperty.call(data,k)?data[k]:null; }},
+      setItem:{value:function(k,v){ data[String(k)]=String(v); }},
+      removeItem:{value:function(k){ delete data[String(k)]; }},
+      clear:{value:function(){ Object.keys(data).forEach(function(k){ delete data[k]; }); }},
+      key:{value:function(i){ return Object.keys(data)[Number(i)] || null; }},
+      length:{get:function(){ return Object.keys(data).length; }}
+    });
+    var proxy = new Proxy(api, {
+      ownKeys:function(){ return Object.keys(data); },
+      getOwnPropertyDescriptor:function(target, prop){
+        if (Object.prototype.hasOwnProperty.call(data, prop)) return {value:data[prop], enumerable:true, configurable:true, writable:true};
+        return Object.getOwnPropertyDescriptor(target, prop);
+      },
+      get:function(target, prop){
+        if (prop in target) return target[prop];
+        if (Object.prototype.hasOwnProperty.call(data, prop)) return data[prop];
+      },
+      set:function(target, prop, value){ data[String(prop)] = String(value); return true; },
+      deleteProperty:function(target, prop){ delete data[String(prop)]; return true; }
+    });
+    try { Object.defineProperty(window, name, {value:proxy, configurable:true}); } catch (e) {}
+  }
+  install('localStorage'); install('sessionStorage');
+})();
+</script>
+<script>
+(function(){
+  window.__WY_APP_ERRORS__ = [];
+  function send(type, detail){
+    try { parent.postMessage(Object.assign({source:'wy-embedded-app', type:type, app:document.documentElement.dataset.app || ''}, detail || {}), '*'); } catch(e) {}
+  }
+  window.addEventListener('error', function(e){
+    var msg = e && e.message ? e.message : 'Unknown script error';
+    window.__WY_APP_ERRORS__.push(msg);
+    send('error', {message:msg, file:e.filename || '', line:e.lineno || 0});
+  });
+  window.addEventListener('unhandledrejection', function(e){
+    var reason = e && e.reason;
+    var msg = reason && (reason.stack || reason.message) ? (reason.stack || reason.message) : String(reason || 'Unhandled promise rejection');
+    window.__WY_APP_ERRORS__.push(msg);
+    send('error', {message:msg});
+  });
+  window.__WY_SEND__ = send;
+})();
+</script>
+</head>
+<body class="quote-portfolio">
+<div style="display:none" aria-hidden="true"><button id="openGuideBtn" type="button"></button><button id="resetDemoBtn" type="button"></button></div>
+
+  <div class="portfolio-privacy"><span><strong>DEMO DATA</strong>　工厂、人力、工序、订单及金额均为模拟内容。</span><span>调整任一参数，报价看板会实时重新计算。</span></div>
+  <main class="app">
+    <header>
+      <div>
+        <h1>Quote Engine · 小单快反核价系统</h1>
+        <p class="subhead">将 IE 标准工时、真实分钟成本、小单固定摊派与风险系数统一到同一报价模型</p>
+        <div class="header-meta">
+          <span class="header-pill">IE工序</span>
+          <span class="header-pill">真实分钟成本</span>
+          <span class="header-pill">小单摊派</span>
+          <span class="header-pill">三档报价</span>
+          <span class="header-pill">复盘校准</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="tool-button secondary" id="resetBtn" type="button">恢复默认</button>
+        <button class="tool-button" id="saveCaseBtn" type="button">保存案例</button>
+      </div>
+    </header>
+
+    <aside class="layout-col">
+      <section class="panel collapsible" data-module="factory">
+        <div class="module-head">
+          <div class="module-title">
+            <span class="step">01</span>
+            <div>
+              <h2>工厂底盘</h2>
+              <p class="module-copy">先算真实分钟成本，小厂报价高低主要从这里出来。</p>
+            </div>
+          </div>
+          <button class="collapse-toggle" type="button" aria-expanded="true">收起</button>
+        </div>
+        <div class="module-body">
+          <div class="module-label"><span>固定成本</span><span>每月口径</span></div>
+          <div class="grid-2">
+            <div class="field">
+              <label for="fixedCost">房租水电杂费</label>
+              <input id="fixedCost" type="number" min="0" step="100">
+            </div>
+            <div class="hint">房租、水电、设备折旧、常规杂费都放这里。工资不要填在这里，下面人员清单会自动合计。</div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="people-grid">
+            <div class="section-band">
+              <div class="module-label"><span>车间工人</span><span id="workerSummary">0人 / ¥0</span></div>
+              <div class="people-list" id="workerList"></div>
+              <div class="toolbar-row">
+                <input id="newWorkerName" type="text" placeholder="工人姓名/岗位">
+                <input id="newWorkerSalary" type="number" min="0" step="100" placeholder="月薪">
+                <button class="mini-button" id="addWorkerBtn" type="button">添加</button>
+              </div>
+            </div>
+            <div class="section-band">
+              <div class="module-label"><span>管理/跟单</span><span id="staffSummary">0人 / ¥0</span></div>
+              <div class="people-list" id="staffList"></div>
+              <div class="toolbar-row">
+                <input id="newStaffName" type="text" placeholder="姓名/岗位">
+                <input id="newStaffSalary" type="number" min="0" step="100" placeholder="月薪">
+                <button class="mini-button" id="addStaffBtn" type="button">添加</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="section-band">
+            <div class="module-label"><span>临时工（本订单）</span><span id="tempWorkerSummary">¥0 / 本单</span></div>
+            <div class="hint" style="margin-bottom: 10px;"><strong>怎么填：</strong>临时工按本订单直接摊派，填时薪和预计工作小时。当前输入行会先计入报价；点“添加”或按回车后会固定成一条记录，方便继续加第二个临时工。</div>
+            <div class="people-list" id="tempWorkerList"></div>
+            <div class="temp-row" style="margin-top: 10px;">
+              <input id="newTempWorkerName" type="text" placeholder="临时工姓名/岗位">
+              <input id="newTempWorkerRate" type="number" min="0" step="1" placeholder="时薪">
+              <input id="newTempWorkerHours" type="number" min="0" step=".5" placeholder="小时">
+              <button class="mini-button" id="addTempWorkerBtn" type="button">添加</button>
+            </div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="module-label"><span>产能口径</span><span>影响分钟成本</span></div>
+          <div class="grid-2">
+            <div class="field">
+              <label for="workerCount">核算产能人数</label>
+              <input id="workerCount" type="number" min="1" step="1">
+              <div class="hint"><strong>怎么填：</strong>这是用来摊房租、管理等固定成本的产能人数，不是工人名单自动数量。新增员工不会自动摊薄成本；只有你确认长期产能真的增加了，再改这里。</div>
+            </div>
+            <div class="field">
+              <label for="workDays">每月工作天</label>
+              <input id="workDays" type="number" min="1" max="31" step="1">
+            </div>
+            <div class="field">
+              <label for="dailyHours">每天工时</label>
+              <input id="dailyHours" type="number" min="1" max="16" step=".5">
+            </div>
+            <div class="field">
+              <label for="sellableRate">可售产能率</label>
+              <input id="sellableRate" type="number" min="30" max="100" step="1">
+              <div class="hint"><strong>怎么填：</strong>不是出勤率，是“真正能拿来生产并报价的时间比例”。小单快反常见 70%-85%；经常等料/换款多填 60%-70%；排产稳定可填 80%-90%。不建议填 100%。</div>
+            </div>
+            <div class="field">
+              <label for="staffAllocation">管理摊入比例</label>
+              <input id="staffAllocation" type="number" min="0" max="100" step="5">
+              <div class="hint"><strong>怎么填：</strong>管理/跟单工资有多少要摊进生产报价。只负责生产可填 60%-80%；还做销售、采购、售后等可填 30%-60%；订单特别依赖跟单沟通时可以提高。</div>
+            </div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="module-label"><span>当前产能状态</span><span>决定接单策略</span></div>
+          <div class="segmented" id="capacityButtons"></div>
+        </div>
+      </section>
+
+      <section class="panel collapsible" data-module="materials">
+        <div class="module-head">
+          <div class="module-title">
+            <span class="step">02</span>
+            <div>
+              <h2>材料和物流</h2>
+              <p class="module-copy">把面辅料、损耗、物流这些不该靠感觉的成本单独管住。</p>
+            </div>
+          </div>
+          <button class="collapse-toggle" type="button" aria-expanded="true">收起</button>
+        </div>
+        <div class="module-body">
+          <div class="hint" style="margin-bottom: 12px;"><strong>单位说明：</strong>面料、辅料、包装、外发都填“元/件”；整单物流填“元/单”，系统会自动除以生产件数；材料损耗率填百分比，例如 10 表示 10%。</div>
+          <div class="grid-2">
+            <div class="field">
+              <label for="fabricCost">单件面料（元/件）</label>
+              <input id="fabricCost" type="number" min="0" step=".1">
+            </div>
+            <div class="field">
+              <label for="accessoryCost">单件辅料（元/件）</label>
+              <input id="accessoryCost" type="number" min="0" step=".1">
+            </div>
+            <div class="field">
+              <label for="wasteRate">材料损耗率（%）</label>
+              <input id="wasteRate" type="number" min="0" max="60" step="1">
+            </div>
+            <div class="field">
+              <label for="packagingCost">单件包装（元/件）</label>
+              <input id="packagingCost" type="number" min="0" step=".1">
+            </div>
+            <div class="field">
+              <label for="shippingCost">整单物流（元/单）</label>
+              <input id="shippingCost" type="number" min="0" step="1">
+            </div>
+            <div class="field">
+              <label for="outsourceCost">单件外发（元/件）</label>
+              <input id="outsourceCost" type="number" min="0" step=".1">
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="panel collapsible" data-module="order">
+        <div class="module-head">
+          <div class="module-title">
+            <span class="step">03</span>
+            <div>
+              <h2>订单和 IE 路线</h2>
+              <p class="module-copy">先选一条工序路线，系统用 SAM 合计作为报价工时底盘。</p>
+            </div>
+          </div>
+          <button class="collapse-toggle" type="button" aria-expanded="true">收起</button>
+        </div>
+        <div class="module-body">
+          <div class="grid-3">
+            <div class="field">
+              <label for="quantity">生产件数</label>
+              <input id="quantity" type="number" min="1" step="1">
+            </div>
+            <div class="field">
+              <label for="marketPrice">客户心理单价</label>
+              <input id="marketPrice" type="number" min="0" step=".1">
+            </div>
+            <div class="field">
+              <label for="customerType">客户类型</label>
+              <select id="customerType">
+                <option value="new">新客户</option>
+                <option value="stable">稳定复购</option>
+                <option value="strict">验货严格</option>
+                <option value="sample">打样转小单</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="module-label"><span>本单生产工人</span><span id="assignedWorkerSummary">自动按勾选工人核算</span></div>
+          <div class="hint" style="margin-bottom: 10px;"><strong>怎么选：</strong>这单实际由哪几个车位做，就勾哪几个。没有在列表里的工人，可以在下面快速添加并勾选。</div>
+          <div class="worker-choice-grid" id="assignedWorkerList"></div>
+          <div class="quick-worker-row">
+            <input id="quickWorkerName" type="text" placeholder="新增工人姓名/岗位">
+            <input id="quickWorkerSalary" type="number" min="0" step="100" placeholder="月薪">
+            <button class="mini-button" id="quickAddWorkerBtn" type="button">添加并勾选</button>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="module-label"><span>IE 路线模板</span><span>选择后生成工序清单</span></div>
+          <div class="style-grid" id="routeCards"></div>
+          <div class="route-template-row">
+            <input id="newRouteName" type="text" placeholder="新路线名称，如 POLO衫/瑜伽裤">
+            <input id="newRouteNote" type="text" placeholder="说明，可空，如 翻领短袖/弹力面料">
+            <button class="mini-button" id="saveRouteBtn" type="button">保存当前工序为模板</button>
+            <button class="danger-button" id="deleteRouteBtn" type="button">删除当前自建模板</button>
+          </div>
+          <div class="hint" style="margin-top: 12px;"><strong>IE 逻辑：</strong>模板只是起点，不要求固定 8 道工序。你可以在下方增删工序，再保存成自己的路线模板；复杂款几十道工序也可以按真实 IE 路线维护。</div>
+        </div>
+      </section>
+
+      <section class="panel collapsible" data-module="craft">
+        <div class="module-head">
+          <div class="module-title">
+            <span class="step">04</span>
+            <div>
+              <h2>IE 工序工时</h2>
+              <p class="module-copy">逐道维护 SAM，复杂款就增加工序，不再靠勾选项猜时间。</p>
+            </div>
+          </div>
+          <button class="collapse-toggle" type="button" aria-expanded="true">收起</button>
+        </div>
+        <div class="module-body">
+          <div class="ie-summary">
+            <div class="summary-card">
+              <label>工序 SAM 合计</label>
+              <strong><span id="ieSamTotal">0</span> 分</strong>
+            </div>
+            <div class="summary-card">
+              <label>报价标准工时</label>
+              <strong><span id="ieStandardPreview">0</span> 分</strong>
+            </div>
+            <div class="summary-card">
+              <label>批量熟练系数</label>
+              <strong><span id="batchEfficiencyPreview">1.00</span> 倍</strong>
+            </div>
+            <div class="summary-card">
+              <label>工序数量</label>
+              <strong><span id="ieOperationCount">0</span> 道</strong>
+            </div>
+          </div>
+          <div class="ie-list" id="ieOperations"></div>
+          <div class="ie-row" style="margin-top: 10px;">
+            <input id="newOperationName" type="text" placeholder="新增工序，如合肩/上领/压明线">
+            <input id="newOperationSam" type="number" min="0.1" step=".1" placeholder="SAM分，可先空着">
+            <input id="newOperationMachine" type="text" placeholder="设备/岗位，可空">
+            <button class="mini-button" id="addOperationBtn" type="button">添加工序</button>
+          </div>
+          <div class="hint" style="margin-top: 8px;"><strong>新增工序：</strong>填名称后点添加即可；SAM 暂时不确定时系统先按 0.1 分保存，后面可以直接在表格里改。</div>
+        </div>
+        <div class="module-body">
+          <div class="grid-3">
+            <div class="field">
+              <label for="fabricDifficulty">面料/操作难度</label>
+              <select id="fabricDifficulty"></select>
+              <div class="hint"><strong>怎么填：</strong>普通汗布选普通；弹力大、卷边、滑料、格条定位，会让同一道工序变慢，再选更高难度。</div>
+            </div>
+            <div class="field">
+              <label for="customMinutes">IE 校准差异/件</label>
+              <input id="customMinutes" type="number" min="0" step=".5">
+              <div class="hint"><strong>怎么填：</strong>如果这单有 IE 表没列到的特殊动作，在这里补分钟。基础 T 恤一般填 0。</div>
+            </div>
+            <div class="field">
+              <label>工时公式</label>
+              <div class="hint"><strong>当前：</strong>SAM 合计 × 面料难度 × 批量熟练系数 ÷ IE达成率 × 宽放率。工序时间只算每件衣服必须做的动作；换款、沟通、开款放到整单固定成本里摊。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel collapsible" data-module="setup">
+        <div class="module-head">
+          <div class="module-title">
+            <span class="step">05</span>
+            <div>
+              <h2>快反固定成本</h2>
+              <p class="module-copy">小单报价最容易被忽略的，是换款等待、跟单沟通和开款摊派。</p>
+            </div>
+          </div>
+          <button class="collapse-toggle" type="button" aria-expanded="true">收起</button>
+        </div>
+        <div class="module-body">
+          <div class="grid-3">
+            <div class="field">
+              <label for="changeoverMinutes">换款停机分钟</label>
+              <input id="changeoverMinutes" type="number" min="0" step="5">
+              <div class="hint"><strong>怎么填：</strong>填这单从上一款切换过来造成的整单停机/调机/找辅料/换线等待时间，不是单件时间。比如换款前后车间大概空转 30 分钟，就填 30。</div>
+            </div>
+            <div class="field">
+              <label for="changeoverPeople">换款影响人数</label>
+              <input id="changeoverPeople" type="number" min="1" step="1">
+              <div class="hint"><strong>怎么填：</strong>如果只是 1 个师傅调机就填 1；如果 4 个车位都在等料、等确认，就填 4。它只影响整单固定成本。</div>
+            </div>
+            <div class="field">
+              <label for="merchHours">跟单沟通小时</label>
+              <input id="merchHours" type="number" min="0" step=".5">
+              <div class="hint"><strong>怎么填：</strong>填这单预计会消耗的跟单、客服、确认细节、催料、对接客户的总小时数。简单复购可填 0.5-1，新客户或反复改款可填 3-6。</div>
+            </div>
+            <div class="field">
+              <label for="setupExtra">版房/开款杂费</label>
+              <input id="setupExtra" type="number" min="0" step="10">
+              <div class="hint"><strong>怎么理解：</strong>这里不是系统自动算打版费，而是你决定要让这单承担的开款费用。如果客户另付打版费，这里填 0；如果打版费要摊进这单，就填实际打版/纸样/开款杂费金额。</div>
+            </div>
+            <div class="field">
+              <label for="balanceRate">IE达成率/生产效率</label>
+              <input id="balanceRate" type="number" min="35" max="100" step="1">
+              <div class="hint"><strong>怎么填：</strong>这里表示实际车间能达到 IE 标准工时的比例。基础熟款可填 80%-90%；小单换款多或新款磨合填 65%-78%。填得越低，报价工时会被放大。</div>
+            </div>
+            <div class="field">
+              <label for="allowanceRate">宽放率</label>
+              <input id="allowanceRate" type="number" min="0" max="60" step="1">
+              <div class="hint"><strong>怎么填：</strong>喝水、上厕所、拿料、短暂停顿、疲劳都算这里。常规 12%-20%；简单熟款 8%-12%；复杂款或赶单可填 20%-30%。</div>
+            </div>
+            <div class="field">
+              <label for="riskRate">订单风险率</label>
+              <input id="riskRate" type="number" min="0" max="60" step="1">
+              <div class="hint"><strong>怎么填：</strong>稳定客户简单款 3%-5%；普通小单 8%-12%；面料难、验货严、容易返工或客户反复改，建议 15%-25%。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel collapsible" data-module="review">
+        <div class="module-head">
+          <div class="module-title">
+            <span class="step">06</span>
+            <div>
+              <h2>完单复盘</h2>
+              <p class="module-copy">做完回填实际数据，下一次类似款会更敢报价。</p>
+            </div>
+          </div>
+          <button class="collapse-toggle" type="button" aria-expanded="true">收起</button>
+        </div>
+        <div class="module-body">
+          <div class="hint" style="margin-bottom: 12px;"><strong>复盘用途：</strong>这里不是报价前必填项，是订单做完后回填真实结果，用来判断模板时间、损耗率、报价是否偏高或偏低。建议每单结束后花 2 分钟填一次。</div>
+          <div class="grid-3">
+            <div class="field">
+              <label for="actualMinutes">实际单件分钟（分/件）</label>
+              <input id="actualMinutes" type="number" min="0" step=".5">
+              <div class="hint"><strong>怎么填：</strong>用这单实际生产总分钟 ÷ 成品件数。比如 3 个工人各做 5 小时，共 900 分钟，做出 30 件，就填 30。尽量不要把打版沟通时间混进来，那部分前面已在快反固定成本里算。</div>
+            </div>
+            <div class="field">
+              <label for="actualWaste">实际损耗率（%）</label>
+              <input id="actualWaste" type="number" min="0" max="80" step="1">
+              <div class="hint"><strong>怎么填：</strong>按材料口径填百分比。粗算可以用“实际用料金额 ÷ 理论用料金额 - 1”。如果原本预计损耗 10%，实际大概多用了 15%，这里填 15。</div>
+            </div>
+            <div class="field">
+              <label for="actualPrice">实际成交单价（元/件）</label>
+              <input id="actualPrice" type="number" min="0" step=".1">
+              <div class="hint"><strong>怎么填：</strong>填客户最终确认的单件加工/出厂价格，不含另收的开款费、打版费和整单运费。如果你是全包价谈成的，就填全包折算到每件后的价格。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </aside>
+
+    <aside class="layout-col sticky">
+      <section class="panel board-panel">
+        <div class="module-head">
+          <div class="module-title">
+            <span class="step">¥</span>
+            <div>
+              <h2>报价看板</h2>
+              <p class="module-copy">内部看保本，对外看三档报价。</p>
+            </div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="grid-2">
+          <div class="metric green">
+            <label>预估标准工时</label>
+            <div class="value"><span id="standardMinutes">0</span> 分</div>
+          </div>
+          <div class="metric blue">
+            <label>本单分钟成本</label>
+            <div class="value">¥<span id="minuteCost">0</span></div>
+          </div>
+          <div class="metric amber">
+            <label>预计生产历时</label>
+            <div class="value"><span id="elapsedTime">0小时</span></div>
+          </div>
+          <div class="metric green">
+            <label>日产参考</label>
+            <div class="value"><span id="dailyOutput">0</span> 件/天</div>
+          </div>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="module-label"><span>成本拆解</span><span>内部底线</span></div>
+          <div class="row"><span>本单生产工人</span><strong id="assignedWorkerText">未选择</strong></div>
+          <div class="row"><span>工厂平均分钟成本</span><strong id="factoryMinuteCost">¥0</strong></div>
+          <div class="row"><span>单件材料</span><strong id="materialTotal">¥0</strong></div>
+          <div class="row"><span>单件缝制人工</span><strong id="laborTotal">¥0</strong></div>
+          <div class="row"><span>批量熟练系数</span><strong id="batchEfficiencyText">1.00倍</strong></div>
+          <div class="row"><span>临时工摊派</span><strong id="tempLaborTotal">¥0</strong></div>
+          <div class="row"><span>单件物流外发</span><strong id="logisticsTotal">¥0</strong></div>
+          <div class="row"><span>单件可变保本</span><strong id="variableCost">¥0</strong></div>
+          <div class="row"><span>风险准备</span><strong id="riskCost">¥0</strong></div>
+          <div class="row"><span>整单固定成本</span><strong id="setupCost">¥0</strong></div>
+          <div class="row"><span>单件固定摊派</span><strong id="setupPerPiece">¥0</strong></div>
+          <div class="row"><span>全摊保本单价</span><strong id="breakEven">¥0</strong></div>
+        </div>
+        <div class="module-body">
+          <div class="module-label"><span>三档报价</span><span>给客户选择</span></div>
+          <div class="quote-list" id="quotes"></div>
+        </div>
+        <div class="module-body">
+          <div class="module-label"><span>接单判断</span><span>系统建议</span></div>
+          <div class="decision">
+            <strong id="decisionText">可接</strong>
+            <span id="decisionTag" class="tag green">正常</span>
+          </div>
+          <div style="height:10px"></div>
+          <div class="note" id="adviceText"></div>
+        </div>
+        <div class="module-body">
+          <div class="module-label"><span>复盘偏差</span><span>完单后看</span></div>
+          <div class="row"><span>工时偏差</span><strong id="timeDiff">未填</strong></div>
+          <div class="row"><span>损耗偏差</span><strong id="wasteDiff">未填</strong></div>
+          <div class="row"><span>成交毛利</span><strong id="actualMargin">未填</strong></div>
+          <div class="bar"><div class="bar-fill" id="marginBar"></div></div>
+        </div>
+        <div class="module-body">
+          <div class="module-label"><span>历史案例</span><span>最多显示12条</span></div>
+          <div class="history-list" id="historyList"></div>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  
+<div class="portfolio-guide" id="portfolioGuide" role="dialog" aria-modal="true" aria-labelledby="portfolioGuideTitle" hidden>
+    <section class="portfolio-guide-card"><div class="portfolio-guide-head"><div><small>3 MINUTE PRODUCT WALKTHROUGH</small><h2 id="portfolioGuideTitle">3 分钟体验 Quote Engine</h2></div><button class="portfolio-guide-close" id="closePortfolioGuide" type="button" aria-label="关闭">×</button></div>
+      <div class="portfolio-guide-body"><p class="portfolio-guide-intro">这套演示展示的不是一个价格计算器，而是如何把工厂固定成本、IE 工序、材料、风险与交期转化为可复盘的报价规则。</p>
+        <div class="portfolio-guide-steps">
+          <button class="portfolio-guide-step" data-guide-module="factory"><span class="portfolio-guide-index">1</span><span class="portfolio-guide-copy"><strong>查看工厂底盘</strong><span>观察工资、产能率和管理摊入比例如何形成分钟成本。</span></span><span class="portfolio-guide-arrow">→</span></button>
+          <button class="portfolio-guide-step" data-guide-module="order"><span class="portfolio-guide-index">2</span><span class="portfolio-guide-copy"><strong>调整订单数量</strong><span>把 50 件改为 20 件，查看小单固定摊派与批量熟练系数变化。</span></span><span class="portfolio-guide-arrow">→</span></button>
+          <button class="portfolio-guide-step" data-guide-module="craft"><span class="portfolio-guide-index">3</span><span class="portfolio-guide-copy"><strong>修改 IE 工序</strong><span>增加一道工序或修改 SAM，报价标准工时会立即更新。</span></span><span class="portfolio-guide-arrow">→</span></button>
+          <button class="portfolio-guide-step" data-guide-module="review"><span class="portfolio-guide-index">4</span><span class="portfolio-guide-copy"><strong>填写完单复盘</strong><span>回填实际分钟、损耗和成交价，比较报价偏差。</span></span><span class="portfolio-guide-arrow">→</span></button>
+        </div><div class="portfolio-guide-note">推荐操作：把生产件数从 50 改成 20，再观察“单件固定摊派”“全摊保本单价”和三档报价的变化。</div>
+      </div></section></div>
+<script>(function(){
+  const key = "wy_portfolio_quote_engine_v2_cases";
+  const cases = [
+    {date:"2026/8/28",style:"基础T恤",qty:50,minutes:18.2,elapsedMinutes:313,productionWorkers:3,workerNames:"车位1、车位2、车位3",price:69.80,setup:164.40,actualMinutes:17.6,actualPrice:68},
+    {date:"2026/8/19",style:"衬衫/小衫",qty:30,minutes:51.4,elapsedMinutes:801,productionWorkers:2,workerNames:"车位2、车位4",price:138.60,setup:286.00,actualMinutes:54.2,actualPrice:142}
+  ];
+  if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify(cases));
+  window.WY_QUOTE_DEMO = {
+    reset(){
+      ["wy_portfolio_quote_engine_v2","wy_portfolio_quote_engine_v2_cases","wy_portfolio_quote_engine_v2_active_module","wy_portfolio_quote_engine_v2_pending_people"].forEach(k=>localStorage.removeItem(k));
+      sessionStorage.removeItem("wy_portfolio_quote_guide_seen_v1");
+      location.reload();
+    }
+  };
+})();</script>
+<script>
+    const defaultTemplates = [
+      { id: "tee", name: "T恤/背心", minutes: 16 },
+      { id: "sweatshirt", name: "卫衣/针织衫", minutes: 28 },
+      { id: "shirt", name: "衬衫/小衫", minutes: 36 },
+      { id: "pants", name: "裤子", minutes: 34 },
+      { id: "skirt", name: "半裙", minutes: 26 },
+      { id: "dress", name: "连衣裙", minutes: 48 },
+      { id: "jacket", name: "外套", minutes: 62 },
+      { id: "set", name: "套装", minutes: 78 }
+    ];
+
+    const complexityOptions = [
+      { id: "simple", name: "基础", factor: 0.90 },
+      { id: "normal", name: "常规", factor: 1.00 },
+      { id: "complex", name: "复杂", factor: 1.22 },
+      { id: "hard", name: "高复杂", factor: 1.45 }
+    ];
+
+    const fabricOptions = [
+      { id: "normal", name: "普通面料", factor: 0 },
+      { id: "stretch", name: "弹力针织", factor: 0.08 },
+      { id: "slippery", name: "雪纺/真丝易滑", factor: 0.18 },
+      { id: "stripe", name: "格条/定位", factor: 0.22 },
+      { id: "thick", name: "厚料/夹棉", factor: 0.25 }
+    ];
+
+    const defaultAddonOptions = [
+      { id: "collar", name: "领/门襟", minutes: 6 },
+      { id: "zipper", name: "拉链", minutes: 5 },
+      { id: "lining", name: "里布", minutes: 18 },
+      { id: "pocket", name: "口袋", minutes: 3 },
+      { id: "waist", name: "腰头/松紧", minutes: 5 },
+      { id: "cuff", name: "袖口/克夫", minutes: 4 },
+      { id: "slit", name: "开叉/下摆", minutes: 4 },
+      { id: "topstitch", name: "明线较多", minutes: 6 },
+      { id: "print", name: "印绣花配合", minutes: 3 }
+    ];
+
+    const defaultIeRoutes = [
+      {
+        id: "tee",
+        name: "基础T恤",
+        note: "圆领短袖，普通汗布",
+        operations: [
+          { id: "tee_01", name: "验片/配片", sam: 0.8, machine: "台面" },
+          { id: "tee_02", name: "合肩", sam: 1.2, machine: "四线" },
+          { id: "tee_03", name: "上领/包领", sam: 2.4, machine: "四线/绷缝" },
+          { id: "tee_04", name: "上袖", sam: 2.0, machine: "四线" },
+          { id: "tee_05", name: "合侧缝", sam: 1.8, machine: "四线" },
+          { id: "tee_06", name: "袖口/下摆", sam: 2.3, machine: "绷缝" },
+          { id: "tee_07", name: "剪线整理", sam: 0.9, machine: "手工" },
+          { id: "tee_08", name: "查货包装前检", sam: 1.0, machine: "质检" }
+        ]
+      },
+      {
+        id: "sweatshirt",
+        name: "卫衣/针织衫",
+        note: "罗纹领口袖口下摆",
+        operations: [
+          { id: "sw_01", name: "验片/配片", sam: 1.0, machine: "台面" },
+          { id: "sw_02", name: "合肩", sam: 1.4, machine: "四线" },
+          { id: "sw_03", name: "上领罗纹", sam: 2.8, machine: "四线" },
+          { id: "sw_04", name: "上袖", sam: 2.8, machine: "四线" },
+          { id: "sw_05", name: "合侧缝", sam: 2.5, machine: "四线" },
+          { id: "sw_06", name: "上袖口罗纹", sam: 3.4, machine: "四线" },
+          { id: "sw_07", name: "上脚口罗纹", sam: 3.8, machine: "四线" },
+          { id: "sw_08", name: "整烫/查货", sam: 2.0, machine: "后整" }
+        ]
+      },
+      {
+        id: "shirt",
+        name: "衬衫/小衫",
+        note: "领、门襟、袖克夫",
+        operations: [
+          { id: "sh_01", name: "验片/粘衬", sam: 2.2, machine: "台面" },
+          { id: "sh_02", name: "做领", sam: 5.5, machine: "平车" },
+          { id: "sh_03", name: "门襟/贴袋", sam: 5.0, machine: "平车" },
+          { id: "sh_04", name: "合肩/合侧", sam: 4.8, machine: "平车/四线" },
+          { id: "sh_05", name: "上袖", sam: 5.2, machine: "平车" },
+          { id: "sh_06", name: "袖克夫/下摆", sam: 6.0, machine: "平车" },
+          { id: "sh_07", name: "锁眼钉扣", sam: 3.2, machine: "专机" },
+          { id: "sh_08", name: "整烫查货", sam: 3.6, machine: "后整" }
+        ]
+      },
+      {
+        id: "pants",
+        name: "裤子",
+        note: "普通腰头长裤",
+        operations: [
+          { id: "pa_01", name: "验片/配片", sam: 1.2, machine: "台面" },
+          { id: "pa_02", name: "做袋", sam: 6.0, machine: "平车" },
+          { id: "pa_03", name: "合侧缝/内缝", sam: 5.8, machine: "平车/四线" },
+          { id: "pa_04", name: "装拉链", sam: 4.2, machine: "平车" },
+          { id: "pa_05", name: "上腰头", sam: 6.0, machine: "平车" },
+          { id: "pa_06", name: "裤脚/套结", sam: 3.5, machine: "平车/专机" },
+          { id: "pa_07", name: "整烫查货", sam: 3.0, machine: "后整" }
+        ]
+      }
+    ];
+
+    const capacityOptions = {
+      idle: { name: "空闲", marginAdjust: -0.04, laborAdjust: 0.94, tag: "填产能" },
+      normal: { name: "正常", marginAdjust: 0, laborAdjust: 1, tag: "标准" },
+      tight: { name: "紧张", marginAdjust: 0.06, laborAdjust: 1.16, tag: "排产紧" }
+    };
+
+    const customerRisk = {
+      new: 0.03,
+      stable: -0.02,
+      strict: 0.05,
+      sample: 0.01
+    };
+
+    function getBatchEfficiency(quantity) {
+      const qty = Math.max(1, Number(quantity || 1));
+      if (qty <= 30) return { factor: 1.08, label: "1-30件 小单磨合" };
+      if (qty <= 80) return { factor: 1, label: "31-80件 基准" };
+      if (qty <= 200) return { factor: 0.96, label: "81-200件 稳定批量" };
+      return { factor: 0.93, label: "200件以上 熟练批量" };
+    }
+
+    function cloneIeOperations(routeId) {
+      const route = defaultIeRoutes.find(item => item.id === routeId) || defaultIeRoutes[0];
+      return route.operations.map(item => ({ ...item }));
+    }
+
+    const defaults = {
+      fixedCost: 15000,
+      workers: [
+        { id: 1, name: "车位1", salary: 6000 },
+        { id: 2, name: "车位2", salary: 6000 },
+        { id: 3, name: "车位3", salary: 6000 },
+        { id: 4, name: "车位4", salary: 6000 },
+        { id: 5, name: "车位5", salary: 6000 },
+        { id: 6, name: "车位6", salary: 6000 }
+      ],
+      staffers: [
+        { id: 1, name: "跟单/客服", salary: 7000 },
+        { id: 2, name: "管理/主管", salary: 8000 }
+      ],
+      tempWorkers: [],
+      assignedTempWorkerIds: [],
+      workerCount: 6,
+      workerSalary: 36000,
+      staffSalary: 15000,
+      workDays: 26,
+      dailyHours: 8,
+      sellableRate: 78,
+      staffAllocation: 65,
+      capacity: "normal",
+      quantity: 50,
+      productionWorkers: 3,
+      assignedWorkerIds: [1, 2, 3],
+      marketPrice: 95,
+      customerType: "stable",
+      route: "tee",
+      ieRoutes: defaultIeRoutes,
+      ieOperations: cloneIeOperations("tee"),
+      template: "tee",
+      styleTemplates: defaultTemplates,
+      fabricDifficulty: "normal",
+      customMinutes: 0,
+      addons: [],
+      craftAddons: defaultAddonOptions,
+      fabricCost: 25,
+      accessoryCost: 4.8,
+      wasteRate: 10,
+      packagingCost: 1.5,
+      shippingCost: 60,
+      outsourceCost: 0,
+      changeoverMinutes: 10,
+      changeoverPeople: 1,
+      merchHours: 1,
+      setupExtra: 0,
+      balanceRate: 82,
+      allowanceRate: 12,
+      riskRate: 5,
+      actualMinutes: "",
+      actualWaste: "",
+      actualPrice: ""
+    };
+
+    const storeKey = "wy_portfolio_quote_engine_v2";
+    const activeModuleKey = storeKey + "_active_module";
+    const pendingPeopleKey = storeKey + "_pending_people";
+    const defaultActiveModule = "factory";
+    let state = normalizeState(loadState());
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(storeKey));
+        return saved ? { ...defaults, ...saved } : { ...defaults };
+      } catch {
+        return { ...defaults };
+      }
+    }
+
+    function normalizeState(rawState) {
+      const normalized = { ...defaults, ...rawState };
+      if (!Array.isArray(normalized.workers) || normalized.workers.length === 0) {
+        normalized.workers = defaults.workers.map(item => ({ ...item }));
+      }
+      const workerIds = normalized.workers.map(item => String(item.id));
+      normalized.assignedWorkerIds = (Array.isArray(normalized.assignedWorkerIds) ? normalized.assignedWorkerIds : [])
+        .map(id => String(id))
+        .filter(id => workerIds.includes(id));
+      if (normalized.assignedWorkerIds.length === 0) {
+        const fallbackCount = Math.max(1, Math.min(normalized.workers.length, Number(normalized.productionWorkers || 3)));
+        normalized.assignedWorkerIds = normalized.workers.slice(0, fallbackCount).map(item => String(item.id));
+      }
+      normalized.productionWorkers = normalized.assignedWorkerIds.length;
+      if (!Array.isArray(normalized.staffers) || normalized.staffers.length === 0) {
+        normalized.staffers = defaults.staffers.map(item => ({ ...item }));
+      }
+      if (!Array.isArray(normalized.tempWorkers)) {
+        normalized.tempWorkers = [];
+      }
+      const tempWorkerIds = normalized.tempWorkers.map(item => String(item.id));
+      normalized.assignedTempWorkerIds = (Array.isArray(normalized.assignedTempWorkerIds) ? normalized.assignedTempWorkerIds : tempWorkerIds)
+        .map(id => String(id))
+        .filter(id => tempWorkerIds.includes(id));
+      if (!Array.isArray(normalized.ieRoutes) || normalized.ieRoutes.length === 0) {
+        normalized.ieRoutes = defaultIeRoutes.map(route => ({
+          ...route,
+          operations: route.operations.map(item => ({ ...item }))
+        }));
+      }
+      const routeFromOldTemplate = normalized.route || normalized.template || "tee";
+      if (!normalized.ieRoutes.some(item => item.id === routeFromOldTemplate)) {
+        normalized.route = normalized.ieRoutes[0]?.id || "tee";
+      } else {
+        normalized.route = routeFromOldTemplate;
+      }
+      if (!Array.isArray(normalized.ieOperations) || normalized.ieOperations.length === 0) {
+        const sourceRoute = normalized.ieRoutes.find(item => item.id === normalized.route) || defaultIeRoutes[0];
+        normalized.ieOperations = (sourceRoute.operations || []).map(item => ({ ...item }));
+      }
+      if (!Array.isArray(normalized.styleTemplates) || normalized.styleTemplates.length === 0) {
+        normalized.styleTemplates = defaultTemplates.map(item => ({ ...item }));
+      }
+      if (!Array.isArray(normalized.craftAddons) || normalized.craftAddons.length === 0) {
+        normalized.craftAddons = defaultAddonOptions.map(item => ({ ...item }));
+      }
+      if (!normalized.styleTemplates.some(item => item.id === normalized.template)) {
+        normalized.template = normalized.styleTemplates[0]?.id || "custom";
+      }
+      normalized.addons = (Array.isArray(normalized.addons) ? normalized.addons : [])
+        .filter(id => normalized.craftAddons.some(item => item.id === id));
+      return normalized;
+    }
+
+    function saveState() {
+      localStorage.setItem(storeKey, JSON.stringify(state));
+    }
+
+    function makeId(prefix) {
+      return `${prefix}_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+    }
+
+    function collectPendingPersonRows() {
+      const read = (nameInputId, salaryInputId) => ({
+        name: document.getElementById(nameInputId)?.value || "",
+        salary: document.getElementById(salaryInputId)?.value || ""
+      });
+      return {
+        workers: read("newWorkerName", "newWorkerSalary"),
+        staffers: read("newStaffName", "newStaffSalary"),
+        tempWorkers: {
+          name: document.getElementById("newTempWorkerName")?.value || "",
+          hourlyRate: document.getElementById("newTempWorkerRate")?.value || "",
+          hours: document.getElementById("newTempWorkerHours")?.value || ""
+        }
+      };
+    }
+
+    function savePendingPersonRows() {
+      const pending = collectPendingPersonRows();
+      const hasValue = Object.values(pending).some(group =>
+        Object.values(group).some(value => String(value || "").trim() !== "")
+      );
+      if (hasValue) {
+        localStorage.setItem(pendingPeopleKey, JSON.stringify(pending));
+      } else {
+        localStorage.removeItem(pendingPeopleKey);
+      }
+    }
+
+    function restorePendingPersonRows() {
+      try {
+        const pending = JSON.parse(localStorage.getItem(pendingPeopleKey) || "{}");
+        const set = (id, value) => {
+          const node = document.getElementById(id);
+          if (node && value !== undefined) node.value = value;
+        };
+        set("newWorkerName", pending.workers?.name);
+        set("newWorkerSalary", pending.workers?.salary);
+        set("newStaffName", pending.staffers?.name);
+        set("newStaffSalary", pending.staffers?.salary);
+        set("newTempWorkerName", pending.tempWorkers?.name);
+        set("newTempWorkerRate", pending.tempWorkers?.hourlyRate);
+        set("newTempWorkerHours", pending.tempWorkers?.hours);
+      } catch {
+        localStorage.removeItem(pendingPeopleKey);
+      }
+    }
+
+    function commitPendingPersonRows() {
+      const commitPerson = (group, nameInputId, salaryInputId, defaultName) => {
+        const nameInput = document.getElementById(nameInputId);
+        const salaryInput = document.getElementById(salaryInputId);
+        if (!nameInput || !salaryInput) return;
+        const name = (nameInput.value || "").trim();
+        const salary = Number(salaryInput.value || 0);
+        if (!name && !salary) return;
+        state[group] = [...(Array.isArray(state[group]) ? state[group] : []), {
+          id: makeId(group),
+          name: name || defaultName,
+          salary
+        }];
+        nameInput.value = "";
+        salaryInput.value = "";
+      };
+
+      commitPerson("workers", "newWorkerName", "newWorkerSalary", "新工人");
+      commitPerson("staffers", "newStaffName", "newStaffSalary", "新跟单");
+
+      const nameInput = document.getElementById("newTempWorkerName");
+      const rateInput = document.getElementById("newTempWorkerRate");
+      const hoursInput = document.getElementById("newTempWorkerHours");
+      if (nameInput && rateInput && hoursInput) {
+        const name = (nameInput.value || "").trim();
+        const hourlyRate = Number(rateInput.value || 0);
+        const hours = Number(hoursInput.value || 0);
+        if (name || hourlyRate || hours) {
+          state.tempWorkers = [...getTempWorkers(), {
+            id: makeId("temp"),
+            name: name || "临时工",
+            hourlyRate,
+            hours
+          }];
+          nameInput.value = "";
+          rateInput.value = "";
+          hoursInput.value = "";
+        }
+      }
+      savePendingPersonRows();
+    }
+
+    function syncDynamicEditorsFromDom(options = {}) {
+      const syncPeople = (group, selector) => {
+        const rows = document.querySelectorAll(selector);
+        if (!rows.length || !Array.isArray(state[group])) return;
+        const updates = new Map();
+        rows.forEach(row => {
+          const id = row.dataset.id;
+          const name = row.querySelector('[data-person-field="name"]')?.value;
+          const salary = row.querySelector('[data-person-field="salary"]')?.value;
+          if (id) updates.set(String(id), { name, salary: Number(salary || 0) });
+        });
+        state[group] = state[group].map(item => {
+          const update = updates.get(String(item.id));
+          return update ? { ...item, name: update.name, salary: update.salary } : item;
+        });
+      };
+
+      syncPeople("workers", "#workerList .person-row");
+      syncPeople("staffers", "#staffList .person-row");
+
+      const tempRows = document.querySelectorAll("#tempWorkerList .temp-row");
+      if (tempRows.length && Array.isArray(state.tempWorkers)) {
+        const updates = new Map();
+        tempRows.forEach(row => {
+          const id = row.dataset.id;
+          if (!id) return;
+          updates.set(String(id), {
+            name: row.querySelector('[data-temp-field="name"]')?.value,
+            hourlyRate: Number(row.querySelector('[data-temp-field="hourlyRate"]')?.value || 0),
+            hours: Number(row.querySelector('[data-temp-field="hours"]')?.value || 0)
+          });
+        });
+        state.tempWorkers = state.tempWorkers.map(item => {
+          const update = updates.get(String(item.id));
+          return update ? { ...item, ...update } : item;
+        });
+      }
+
+      const operationRows = document.querySelectorAll("#ieOperations .ie-row[data-id]");
+      if (operationRows.length && Array.isArray(state.ieOperations)) {
+        const updates = new Map();
+        operationRows.forEach(row => {
+          const id = row.dataset.id;
+          if (!id) return;
+          updates.set(String(id), {
+            name: row.querySelector('[data-operation-field="name"]')?.value,
+            sam: Number(row.querySelector('[data-operation-field="sam"]')?.value || 0),
+            machine: row.querySelector('[data-operation-field="machine"]')?.value
+          });
+        });
+        state.ieOperations = state.ieOperations.map(item => {
+          const update = updates.get(String(item.id));
+          return update ? { ...item, ...update } : item;
+        });
+      }
+
+      if (options.commitDrafts) commitPendingPersonRows();
+    }
+
+    function syncAndSaveState(options = {}) {
+      syncDynamicEditorsFromDom(options);
+      saveState();
+    }
+
+    function loadActiveModule() {
+      try {
+        return localStorage.getItem(activeModuleKey) || defaultActiveModule;
+      } catch {
+        return defaultActiveModule;
+      }
+    }
+
+    function saveActiveModule(moduleId) {
+      localStorage.setItem(activeModuleKey, moduleId);
+    }
+
+    function applyActiveModule(activeModule) {
+      document.querySelectorAll(".panel.collapsible").forEach(panel => {
+        const moduleId = panel.dataset.module;
+        const isCollapsed = moduleId !== activeModule;
+        const button = panel.querySelector(".collapse-toggle");
+        panel.classList.toggle("collapsed", isCollapsed);
+        if (button) {
+          button.textContent = isCollapsed ? "进入" : "打开中";
+          button.setAttribute("aria-expanded", String(!isCollapsed));
+        }
+      });
+    }
+
+    function initCollapsiblePanels() {
+      applyActiveModule(loadActiveModule());
+
+      document.querySelectorAll(".panel.collapsible").forEach(panel => {
+        if (panel.dataset.boundCollapse === "true") return;
+        panel.dataset.boundCollapse = "true";
+
+        const button = panel.querySelector(".collapse-toggle");
+        const head = panel.querySelector(".module-head");
+        const moduleId = panel.dataset.module;
+        const togglePanel = () => {
+          syncAndSaveState({ commitDrafts: true });
+          saveActiveModule(moduleId);
+          applyActiveModule(moduleId);
+          panel.scrollIntoView({ behavior: "smooth", block: "start" });
+        };
+
+        button.addEventListener("click", event => {
+          event.stopPropagation();
+          togglePanel();
+        });
+
+        head.addEventListener("click", event => {
+          if (event.target.closest(".collapse-toggle")) return;
+          togglePanel();
+        });
+      });
+    }
+
+    function resetCollapsiblePanels() {
+      localStorage.removeItem(activeModuleKey);
+      applyActiveModule(defaultActiveModule);
+    }
+
+    function yuan(value) {
+      return "¥" + Number(value || 0).toFixed(2);
+    }
+
+    function one(value) {
+      return Number(value || 0).toFixed(1);
+    }
+
+    function pct(value) {
+      return Math.round(Number(value || 0) * 100) + "%";
+    }
+
+    function friendlyDuration(minutes, dailyHours) {
+      const mins = Math.max(0, Number(minutes || 0));
+      const hours = mins / 60;
+      if (hours < 10) return `${hours.toFixed(1)}小时`;
+      const days = hours / Math.max(1, Number(dailyHours || 8));
+      return `${hours.toFixed(1)}小时 / ${days.toFixed(1)}天`;
+    }
+
+    function value(id) {
+      const node = document.getElementById(id);
+      if (!node) return "";
+      return node.type === "number" ? Number(node.value || 0) : node.value;
+    }
+
+    function setText(id, text) {
+      document.getElementById(id).textContent = text;
+    }
+
+    function esc(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+    }
+
+    function bindInput(id) {
+      const node = document.getElementById(id);
+      if (!node) return;
+      node.value = state[id];
+      node.addEventListener("input", () => {
+        syncDynamicEditorsFromDom();
+        state[id] = node.type === "number" ? Number(node.value || 0) : node.value;
+        saveState();
+        render();
+      });
+    }
+
+    function sumSalary(items) {
+      return (items || []).reduce((sum, item) => sum + Number(item.salary || 0), 0);
+    }
+
+    function getWorkers() {
+      return Array.isArray(state.workers) ? state.workers : defaults.workers;
+    }
+
+    function getAssignedWorkerIds() {
+      const workers = getWorkers();
+      const validIds = new Set(workers.map(item => String(item.id)));
+      const selected = (Array.isArray(state.assignedWorkerIds) ? state.assignedWorkerIds : [])
+        .map(id => String(id))
+        .filter(id => validIds.has(id));
+      if (selected.length) return selected;
+      const fallbackCount = Math.max(1, Math.min(workers.length, Number(state.productionWorkers || 1)));
+      return workers.slice(0, fallbackCount).map(item => String(item.id));
+    }
+
+    function getAssignedWorkers() {
+      const selectedIds = new Set(getAssignedWorkerIds());
+      return getWorkers().filter(item => selectedIds.has(String(item.id)));
+    }
+
+    function normalizeAssignedWorkers() {
+      state.assignedWorkerIds = getAssignedWorkerIds();
+      state.productionWorkers = state.assignedWorkerIds.length;
+    }
+
+    function getStaffers() {
+      return Array.isArray(state.staffers) ? state.staffers : defaults.staffers;
+    }
+
+    function getTempWorkers() {
+      return Array.isArray(state.tempWorkers) ? state.tempWorkers : [];
+    }
+
+    function getAssignedTempWorkerIds() {
+      const tempWorkers = getTempWorkers();
+      const validIds = new Set(tempWorkers.map(item => String(item.id)));
+      return (Array.isArray(state.assignedTempWorkerIds) ? state.assignedTempWorkerIds : tempWorkers.map(item => item.id))
+        .map(id => String(id))
+        .filter(id => validIds.has(id));
+    }
+
+    function getAssignedTempWorkers() {
+      const selectedIds = new Set(getAssignedTempWorkerIds());
+      return getTempWorkers().filter(item => selectedIds.has(String(item.id)));
+    }
+
+    function normalizeAssignedTempWorkers() {
+      state.assignedTempWorkerIds = getAssignedTempWorkerIds();
+    }
+
+    function getPendingTempWorker() {
+      const nameInput = document.getElementById("newTempWorkerName");
+      const rateInput = document.getElementById("newTempWorkerRate");
+      const hoursInput = document.getElementById("newTempWorkerHours");
+      if (!nameInput || !rateInput || !hoursInput) return null;
+      const name = (nameInput.value || "").trim();
+      const hourlyRate = Number(rateInput.value || 0);
+      const hours = Number(hoursInput.value || 0);
+      if (!name && !hourlyRate && !hours) return null;
+      return {
+        id: "pending_temp",
+        name: name || "临时工",
+        hourlyRate,
+        hours,
+        pending: true
+      };
+    }
+
+    function getTempWorkersForQuote() {
+      const pendingTempWorker = getPendingTempWorker();
+      return pendingTempWorker ? [...getAssignedTempWorkers(), pendingTempWorker] : getAssignedTempWorkers();
+    }
+
+    function sumTempWorkers(items) {
+      return (items || []).reduce((sum, item) => sum + Number(item.hourlyRate || 0) * Number(item.hours || 0), 0);
+    }
+
+    function getIeRoutes() {
+      return Array.isArray(state.ieRoutes) && state.ieRoutes.length ? state.ieRoutes : defaultIeRoutes;
+    }
+
+    function isDefaultIeRoute(routeId) {
+      return defaultIeRoutes.some(route => route.id === routeId);
+    }
+
+    function getIeOperations() {
+      return Array.isArray(state.ieOperations) ? state.ieOperations : [];
+    }
+
+    function sumIeSam() {
+      return getIeOperations().reduce((sum, item) => sum + Number(item.sam || 0), 0);
+    }
+
+    function getStyleTemplates() {
+      return Array.isArray(state.styleTemplates) && state.styleTemplates.length ? state.styleTemplates : defaultTemplates;
+    }
+
+    function getCraftAddons() {
+      return Array.isArray(state.craftAddons) && state.craftAddons.length ? state.craftAddons : defaultAddonOptions;
+    }
+
+    function addPerson(group, nameInputId, salaryInputId, defaultName) {
+      syncDynamicEditorsFromDom();
+      const nameInput = document.getElementById(nameInputId);
+      const salaryInput = document.getElementById(salaryInputId);
+      const name = (nameInput.value || defaultName).trim();
+      const salary = Number(salaryInput.value || 0);
+      state[group] = [...state[group], { id: makeId(group), name, salary }];
+      nameInput.value = "";
+      salaryInput.value = "";
+      savePendingPersonRows();
+      saveState();
+      render();
+    }
+
+    function updatePerson(group, id, field, value) {
+      state[group] = state[group].map(item => String(item.id) === String(id) ? {
+        ...item,
+        [field]: field === "salary" ? Number(value || 0) : value
+      } : item);
+      if (group === "workers") normalizeAssignedWorkers();
+      saveState();
+      renderPeopleSummary();
+      renderAssignedWorkers();
+      renderOutputs();
+    }
+
+    function removePerson(group, id) {
+      syncDynamicEditorsFromDom();
+      state[group] = state[group].filter(item => String(item.id) !== String(id));
+      if (state[group].length === 0) {
+        state[group] = group === "workers"
+          ? [{ id: makeId("workers"), name: "新工人", salary: 0 }]
+          : [{ id: makeId("staffers"), name: "新跟单", salary: 0 }];
+      }
+      if (group === "workers") normalizeAssignedWorkers();
+      saveState();
+      render();
+    }
+
+    function addTempWorker() {
+      syncDynamicEditorsFromDom();
+      const nameInput = document.getElementById("newTempWorkerName");
+      const rateInput = document.getElementById("newTempWorkerRate");
+      const hoursInput = document.getElementById("newTempWorkerHours");
+      const name = (nameInput.value || "临时工").trim();
+      const hourlyRate = Number(rateInput.value || 0);
+      const hours = Number(hoursInput.value || 0);
+      const id = makeId("temp");
+      state.tempWorkers = [...getTempWorkers(), { id, name, hourlyRate, hours }];
+      state.assignedTempWorkerIds = [...getAssignedTempWorkerIds(), String(id)];
+      nameInput.value = "";
+      rateInput.value = "";
+      hoursInput.value = "";
+      savePendingPersonRows();
+      saveState();
+      render();
+    }
+
+    function updateTempWorker(id, field, value) {
+      state.tempWorkers = getTempWorkers().map(item => String(item.id) === String(id) ? {
+        ...item,
+        [field]: field === "name" ? value : Number(value || 0)
+      } : item);
+      normalizeAssignedTempWorkers();
+      saveState();
+      renderTempWorkersSummary();
+      renderAssignedWorkers();
+      renderOutputs();
+    }
+
+    function removeTempWorker(id) {
+      syncDynamicEditorsFromDom();
+      state.tempWorkers = getTempWorkers().filter(item => String(item.id) !== String(id));
+      normalizeAssignedTempWorkers();
+      saveState();
+      render();
+    }
+
+    function applyIeRoute(routeId) {
+      syncDynamicEditorsFromDom();
+      const route = getIeRoutes().find(item => item.id === routeId) || getIeRoutes()[0];
+      state.route = route.id;
+      state.template = route.id;
+      state.ieOperations = (route.operations || []).map(item => ({ ...item, id: makeId("op") }));
+      saveState();
+      render();
+    }
+
+    function saveCurrentRouteTemplate() {
+      syncDynamicEditorsFromDom();
+      const nameInput = document.getElementById("newRouteName");
+      const noteInput = document.getElementById("newRouteNote");
+      const currentRoute = getIeRoutes().find(item => item.id === state.route);
+      const name = (nameInput?.value || "").trim() || `${currentRoute?.name || "自定义路线"}副本`;
+      const note = (noteInput?.value || "").trim() || "自建IE路线";
+      const operations = getIeOperations()
+        .filter(item => String(item.name || "").trim() || Number(item.sam || 0) > 0)
+        .map(item => ({
+          id: makeId("tplop"),
+          name: String(item.name || "未命名工序").trim(),
+          sam: Number(item.sam || 0),
+          machine: String(item.machine || "").trim()
+        }));
+      if (!operations.length) return;
+      const id = makeId("route");
+      state.ieRoutes = [...getIeRoutes(), { id, name, note, userCreated: true, operations }];
+      state.route = id;
+      state.template = id;
+      state.ieOperations = operations.map(item => ({ ...item, id: makeId("op") }));
+      if (nameInput) nameInput.value = "";
+      if (noteInput) noteInput.value = "";
+      saveState();
+      render();
+    }
+
+    function deleteCurrentRouteTemplate() {
+      syncDynamicEditorsFromDom();
+      if (isDefaultIeRoute(state.route)) return;
+      const nextRoutes = getIeRoutes().filter(route => route.id !== state.route);
+      state.ieRoutes = nextRoutes.length ? nextRoutes : defaultIeRoutes.map(route => ({
+        ...route,
+        operations: route.operations.map(item => ({ ...item }))
+      }));
+      const nextRoute = state.ieRoutes[0] || defaultIeRoutes[0];
+      state.route = nextRoute.id;
+      state.template = nextRoute.id;
+      state.ieOperations = (nextRoute.operations || []).map(item => ({ ...item, id: makeId("op") }));
+      saveState();
+      render();
+    }
+
+    function addIeOperation() {
+      syncDynamicEditorsFromDom();
+      const nameInput = document.getElementById("newOperationName");
+      const samInput = document.getElementById("newOperationSam");
+      const machineInput = document.getElementById("newOperationMachine");
+      const rawName = (nameInput.value || "").trim();
+      const rawSam = Number(samInput.value || 0);
+      const machine = (machineInput.value || "").trim();
+      const name = rawName || "新增工序";
+      const sam = rawSam > 0 ? rawSam : 0.1;
+      state.ieOperations = [...getIeOperations(), { id: makeId("op"), name, sam, machine }];
+      nameInput.value = "";
+      samInput.value = "";
+      machineInput.value = "";
+      saveState();
+      render();
+    }
+
+    function updateIeOperation(id, field, value) {
+      state.ieOperations = getIeOperations().map(item => String(item.id) === String(id) ? {
+        ...item,
+        [field]: field === "sam" ? Number(value || 0) : value
+      } : item);
+      saveState();
+      renderIeSummary();
+      renderOutputs();
+    }
+
+    function removeIeOperation(id) {
+      syncDynamicEditorsFromDom();
+      state.ieOperations = getIeOperations().filter(item => String(item.id) !== String(id));
+      saveState();
+      render();
+    }
+
+    function addTemplate() {
+      syncDynamicEditorsFromDom();
+      const nameInput = document.getElementById("newTemplateName");
+      const minutesInput = document.getElementById("newTemplateMinutes");
+      const name = (nameInput.value || "").trim();
+      const minutes = Number(minutesInput.value || 0);
+      if (!name || minutes <= 0) return;
+      const id = makeId("tpl");
+      state.styleTemplates = [...getStyleTemplates(), { id, name, minutes }];
+      state.template = id;
+      nameInput.value = "";
+      minutesInput.value = "";
+      saveState();
+      render();
+    }
+
+    function removeTemplate(id) {
+      syncDynamicEditorsFromDom();
+      const next = getStyleTemplates().filter(item => item.id !== id);
+      state.styleTemplates = next.length ? next : defaultTemplates.map(item => ({ ...item }));
+      if (state.template === id) state.template = state.styleTemplates[0].id;
+      saveState();
+      render();
+    }
+
+    function addCraftAddon() {
+      syncDynamicEditorsFromDom();
+      const nameInput = document.getElementById("newAddonName");
+      const minutesInput = document.getElementById("newAddonMinutes");
+      const name = (nameInput.value || "").trim();
+      const minutes = Number(minutesInput.value || 0);
+      if (!name || minutes <= 0) return;
+      const id = makeId("craft");
+      state.craftAddons = [...getCraftAddons(), { id, name, minutes }];
+      state.addons = [...state.addons, id];
+      nameInput.value = "";
+      minutesInput.value = "";
+      saveState();
+      render();
+    }
+
+    function removeCraftAddon(id) {
+      syncDynamicEditorsFromDom();
+      const next = getCraftAddons().filter(item => item.id !== id);
+      state.craftAddons = next.length ? next : defaultAddonOptions.map(item => ({ ...item }));
+      state.addons = state.addons.filter(item => item !== id);
+      saveState();
+      render();
+    }
+
+    function renderSelect(id, options, current) {
+      const select = document.getElementById(id);
+      select.innerHTML = options.map(item => `<option value="${item.id}">${item.name}</option>`).join("");
+      select.value = current;
+      select.addEventListener("change", () => {
+        syncDynamicEditorsFromDom();
+        state[id] = select.value;
+        saveState();
+        render();
+      });
+    }
+
+    function initStatic() {
+      ["fixedCost", "workDays", "dailyHours", "sellableRate",
+        "staffAllocation", "workerCount", "quantity", "productionWorkers", "marketPrice", "fabricCost", "accessoryCost", "wasteRate",
+        "packagingCost", "shippingCost", "outsourceCost", "customMinutes", "changeoverMinutes",
+        "changeoverPeople", "merchHours", "setupExtra", "balanceRate", "allowanceRate", "riskRate", "actualMinutes",
+        "actualWaste", "actualPrice"].forEach(bindInput);
+
+      const customer = document.getElementById("customerType");
+      customer.value = state.customerType;
+      customer.addEventListener("change", () => {
+        syncDynamicEditorsFromDom();
+        state.customerType = customer.value;
+        saveState();
+        render();
+      });
+
+      renderSelect("fabricDifficulty", fabricOptions, state.fabricDifficulty);
+
+      document.getElementById("resetBtn").addEventListener("click", () => {
+        state = normalizeState({});
+        localStorage.removeItem(pendingPeopleKey);
+        ["newWorkerName", "newWorkerSalary", "newStaffName", "newStaffSalary",
+          "newTempWorkerName", "newTempWorkerRate", "newTempWorkerHours",
+          "newRouteName", "newRouteNote", "quickWorkerName", "quickWorkerSalary"].forEach(id => {
+            const node = document.getElementById(id);
+            if (node) node.value = "";
+          });
+        saveState();
+        initValues();
+        resetCollapsiblePanels();
+        render();
+      });
+
+      document.getElementById("saveCaseBtn").addEventListener("click", saveCase);
+      document.getElementById("addWorkerBtn").addEventListener("click", () => addPerson("workers", "newWorkerName", "newWorkerSalary", "新工人"));
+      document.getElementById("addStaffBtn").addEventListener("click", () => addPerson("staffers", "newStaffName", "newStaffSalary", "新跟单"));
+      document.getElementById("addTempWorkerBtn").addEventListener("click", addTempWorker);
+      document.getElementById("quickAddWorkerBtn").addEventListener("click", quickAddAssignedWorker);
+      ["quickWorkerName", "quickWorkerSalary"].forEach(id => {
+        const node = document.getElementById(id);
+        if (!node) return;
+        node.addEventListener("keydown", event => {
+          if (event.key !== "Enter") return;
+          event.preventDefault();
+          quickAddAssignedWorker();
+        });
+      });
+      document.getElementById("addOperationBtn").addEventListener("click", addIeOperation);
+      ["newOperationName", "newOperationSam", "newOperationMachine"].forEach(id => {
+        const node = document.getElementById(id);
+        if (!node) return;
+        node.addEventListener("keydown", event => {
+          if (event.key !== "Enter") return;
+          event.preventDefault();
+          addIeOperation();
+        });
+      });
+      document.getElementById("saveRouteBtn").addEventListener("click", saveCurrentRouteTemplate);
+      document.getElementById("deleteRouteBtn").addEventListener("click", deleteCurrentRouteTemplate);
+      ["newWorkerName", "newWorkerSalary", "newStaffName", "newStaffSalary",
+        "newTempWorkerName", "newTempWorkerRate", "newTempWorkerHours"].forEach(id => {
+          const node = document.getElementById(id);
+          if (!node) return;
+          const isTempDraft = id.startsWith("newTempWorker");
+          const persistDraft = () => {
+            savePendingPersonRows();
+            if (isTempDraft) {
+              renderTempWorkersSummary();
+              renderAssignedWorkers();
+              renderOutputs();
+            }
+          };
+          node.addEventListener("input", persistDraft);
+          node.addEventListener("change", persistDraft);
+          node.addEventListener("blur", persistDraft);
+          if (isTempDraft) {
+            node.addEventListener("keydown", event => {
+              if (event.key !== "Enter") return;
+              event.preventDefault();
+              addTempWorker();
+            });
+          }
+      });
+      restorePendingPersonRows();
+      window.addEventListener("beforeunload", () => syncAndSaveState({ commitDrafts: true }));
+      window.addEventListener("pagehide", () => syncAndSaveState({ commitDrafts: true }));
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") syncAndSaveState({ commitDrafts: true });
+      });
+      initCollapsiblePanels();
+    }
+
+    function initValues() {
+      Object.keys(defaults).forEach(key => {
+        const node = document.getElementById(key);
+        if (node && node.tagName !== "SELECT") node.value = state[key];
+      });
+      document.getElementById("customerType").value = state.customerType;
+      document.getElementById("fabricDifficulty").value = state.fabricDifficulty;
+    }
+
+    function renderPeopleSummary() {
+      setText("workerSummary", `${getWorkers().length}人 / ${yuan(sumSalary(getWorkers()))}`);
+      setText("staffSummary", `${getStaffers().length}人 / ${yuan(sumSalary(getStaffers()))}`);
+    }
+
+    function renderAssignedWorkers() {
+      normalizeAssignedWorkers();
+      normalizeAssignedTempWorkers();
+      const wrap = document.getElementById("assignedWorkerList");
+      const summary = document.getElementById("assignedWorkerSummary");
+      if (!wrap) return;
+      const selectedIds = new Set(state.assignedWorkerIds.map(id => String(id)));
+      const selectedTempIds = new Set(state.assignedTempWorkerIds.map(id => String(id)));
+      const workers = getWorkers();
+      const tempWorkers = getTempWorkers();
+      const selectedWorkers = getAssignedWorkers();
+      const selectedTempWorkers = getAssignedTempWorkers();
+      const pendingTempWorker = getPendingTempWorker();
+      const productionCount = selectedWorkers.length + selectedTempWorkers.length + (pendingTempWorker ? 1 : 0);
+      if (summary) {
+        const tempTotal = sumTempWorkers([...selectedTempWorkers, ...(pendingTempWorker ? [pendingTempWorker] : [])]);
+        summary.textContent = `${productionCount}人 / 月薪合计${yuan(sumSalary(selectedWorkers))} / 临时工${yuan(tempTotal)}`;
+      }
+      const workerCards = workers.map(worker => `
+        <label class="worker-choice">
+          <input type="checkbox" data-assigned-worker="${worker.id}" ${selectedIds.has(String(worker.id)) ? "checked" : ""}>
+          <strong>${esc(worker.name)}</strong>
+          <span>${yuan(worker.salary)} / 月</span>
+        </label>
+      `).join("");
+      const tempCards = tempWorkers.map(worker => `
+        <label class="worker-choice">
+          <input type="checkbox" data-assigned-temp-worker="${worker.id}" ${selectedTempIds.has(String(worker.id)) ? "checked" : ""}>
+          <strong>${esc(worker.name)}（临时）</strong>
+          <span>${yuan(Number(worker.hourlyRate || 0) * Number(worker.hours || 0))} / 本单</span>
+        </label>
+      `).join("");
+      const pendingCard = pendingTempWorker ? `
+        <label class="worker-choice">
+          <input type="checkbox" checked disabled>
+          <strong>${esc(pendingTempWorker.name)}（临时输入中）</strong>
+          <span>${yuan(Number(pendingTempWorker.hourlyRate || 0) * Number(pendingTempWorker.hours || 0))} / 本单</span>
+        </label>
+      ` : "";
+      wrap.innerHTML = workerCards + tempCards + pendingCard;
+      wrap.querySelectorAll("[data-assigned-worker]").forEach(input => {
+        input.addEventListener("change", () => toggleAssignedWorker(input.dataset.assignedWorker, input.checked));
+      });
+      wrap.querySelectorAll("[data-assigned-temp-worker]").forEach(input => {
+        input.addEventListener("change", () => toggleAssignedTempWorker(input.dataset.assignedTempWorker, input.checked));
+      });
+    }
+
+    function toggleAssignedWorker(workerId, checked) {
+      const current = new Set(getAssignedWorkerIds());
+      if (checked) {
+        current.add(String(workerId));
+      } else if (current.size + getAssignedTempWorkerIds().length > 1) {
+        current.delete(String(workerId));
+      }
+      state.assignedWorkerIds = [...current];
+      state.productionWorkers = state.assignedWorkerIds.length + getAssignedTempWorkerIds().length;
+      saveState();
+      renderAssignedWorkers();
+      renderOutputs();
+    }
+
+    function toggleAssignedTempWorker(workerId, checked) {
+      const current = new Set(getAssignedTempWorkerIds());
+      if (checked) {
+        current.add(String(workerId));
+      } else if (current.size + getAssignedWorkerIds().length > 1) {
+        current.delete(String(workerId));
+      }
+      state.assignedTempWorkerIds = [...current];
+      state.productionWorkers = getAssignedWorkerIds().length + state.assignedTempWorkerIds.length;
+      saveState();
+      renderAssignedWorkers();
+      renderTempWorkersSummary();
+      renderOutputs();
+    }
+
+    function quickAddAssignedWorker() {
+      syncDynamicEditorsFromDom();
+      const nameInput = document.getElementById("quickWorkerName");
+      const salaryInput = document.getElementById("quickWorkerSalary");
+      if (!nameInput || !salaryInput) return;
+      const name = (nameInput.value || "新工人").trim();
+      const salary = Number(salaryInput.value || 0);
+      const id = makeId("workers");
+      state.workers = [...getWorkers(), { id, name, salary }];
+      state.assignedWorkerIds = [...getAssignedWorkerIds(), String(id)];
+      state.productionWorkers = state.assignedWorkerIds.length;
+      nameInput.value = "";
+      salaryInput.value = "";
+      saveState();
+      render();
+    }
+
+    function renderTempWorkersSummary() {
+      const savedTotal = sumTempWorkers(getTempWorkers());
+      const total = sumTempWorkers(getTempWorkersForQuote());
+      const qty = Math.max(1, Number(state.quantity || 1));
+      const pending = getPendingTempWorker();
+      const suffix = pending ? `，含当前输入${yuan(total - savedTotal)}` : "";
+      setText("tempWorkerSummary", `${yuan(total)} / 本单，${yuan(total / qty)} / 件${suffix}`);
+    }
+
+    function renderPeople() {
+      const renderGroup = (group, targetId) => {
+        const wrap = document.getElementById(targetId);
+        wrap.innerHTML = state[group].map(item => `
+          <div class="person-row" data-id="${item.id}">
+            <input type="text" value="${esc(item.name)}" data-person-field="name" data-group="${group}" data-id="${item.id}">
+            <input type="number" min="0" step="100" value="${Number(item.salary || 0)}" data-person-field="salary" data-group="${group}" data-id="${item.id}">
+            <button class="danger-button" type="button" data-person-remove="${item.id}" data-group="${group}">删除</button>
+          </div>
+        `).join("");
+
+        wrap.querySelectorAll("[data-person-field]").forEach(input => {
+          const persistPerson = () => {
+            updatePerson(input.dataset.group, input.dataset.id, input.dataset.personField, input.value);
+          };
+          input.addEventListener("input", persistPerson);
+          input.addEventListener("change", persistPerson);
+          input.addEventListener("blur", () => syncAndSaveState());
+        });
+        wrap.querySelectorAll("[data-person-remove]").forEach(button => {
+          button.addEventListener("click", () => removePerson(button.dataset.group, button.dataset.personRemove));
+        });
+      };
+
+      renderGroup("workers", "workerList");
+      renderGroup("staffers", "staffList");
+      renderPeopleSummary();
+      renderTempWorkers();
+    }
+
+    function renderTempWorkers() {
+      const wrap = document.getElementById("tempWorkerList");
+      const workers = getTempWorkers();
+      if (!workers.length) {
+        wrap.innerHTML = `<div class="hint">暂无临时工。本单没有临时工时，这里可以不填。</div>`;
+      } else {
+        wrap.innerHTML = workers.map(item => `
+          <div class="temp-row" data-id="${item.id}">
+            <input type="text" value="${esc(item.name)}" data-temp-field="name" data-id="${item.id}">
+            <input type="number" min="0" step="1" value="${Number(item.hourlyRate || 0)}" data-temp-field="hourlyRate" data-id="${item.id}">
+            <input type="number" min="0" step=".5" value="${Number(item.hours || 0)}" data-temp-field="hours" data-id="${item.id}">
+            <button class="danger-button" type="button" data-temp-remove="${item.id}">删除</button>
+          </div>
+        `).join("");
+
+        wrap.querySelectorAll("[data-temp-field]").forEach(input => {
+          const persistTempWorker = () => {
+            updateTempWorker(input.dataset.id, input.dataset.tempField, input.value);
+          };
+          input.addEventListener("input", persistTempWorker);
+          input.addEventListener("change", persistTempWorker);
+          input.addEventListener("blur", () => syncAndSaveState());
+        });
+        wrap.querySelectorAll("[data-temp-remove]").forEach(button => {
+          button.addEventListener("click", () => removeTempWorker(button.dataset.tempRemove));
+        });
+      }
+      renderTempWorkersSummary();
+    }
+
+    function renderRouteCards() {
+      const wrap = document.getElementById("routeCards");
+      const routes = getIeRoutes();
+      wrap.innerHTML = routes.map(route => {
+        const total = (route.operations || []).reduce((sum, item) => sum + Number(item.sam || 0), 0);
+        return `
+          <button type="button" class="style-card ${state.route === route.id ? "active" : ""}" data-route="${route.id}">
+            <span class="style-select">
+              <strong>${esc(route.name)}</strong>
+              <span>${one(total)} 分 SAM / ${(route.operations || []).length} 道工序</span>
+              <span>${route.userCreated || !isDefaultIeRoute(route.id) ? "自建模板" : "默认模板"} · ${esc(route.note || "可按实际工序调整")}</span>
+            </span>
+          </button>
+        `;
+      }).join("");
+      wrap.querySelectorAll("[data-route]").forEach(btn => {
+        btn.addEventListener("click", () => applyIeRoute(btn.dataset.route));
+      });
+      const deleteButton = document.getElementById("deleteRouteBtn");
+      if (deleteButton) {
+        const isDefault = isDefaultIeRoute(state.route);
+        deleteButton.disabled = isDefault;
+        deleteButton.title = isDefault ? "默认模板不能删除，可以保存成自建模板后再调整" : "删除当前选中的自建模板";
+      }
+    }
+
+    function renderCapacityButtons() {
+      const wrap = document.getElementById("capacityButtons");
+      wrap.innerHTML = Object.entries(capacityOptions).map(([id, item]) => `
+        <button type="button" class="${state.capacity === id ? "active" : ""}" data-capacity="${id}">
+          ${item.name}
+        </button>
+      `).join("");
+      wrap.querySelectorAll("button").forEach(btn => {
+        btn.addEventListener("click", () => {
+          syncDynamicEditorsFromDom();
+          state.capacity = btn.dataset.capacity;
+          saveState();
+          render();
+        });
+      });
+    }
+
+    function renderIeSummary() {
+      const sam = sumIeSam();
+      const fabric = fabricOptions.find(item => item.id === state.fabricDifficulty) || fabricOptions[0];
+      const batchEfficiency = getBatchEfficiency(state.quantity);
+      const standard = (sam + Number(state.customMinutes || 0))
+        * (1 + fabric.factor)
+        * batchEfficiency.factor
+        / (Math.max(35, state.balanceRate) / 100)
+        * (1 + Math.max(0, state.allowanceRate) / 100);
+      setText("ieSamTotal", one(sam));
+      setText("ieStandardPreview", one(standard));
+      setText("batchEfficiencyPreview", batchEfficiency.factor.toFixed(2));
+      setText("ieOperationCount", getIeOperations().length);
+    }
+
+    function renderIeOperations() {
+      const wrap = document.getElementById("ieOperations");
+      const operations = getIeOperations();
+      if (!operations.length) {
+        wrap.innerHTML = `<div class="hint">暂无工序。请添加至少一道工序，或在上方选择 IE 路线模板。</div>`;
+      } else {
+        wrap.innerHTML = `
+          <div class="ie-row header">
+            <span>工序名称</span>
+            <span>SAM 分钟</span>
+            <span>设备/岗位</span>
+            <span></span>
+          </div>
+          ${operations.map(item => `
+            <div class="ie-row" data-id="${item.id}">
+              <input type="text" value="${esc(item.name)}" data-operation-field="name" data-id="${item.id}">
+              <input type="number" min="0" step=".1" value="${Number(item.sam || 0)}" data-operation-field="sam" data-id="${item.id}">
+              <input type="text" value="${esc(item.machine || "")}" data-operation-field="machine" data-id="${item.id}">
+              <button class="danger-button" type="button" data-operation-remove="${item.id}">删除</button>
+            </div>
+          `).join("")}
+        `;
+        wrap.querySelectorAll("[data-operation-field]").forEach(input => {
+          const persistOperation = () => {
+            updateIeOperation(input.dataset.id, input.dataset.operationField, input.value);
+          };
+          input.addEventListener("input", persistOperation);
+          input.addEventListener("change", persistOperation);
+          input.addEventListener("blur", () => syncAndSaveState());
+        });
+        wrap.querySelectorAll("[data-operation-remove]").forEach(button => {
+          button.addEventListener("click", () => removeIeOperation(button.dataset.operationRemove));
+        });
+      }
+      renderIeSummary();
+    }
+
+    function calc() {
+      const qty = Math.max(1, state.quantity);
+      const route = getIeRoutes().find(item => item.id === state.route) || getIeRoutes()[0];
+      const fabric = fabricOptions.find(item => item.id === state.fabricDifficulty) || fabricOptions[0];
+      const routeMinutes = sumIeSam();
+      const baseMinutes = routeMinutes + Number(state.customMinutes || 0);
+      const netMinutes = baseMinutes * (1 + fabric.factor);
+      const batchEfficiency = getBatchEfficiency(qty);
+      const balanceRate = Math.max(35, state.balanceRate) / 100;
+      const allowanceRate = Math.max(0, state.allowanceRate) / 100;
+      const standardMinutes = netMinutes * batchEfficiency.factor / balanceRate * (1 + allowanceRate);
+
+      const workers = getWorkers();
+      const assignedWorkers = getAssignedWorkers();
+      const assignedTempWorkers = getTempWorkersForQuote();
+      const staffers = getStaffers();
+      const workerCount = Math.max(1, Number(state.workerCount || workers.length || 1));
+      const assignedWorkerCount = Math.max(1, assignedWorkers.length);
+      const productionWorkerCount = Math.max(1, assignedWorkers.length + assignedTempWorkers.length);
+      const workerSalary = sumSalary(workers);
+      const assignedWorkerSalary = sumSalary(assignedWorkers);
+      const staffSalary = sumSalary(staffers);
+      const monthlyMinutes = workerCount * Math.max(1, state.workDays) * Math.max(1, state.dailyHours) * 60;
+      const sellableMinutes = monthlyMinutes * Math.max(0.3, state.sellableRate / 100);
+      const workerMonthlyMinutes = Math.max(1, state.workDays) * Math.max(1, state.dailyHours) * 60;
+      const workerSellableMinutes = workerMonthlyMinutes * Math.max(0.3, state.sellableRate / 100);
+      const allocatedStaff = staffSalary * Math.max(0, state.staffAllocation / 100);
+      const monthlyCost = state.fixedCost + workerSalary + allocatedStaff;
+      const factoryMinuteCost = monthlyCost / sellableMinutes;
+      const overheadMinuteCost = (state.fixedCost + allocatedStaff) / sellableMinutes;
+      const assignedDirectMinuteCost = assignedWorkerSalary / Math.max(1, assignedWorkerCount * workerSellableMinutes);
+      const minuteCost = assignedDirectMinuteCost + overheadMinuteCost;
+      const merchHourlyCost = staffSalary / Math.max(1, state.workDays * state.dailyHours);
+
+      const capacity = capacityOptions[state.capacity];
+      const pricingMinuteCost = minuteCost * capacity.laborAdjust;
+      const material = (state.fabricCost + state.accessoryCost) * (1 + state.wasteRate / 100);
+      const logistics = state.packagingCost + state.outsourceCost + state.shippingCost / qty;
+      const labor = standardMinutes * pricingMinuteCost;
+      const tempLaborTotal = sumTempWorkers(assignedTempWorkers);
+      const tempLabor = tempLaborTotal / qty;
+      const changeoverPeople = Math.max(1, Number(state.changeoverPeople || 1));
+      const setupCost = state.changeoverMinutes * changeoverPeople * minuteCost + state.merchHours * merchHourlyCost + Number(state.setupExtra || 0);
+      const riskPct = Math.max(0, state.riskRate / 100 + customerRisk[state.customerType]);
+      const variableCost = material + logistics + labor + tempLabor;
+      const risk = variableCost * riskPct;
+      const breakEven = variableCost + risk + setupCost / qty;
+      const productionWorkers = productionWorkerCount;
+      const elapsedMinutes = Math.max(0, Number(state.changeoverMinutes || 0)) + standardMinutes * qty / productionWorkers;
+      const dailyOutput = elapsedMinutes > 0
+        ? qty / (elapsedMinutes / (Math.max(1, Number(state.dailyHours || 8)) * 60))
+        : 0;
+
+      const tiers = [
+        {
+          id: "relaxed",
+          name: "宽松交期价",
+          lead: "10-15天",
+          margin: clamp(0.12 + capacity.marginAdjust, 0.08, 0.22),
+          laborFactor: 0.92,
+          setupFactor: 0.72,
+          riskFactor: 0.75
+        },
+        {
+          id: "standard",
+          name: "标准快反价",
+          lead: "7-10天",
+          margin: clamp(0.22 + capacity.marginAdjust, 0.16, 0.34),
+          laborFactor: 1,
+          setupFactor: 1,
+          riskFactor: 1
+        },
+        {
+          id: "urgent",
+          name: "急单插队价",
+          lead: "3-5天",
+          margin: clamp(0.32 + capacity.marginAdjust, 0.24, 0.45),
+          laborFactor: 1.18,
+          setupFactor: 1.25,
+          riskFactor: 1.3
+        }
+      ].map(tier => {
+        const tierVariableCost = material + logistics + tempLabor + labor * tier.laborFactor;
+        const tierRisk = tierVariableCost * riskPct * tier.riskFactor;
+        const tierUnitCost = tierVariableCost + tierRisk;
+        const unitPrice = tierUnitCost / (1 - tier.margin);
+        const setupFee = setupCost * tier.setupFactor;
+        const allIn = unitPrice + setupFee / qty;
+        return { ...tier, variableCost: tierVariableCost, risk: tierRisk, unitCost: tierUnitCost, unitPrice, setupFee, allIn };
+      });
+
+      const market = Number(state.marketPrice || 0);
+      const standard = tiers[1];
+      let decision = "可接";
+      let level = "green";
+      let tag = "正常";
+      if (market > 0 && market < breakEven) {
+        decision = "谨慎";
+        level = "amber";
+        tag = "低于保本";
+      }
+      if (market > 0 && market < material + logistics + tempLabor + labor * 0.82) {
+        decision = "不建议";
+        level = "red";
+        tag = "现金线风险";
+      }
+      if (state.capacity === "tight" && market > 0 && market < standard.allIn) {
+        decision = "谨慎";
+        level = "amber";
+        tag = "忙时低价";
+      }
+
+      const neededQty = market > standard.unitPrice ? Math.ceil(standard.setupFee / (market - standard.unitPrice)) : null;
+      return {
+        template: route,
+        route,
+        routeMinutes,
+        netMinutes,
+        standardMinutes,
+        monthlyCost,
+        minuteCost,
+        factoryMinuteCost,
+        overheadMinuteCost,
+        assignedDirectMinuteCost,
+        assignedWorkers,
+        assignedTempWorkers,
+        material,
+        logistics,
+        labor,
+        batchEfficiency,
+        tempLabor,
+        tempLaborTotal,
+        variableCost,
+        setupCost,
+        risk,
+        riskPct,
+        breakEven,
+        productionWorkers,
+        changeoverPeople,
+        elapsedMinutes,
+        dailyOutput,
+        tiers,
+        decision,
+        level,
+        tag,
+        neededQty,
+        market,
+        capacity
+      };
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function renderQuotes(result) {
+      const wrap = document.getElementById("quotes");
+      wrap.innerHTML = result.tiers.map(tier => `
+        <article class="quote-card ${tier.id}">
+          <div class="quote-head">
+            <div>
+              <div class="quote-title">${tier.name}</div>
+              <span class="tag">${tier.lead} · 全包折算</span>
+            </div>
+            <div class="quote-price">¥${tier.allIn.toFixed(2)}</div>
+          </div>
+          <div class="quote-meta">
+            <span>可变报价 <strong>${yuan(tier.unitPrice)}</strong></span>
+            <span>另列固定费 <strong>${yuan(tier.setupFee)}</strong></span>
+            <span>目标毛利 <strong>${pct(tier.margin)}</strong></span>
+            <span>订单总额 <strong>${yuan(tier.allIn * state.quantity)}</strong></span>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function renderAdvice(result) {
+      const standard = result.tiers[1];
+      const relaxed = result.tiers[0];
+      let lines = [];
+      if (result.market > 0 && result.market < standard.allIn && result.market >= relaxed.allIn) {
+        lines.push("客户心理价可尝试走宽松交期，不要承诺急交。");
+      } else if (result.market > 0 && result.market < relaxed.allIn) {
+        lines.push("客户心理价低于宽松交期价，应优先谈数量、面料简化或固定费单列。");
+      } else {
+        lines.push("标准快反价有谈判空间，可保留固定费作为让步项。");
+      }
+
+      if (result.neededQty && result.neededQty > state.quantity) {
+        lines.push(`若客户坚持单价 ${yuan(result.market)}，建议数量提高到约 ${result.neededQty} 件再接。`);
+      }
+      if (result.batchEfficiency.factor > 1) {
+        lines.push("当前件数偏小，工人磨合和节奏损耗已轻微加到单件人工里。");
+      }
+      if (result.batchEfficiency.factor < 1) {
+        lines.push("当前件数增加后，单件人工已按熟练批量做了轻微下调。");
+      }
+      lines.push(`按 ${result.productionWorkers} 人生产估算，整单约占用 ${friendlyDuration(result.elapsedMinutes, state.dailyHours)}。`);
+      if (state.capacity === "idle") lines.push("当前按填产能处理，适合接简单复购款，不适合接反复改的复杂款。");
+      if (state.capacity === "tight") lines.push("当前排产偏紧，低价急单会挤占正常利润单。");
+      if (state.sellableRate < 70) lines.push("可售产能率偏低，报价高的根源可能是空档和换款损耗。");
+      document.getElementById("adviceText").textContent = lines.join(" ");
+    }
+
+    function renderReview(result) {
+      const actualMinutes = Number(state.actualMinutes || 0);
+      const actualWaste = Number(state.actualWaste || 0);
+      const actualPrice = Number(state.actualPrice || 0);
+      setText("timeDiff", actualMinutes ? `${one(actualMinutes - result.standardMinutes)} 分` : "未填");
+      setText("wasteDiff", actualWaste ? `${one(actualWaste - state.wasteRate)} 个点` : "未填");
+      if (actualPrice) {
+        const margin = (actualPrice - result.breakEven) / actualPrice;
+        setText("actualMargin", pct(margin));
+        document.getElementById("marginBar").style.width = clamp(margin * 100, 0, 100) + "%";
+      } else {
+        setText("actualMargin", "未填");
+        document.getElementById("marginBar").style.width = "0";
+      }
+    }
+
+    function history() {
+      try {
+        return JSON.parse(localStorage.getItem(storeKey + "_cases")) || [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveCase() {
+      const result = calc();
+      const cases = history();
+      cases.unshift({
+        date: new Date().toLocaleDateString("zh-CN"),
+        style: result.template.name,
+        qty: state.quantity,
+        minutes: result.standardMinutes,
+        elapsedMinutes: result.elapsedMinutes,
+        productionWorkers: result.productionWorkers,
+        workerNames: [...result.assignedWorkers, ...result.assignedTempWorkers].map(item => item.name).join("、"),
+        price: result.tiers[1].allIn,
+        setup: result.tiers[1].setupFee,
+        actualMinutes: state.actualMinutes,
+        actualPrice: state.actualPrice
+      });
+      localStorage.setItem(storeKey + "_cases", JSON.stringify(cases.slice(0, 12)));
+      renderHistory();
+    }
+
+    function renderHistory() {
+      const wrap = document.getElementById("historyList");
+      const cases = history();
+      if (!cases.length) {
+        wrap.innerHTML = `<div class="note">暂无案例</div>`;
+        return;
+      }
+      wrap.innerHTML = cases.map(item => `
+        <div class="case-item">
+          <div class="case-top"><span>${item.style}</span><span>${item.date}</span></div>
+          <div class="case-meta">
+            <span>${item.qty}件</span>
+            ${item.productionWorkers ? `<span>${item.productionWorkers}人生产</span>` : ""}
+            <span>${one(item.minutes)}分/件</span>
+            ${item.elapsedMinutes ? `<span>历时${friendlyDuration(item.elapsedMinutes, state.dailyHours)}</span>` : ""}
+            <span>全包${yuan(item.price)}</span>
+            ${item.actualMinutes ? `<span>实做${one(item.actualMinutes)}分</span>` : ""}
+            ${item.actualPrice ? `<span>成交${yuan(item.actualPrice)}</span>` : ""}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderOutputs() {
+      const result = calc();
+      setText("standardMinutes", one(result.standardMinutes));
+      setText("minuteCost", result.minuteCost.toFixed(2));
+      const productionNames = [
+        ...result.assignedWorkers.map(item => item.name),
+        ...result.assignedTempWorkers.map(item => `${item.name}（临时）`)
+      ];
+      setText("assignedWorkerText", `${productionNames.join("、")}（${result.productionWorkers}人）`);
+      setText("factoryMinuteCost", yuan(result.factoryMinuteCost));
+      setText("elapsedTime", friendlyDuration(result.elapsedMinutes, state.dailyHours));
+      setText("dailyOutput", Math.round(result.dailyOutput || 0));
+      setText("materialTotal", yuan(result.material));
+      setText("laborTotal", yuan(result.labor));
+      setText("batchEfficiencyText", `${result.batchEfficiency.factor.toFixed(2)}倍`);
+      setText("tempLaborTotal", yuan(result.tempLabor));
+      setText("logisticsTotal", yuan(result.logistics));
+      setText("variableCost", yuan(result.variableCost));
+      setText("riskCost", yuan(result.risk));
+      setText("setupCost", yuan(result.setupCost));
+      setText("setupPerPiece", yuan(result.setupCost / Math.max(1, Number(state.quantity || 1))));
+      setText("breakEven", yuan(result.breakEven));
+      setText("decisionText", result.decision);
+      const tag = document.getElementById("decisionTag");
+      tag.className = `tag ${result.level}`;
+      tag.textContent = result.tag;
+      renderQuotes(result);
+      renderAdvice(result);
+      renderReview(result);
+      renderHistory();
+    }
+
+    function render() {
+      renderPeople();
+      renderAssignedWorkers();
+      renderRouteCards();
+      renderCapacityButtons();
+      renderIeOperations();
+      renderOutputs();
+    }
+
+    initStatic();
+    render();
+  </script>
+<script>sessionStorage.setItem('wy_portfolio_quote_guide_seen_v1','1');</script>
+<script>(function(){
+  const guide=document.getElementById("portfolioGuide");
+  const open=()=>{guide.hidden=false;document.body.style.overflow="hidden";document.getElementById("closePortfolioGuide")?.focus();};
+  const close=()=>{guide.hidden=true;document.body.style.overflow="";};
+  document.getElementById("openGuideBtn")?.addEventListener("click",open);
+  document.getElementById("closePortfolioGuide")?.addEventListener("click",close);
+  guide?.addEventListener("click",e=>{if(e.target===guide)close();});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!guide.hidden)close();});
+  document.querySelectorAll("[data-guide-module]").forEach(btn=>btn.addEventListener("click",()=>{
+    close();
+    const target=document.querySelector(`[data-module="${btn.dataset.guideModule}"] .module-head`);
+    target?.click();
+  }));
+  document.getElementById("resetDemoBtn")?.addEventListener("click",()=>{
+    if(confirm("确定恢复 Quote Engine 的初始演示数据吗？")) window.WY_QUOTE_DEMO?.reset();
+  });
+  const key="wy_portfolio_quote_guide_seen_v1";
+  if(!sessionStorage.getItem(key)){sessionStorage.setItem(key,"1");setTimeout(open,700);}
+})();</script>
+<script>
+(function(){
+  var app = document.documentElement.dataset.app || '';
+  window.addEventListener('message', function(event){
+    var d = event.data || {};
+    if (d.source !== 'wy-portfolio-shell') return;
+    if (d.action === 'guide') document.getElementById('openGuideBtn')?.click();
+    if (d.action === 'reset') document.getElementById('resetDemoBtn')?.click();
+  });
+  function ready(){
+    if (window.__WY_READY_SENT__) return;
+    window.__WY_READY_SENT__ = true;
+    window.__WY_SEND__ && window.__WY_SEND__('ready', {title:document.title});
+  }
+  window.addEventListener('load', function(){ setTimeout(ready, app === 'people' ? 650 : 220); });
+  setTimeout(ready, app === 'people' ? 1400 : 700);
+})();
+</script>
+</body></html>

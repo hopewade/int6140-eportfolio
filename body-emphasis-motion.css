@@ -1,0 +1,28 @@
+/* Generated from body-emphasis.css by motion_css.py. */
+/* Thicken the same glyphs without changing their advances or paragraph wrapping. */
+strong.body-emphasis{
+  font-family:inherit;
+  font-size:inherit;
+  font-weight:inherit;
+  line-height:inherit;
+  letter-spacing:inherit;
+  color:inherit;
+  -webkit-text-stroke:0 currentColor;
+  text-shadow:0 0 0 transparent,0 0 0 transparent,0 0 0 transparent,0 0 0 transparent;
+  transition:color 1.05s cubic-bezier(.22,.61,.36,1),
+    -webkit-text-stroke-width 1.05s cubic-bezier(.22,.61,.36,1),
+    text-shadow 1.05s cubic-bezier(.22,.61,.36,1);
+  -webkit-box-decoration-break:clone;
+  box-decoration-break:clone;
+}
+strong.body-emphasis.is-emphasized{
+  color:#2d2017;
+  -webkit-text-stroke-width:.28px;
+  text-shadow:.11px 0 0 currentColor,-.11px 0 0 currentColor,
+    0 .11px 0 currentColor,0 -.11px 0 currentColor;
+}
+@media(prefers-reduced-motion:reduce){html:not([data-motion="full"]) strong.body-emphasis{transition:none!important}}
+html[data-motion="reduced"] strong.body-emphasis{transition:none!important}
+@media print{
+  strong.body-emphasis{color:inherit!important;font-weight:700;-webkit-text-stroke:0;text-shadow:none;transition:none}
+}

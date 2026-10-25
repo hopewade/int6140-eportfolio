@@ -1,0 +1,41 @@
+/* Generated from radar-motion.css by motion_css.py. */
+/* Radar cards use identical viewport, cloth bounds and padding. No-JS defaults stay complete. */
+.imported-research .role-radar-pair{
+  align-items:stretch;position:relative;isolation:isolate;gap:16px;
+  padding:8px;box-sizing:border-box;overflow:clip;
+}
+.imported-research .radar-fabric{
+  position:relative;width:100%;min-width:0;padding:0;box-sizing:border-box;
+  aspect-ratio:1320 / 1280;align-self:stretch;transform:none;
+  backface-visibility:hidden;
+}
+.imported-research .role-radar{
+  display:block;width:100%;height:auto;aspect-ratio:1320 / 1280;
+  overflow:visible;
+}
+.imported-research .role-radar-pair[data-radar-state="pending"] .radar-fabric:last-child{
+  visibility:hidden;
+}
+.imported-research .role-radar-pair[data-radar-state="pending"] .radar-value-layer{
+  opacity:0;
+}
+.imported-research .role-radar-pair[data-radar-state="animating"] .radar-fabric:first-child{
+  z-index:2;
+}
+.imported-research .role-radar-pair[data-radar-state="animating"] .radar-fabric:last-child{
+  z-index:1;will-change:transform;
+}
+@media(max-width:620px){
+  .imported-research .role-radar-pair{gap:16px;padding:6px}
+}
+@media(prefers-reduced-motion:reduce){html:not([data-motion="full"]) .imported-research .role-radar-pair .radar-fabric{
+    transform:none!important;visibility:visible!important;opacity:1!important;will-change:auto!important;
+  }html:not([data-motion="full"]) .imported-research .role-radar-pair .radar-value-layer{opacity:1!important}}
+html[data-motion="reduced"] .imported-research .role-radar-pair .radar-fabric{
+    transform:none!important;visibility:visible!important;opacity:1!important;will-change:auto!important;
+  }html[data-motion="reduced"] .imported-research .role-radar-pair .radar-value-layer{opacity:1!important}
+@media print{
+  .imported-research .role-radar-pair{overflow:visible}
+  .imported-research .role-radar-pair .radar-fabric{transform:none!important;visibility:visible!important;opacity:1!important}
+  .imported-research .role-radar-pair .radar-value-layer{opacity:1!important;transform:none!important}
+}
