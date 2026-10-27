@@ -278,3 +278,75 @@
       characterParagraphs: charParagraphs.length, projects: projectData.length, cachedSystems: [...frames.keys()] }) };
   motionPreferenceChanged();
 })();
+
+/* Verified public reading copies complement, rather than replace, the
+ * canonical bibliographic DOI. Citation cards clone these same references. */
+(() => {
+  'use strict';
+  const entries = {
+    'ref-bai2025': ['https://www.chinazy.org/info/1006/20473.htm', '期刊网站 · 完整正文', '中国职业技术教育'],
+    'ref-nbs2026': ['https://www.stats.gov.cn/sj/zxfb/202604/t20260430_1963472.html', '国家统计局 · 完整报告', '2025年农民工监测调查报告'],
+    'ref-chong2026': ['https://onlinelibrary.wiley.com/doi/epdf/10.1111/1748-8583.70012', '出版社 · 开放获取 PDF', 'Human Resource Management Journal, 36'],
+    'ref-demerouti2001': ['https://www.wilmarschaufeli.nl/publications/Schaufeli/160.pdf', '作者官网 · 公开全文 PDF', 'Journal of Applied Psychology, 86'],
+    'ref-feuerriegel2024': ['https://link.springer.com/content/pdf/10.1007/s12599-023-00834-7.pdf', '出版社 · 开放获取 PDF', 'Business & Information Systems Engineering, 66'],
+    'ref-hse': ['https://www.hse.gov.uk/stress/assets/docs/indicatortoolmanual.pdf', 'HSE 官网 · 完整手册 PDF', 'HSE management standards indicator tool: User manual'],
+    'ref-nonaka1994': ['https://www.lamsade.dauphine.fr/~giard/Organization_Science_Nonaka94.pdf', '大学网站 · 公开全文 PDF', 'Organization Science, 5'],
+    'ref-oecd2025': ['https://www.oecd.org/content/dam/oecd/en/publications/reports/2025/11/generative-ai-and-the-sme-workforce_83bafdfb/2d08b99d-en.pdf', 'OECD 官网 · 完整报告 PDF', 'Generative AI and the SME workforce: New survey evidence'],
+    'ref-parker2022': ['https://www.research-collection.ethz.ch/server/api/core/bitstreams/fba8b6bb-b760-432c-869d-7c5db78071c7/content', 'ETH 大学仓储 · 正式全文 PDF', 'Applied Psychology, 71'],
+    'ref-rework2026': ['https://rework.withgoogle.com/intl/en/guides/employee-led-learning-principles-and-practice', 'Google re:Work · 完整指南', 'Employee-led learning: Principles and practice'],
+    'ref-gibbs2024': ['https://reflection.ed.ac.uk/reflectors-toolkit/reflecting-on-experience/gibbs-reflective-cycle', '爱丁堡大学 · 完整正文', 'Gibbs’ reflective cycle']
+  };
+
+  function italicize(reference, phrase) {
+    const walker = document.createTreeWalker(reference, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        return !node.parentElement.closest('a, em, .reference-reading-access') && node.data.includes(phrase)
+          ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+      }
+    });
+    const node = walker.nextNode();
+    if (!node) return;
+    const start = node.data.indexOf(phrase);
+    const match = node.splitText(start); match.splitText(phrase.length);
+    const em = document.createElement('em'); match.replaceWith(em); em.append(match);
+  }
+
+  function install() {
+    if (document.documentElement.dataset.referenceReadingAccess === 'ready') return;
+    const style = document.createElement('style');
+    style.id = 'reference-reading-access-style';
+    style.textContent = `
+      .reference-reading-access{display:flex;align-items:center;gap:12px 16px;flex-wrap:wrap;margin:14px 0 2px;text-indent:0;letter-spacing:.015em;font:400 13px/1.7 "PingFang SC","Microsoft YaHei",Arial,sans-serif}
+      .reference-reading-access .reference-reading-source{display:inline;color:inherit;opacity:.78;font:inherit;letter-spacing:inherit}
+      #references .reference-reading-access a.reference-reading-link,#citation-content .reference-reading-access a.reference-reading-link{display:inline-flex;align-items:center;justify-content:center;gap:15px;min-height:40px;padding:7px 17px;border:1px solid;border-radius:999px;font:500 14px/1.7 "PingFang SC","Microsoft YaHei",Arial,sans-serif;text-decoration:none;text-indent:0;letter-spacing:.025em;white-space:nowrap;overflow-wrap:normal}
+      #references .reference-reading-access a.reference-reading-link{color:#fff0d7;background:#fff5df0b;border-color:#dec09a80}
+      #references .reference-reading-access a.reference-reading-link:hover{background:#fff5df20;border-color:#ecd3b2}
+      #citation-content .reference-reading-access a.reference-reading-link{color:#68462c;background:#fffaf2b3;border-color:#ad8b6599}
+      #citation-content .reference-reading-access a.reference-reading-link:hover{background:#eadcc8a3;border-color:#98704a}
+      .reference-reading-access .reference-reading-link:focus-visible{outline:2px solid currentColor;outline-offset:4px}
+      .reference-reading-access .reference-reading-arrow{display:inline;font:inherit;font-size:17px;line-height:1}
+      @media(max-width:767px){.reference-reading-access{gap:9px 12px;margin-top:12px;font-size:12px}#references .reference-reading-access a.reference-reading-link,#citation-content .reference-reading-access a.reference-reading-link{font-size:13px;min-height:38px;padding:7px 15px}}
+      @media print{.reference-reading-access{margin-top:8px}#references .reference-reading-access a.reference-reading-link{color:inherit;background:none;border-color:currentColor}}
+    `;
+    document.head.append(style);
+    let installed = 0;
+    for (const [id, [url, label, italic]] of Object.entries(entries)) {
+      const reference = document.getElementById(id);
+      if (!reference || reference.querySelector('.reference-reading-access')) continue;
+      italicize(reference, italic);
+      const access = document.createElement('span'); access.className = 'reference-reading-access';
+      const link = document.createElement('a'); link.className = 'reference-reading-link';
+      link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+      link.setAttribute('aria-label', '阅读原文：' + label);
+      link.append(document.createTextNode('阅读原文'));
+      const arrow = document.createElement('span'); arrow.className = 'reference-reading-arrow';
+      arrow.setAttribute('aria-hidden', 'true'); arrow.textContent = '↗'; link.append(arrow);
+      const source = document.createElement('span'); source.className = 'reference-reading-source'; source.textContent = label;
+      access.append(link, source); reference.append(access); installed++;
+    }
+    document.documentElement.dataset.referenceReadingAccess = 'ready';
+    document.documentElement.dataset.referenceReadingCount = String(installed);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', install, { once: true });
+  else install();
+})();
