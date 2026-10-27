@@ -317,7 +317,6 @@
     style.id = 'reference-reading-access-style';
     style.textContent = `
       .reference-reading-access{display:flex;align-items:center;gap:12px 16px;flex-wrap:wrap;margin:14px 0 2px;text-indent:0;letter-spacing:.015em;font:400 13px/1.7 "PingFang SC","Microsoft YaHei",Arial,sans-serif}
-      .reference-reading-access .reference-reading-source{display:inline;color:inherit;opacity:.78;font:inherit;letter-spacing:inherit}
       #references .reference-reading-access a.reference-reading-link,#citation-content .reference-reading-access a.reference-reading-link{display:inline-flex;align-items:center;justify-content:center;gap:15px;min-height:40px;padding:7px 17px;border:1px solid;border-radius:999px;font:500 14px/1.7 "PingFang SC","Microsoft YaHei",Arial,sans-serif;text-decoration:none;text-indent:0;letter-spacing:.025em;white-space:nowrap;overflow-wrap:normal}
       #references .reference-reading-access a.reference-reading-link{color:#fff0d7;background:#fff5df0b;border-color:#dec09a80}
       #references .reference-reading-access a.reference-reading-link:hover{background:#fff5df20;border-color:#ecd3b2}
@@ -337,12 +336,11 @@
       const access = document.createElement('span'); access.className = 'reference-reading-access';
       const link = document.createElement('a'); link.className = 'reference-reading-link';
       link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer';
-      link.setAttribute('aria-label', '阅读原文：' + label);
-      link.append(document.createTextNode('阅读原文'));
+      link.setAttribute('aria-label', '阅读全文');
+      link.append(document.createTextNode('阅读全文'));
       const arrow = document.createElement('span'); arrow.className = 'reference-reading-arrow';
       arrow.setAttribute('aria-hidden', 'true'); arrow.textContent = '↗'; link.append(arrow);
-      const source = document.createElement('span'); source.className = 'reference-reading-source'; source.textContent = label;
-      access.append(link, source); reference.append(access); installed++;
+      access.append(link); reference.append(access); installed++;
     }
     document.documentElement.dataset.referenceReadingAccess = 'ready';
     document.documentElement.dataset.referenceReadingCount = String(installed);
