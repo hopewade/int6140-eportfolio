@@ -289,7 +289,7 @@
     'ref-chong2026': ['https://onlinelibrary.wiley.com/doi/epdf/10.1111/1748-8583.70012', '出版社 · 开放获取 PDF', 'Human Resource Management Journal, 36'],
     'ref-demerouti2001': ['https://www.wilmarschaufeli.nl/publications/Schaufeli/160.pdf', '作者官网 · 公开全文 PDF', 'Journal of Applied Psychology, 86'],
     'ref-feuerriegel2024': ['https://link.springer.com/content/pdf/10.1007/s12599-023-00834-7.pdf', '出版社 · 开放获取 PDF', 'Business & Information Systems Engineering, 66'],
-    'ref-hse': ['https://www.hse.gov.uk/stress/assets/docs/indicatortoolmanual.pdf', 'HSE 官网 · 完整手册 PDF', 'HSE management standards indicator tool: User manual'],
+    'ref-hse': ['https://www.hse.gov.uk/stress/assets/docs/indicatortoolmanual.pdf', 'HSE 官网 · 完整手册 PDF', 'HSE management standards indicator tool: User manual', 'https://www.hseni.gov.uk/publications/hse-indicator-tool-user-manual'],
     'ref-nonaka1994': ['https://www.lamsade.dauphine.fr/~giard/Organization_Science_Nonaka94.pdf', '大学网站 · 公开全文 PDF', 'Organization Science, 5'],
     'ref-oecd2025': ['https://www.oecd.org/content/dam/oecd/en/publications/reports/2025/11/generative-ai-and-the-sme-workforce_83bafdfb/2d08b99d-en.pdf', 'OECD 官网 · 完整报告 PDF', 'Generative AI and the SME workforce: New survey evidence'],
     'ref-parker2022': ['https://www.research-collection.ethz.ch/server/api/core/bitstreams/fba8b6bb-b760-432c-869d-7c5db78071c7/content', 'ETH 大学仓储 · 正式全文 PDF', 'Applied Psychology, 71'],
@@ -329,10 +329,15 @@
     `;
     document.head.append(style);
     let installed = 0;
-    for (const [id, [url, label, italic]] of Object.entries(entries)) {
+    for (const [id, [url, label, italic, referenceUrl]] of Object.entries(entries)) {
       const reference = document.getElementById(id);
       if (!reference || reference.querySelector('.reference-reading-access')) continue;
       italicize(reference, italic);
+      const citationLink = reference.querySelector('.final-reference-link');
+      if (referenceUrl && citationLink) {
+        citationLink.href = referenceUrl;
+        citationLink.textContent = referenceUrl;
+      }
       const access = document.createElement('span'); access.className = 'reference-reading-access';
       const link = document.createElement('a'); link.className = 'reference-reading-link';
       link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer';
