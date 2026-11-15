@@ -8,3 +8,26 @@
 @media(max-width:767px){.mega-title{letter-spacing:.005em}.footer-name{font-size:13vw}}
 @media(max-width:480px){.footer-name{font-size:16vw}}
 @media(min-width:481px) and (max-width:767px){.numbered-row{grid-template-columns:100px 1fr}.data-figure{margin-left:-120px}}
+
+/* Match the PDF's Songti typography across the portfolio. */
+@font-face {
+  font-family: "Portfolio Songti";
+  src: url("assets/portfolio-songti.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+:root {
+  --portfolio-text-font: "Songti SC", "STSongti", "SimSun", "Portfolio Songti", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+}
+
+body,
+body :where(:not(svg, svg *, .yarn-art-heading, .yarn-art-heading *)) {
+  font-family: var(--portfolio-text-font) !important;
+}
+
+/* Keep the flowchart's lettering in the original diagram typeface. */
+.closed-loop-chart {
+  font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+}
